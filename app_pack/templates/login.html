@@ -1,0 +1,29 @@
+{% extends "base.html"%}
+{% block content %}
+<div class="jumbotron">
+
+
+<h1>Bienvenue sur la page de connexion</h1>
+<p>Veuillez entrer vos identifiants</p>
+
+<form  method="POST">
+    {# This hidden_tag is a CSRF security feature. #}
+    {{ form.hidden_tag() }}
+    <p>
+    {{form.name.label }} <br> {{form.name}} <br>
+    {% for error in form.name.errors %} 
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+    {{ form.password.label }} <br> {{form.password}} <br>
+    {% for error in form.password.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <br>
+    {{ form.submit() }}
+</form>
+
+
+{% endblock %}
