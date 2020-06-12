@@ -6,12 +6,45 @@ from wtforms import (StringField, BooleanField, DateTimeField,
 from wtforms.validators import DataRequired
 from app_pack.forms import *
 
-from app_pack import app
+from app_pack import app, db
+from app_pack.models import Rucher
 
 app.config['SECRET_KEY'] = 'mysecretkey'
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
+
+    ruchers = Rucher.query.all()
+
+    return render_template('ruchers.html', ruchers=ruchers)
+
+@app.route('/add_rucher', methods=['GET', 'POST'])
+def add_rucher():
+
+    form = RucherAddForm()
+    if form.validate_on_submit():
+
+        new_rucher = Rucher(location=form.location.data, plants=form.plant.data, feedback=form.feedback.data)
+        db.session.add(new_rucher)
+        db.session.commit()
+
+        flash('Rucher {} ajouté'.format(form.location.data))
+
+        return redirect('/')
+
+    return render_template('add_rucher.html', form=form)
+
+
+@app.route('/rucher{}')
+def see_rucher():
+
+    # if button submitted, delete from db and redirect('/')
+    
+    render_template('see_rucher.html', )
+        
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
 
     form = LoginForm()
     if form.validate_on_submit() and form.password.data == 'billy':

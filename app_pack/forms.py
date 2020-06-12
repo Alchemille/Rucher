@@ -6,10 +6,9 @@ from wtforms import (StringField, BooleanField, DateTimeField,
 from wtforms.validators import DataRequired
 
 
-class RucherForm(FlaskForm):
+class RucherAddForm(FlaskForm):
 
     location = StringField("Emplacement",validators=[DataRequired()])
-    breed = StringField("Espece esclusive si applicable",validators=[DataRequired()])
     plant = StringField("Plantes melliferes a proximite")
     feedback = TextAreaField()
     submit = SubmitField('Valider')

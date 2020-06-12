@@ -1,0 +1,18 @@
+{% extends "base.html"%}
+{% block content %}
+<div class="jumbotron">
+
+
+<h1>Liste des ruchers actuels</h1>
+
+{% for i in ruchers %}
+    <tr>
+        <td>{{ i.name }}</td>
+        <td>{{ i.location }}</td>
+    </tr>
+{% endfor %}
+
+<a class="btn btn-primary" href="{{url_for('add_rucher')}}">Ajouter un rucher</a>
+
+{% endblock %}
+

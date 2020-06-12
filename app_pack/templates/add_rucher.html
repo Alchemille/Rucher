@@ -1,0 +1,27 @@
+{% extends "base.html"%}
+{% block content %}
+<div class="jumbotron">
+
+<p>Mon nouveau rucher:</p>
+
+<form method="POST">
+    {# This hidden_tag is a CSRF security feature. #}
+    {{ form.hidden_tag() }}
+    <p>
+    {{form.location.label }} <br> {{form.location}} <br>
+    {% for error in form.location.errors %} 
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+    {{ form.plant.label }} <br> {{form.plant}} <br>
+    {% for error in form.plant.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <br>
+    {{ form.submit() }}
+</form>
+
+
+{% endblock %}
