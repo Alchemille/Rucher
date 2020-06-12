@@ -34,6 +34,11 @@ def add_rucher():
 
     return render_template('add_rucher.html', form=form)
 
+@app.route('/delete_rucher/<id>', methods=['POST'])      
+def delete_rucher(id):
+    db.session.delete(Rucher.query.get(id))
+    db.session.commit()
+    return redirect('/')
 
 @app.route('/rucher{}')
 def see_rucher():
@@ -41,7 +46,6 @@ def see_rucher():
     # if button submitted, delete from db and redirect('/')
     
     render_template('see_rucher.html', )
-        
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
