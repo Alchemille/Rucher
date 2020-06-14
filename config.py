@@ -1,5 +1,8 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
+import flickr_api
+
+flickr_api.set_keys(api_key = 'b653ceb7975ea0acb8fa1c941c692ae2', api_secret = '12c381d27a946845')
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
@@ -7,15 +10,3 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-
-"""
-
-First focused on precomputations without restructuring to reduce number of operations with Alexandre P.
-Experimented with different memory layout and loop ordering to improve locality. 
-In particular, implemented the single contiguous array and the $(W, H, 3)$ layout.
-Worked with Alexandre B. on vectorizing the code. 
-In the vectorized code, worked on alignment of memory addresses and added FMAs where possible.
-
-
-
-"""

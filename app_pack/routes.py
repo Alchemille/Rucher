@@ -8,6 +8,7 @@ from app_pack.forms import *
 
 from app_pack import app, db
 from app_pack.models import Rucher
+from flickr_api import Photo, Walker
 
 app.config['SECRET_KEY'] = 'mysecretkey'
 
@@ -40,12 +41,13 @@ def delete_rucher(id):
     db.session.commit()
     return redirect('/')
 
-@app.route('/rucher{}')
-def see_rucher():
+@app.route('/rucher/<id>')
+def see_rucher(id):
 
-    # if button submitted, delete from db and redirect('/')
-    
-    render_template('see_rucher.html', )
+    w = Walker(Photo.search, text="tilleuil")
+    photo:Photo = next(w)
+    print(dir(photo), photo.url_m)
+    return redirect(photo.url_l)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
