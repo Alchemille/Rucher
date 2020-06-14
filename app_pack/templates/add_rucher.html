@@ -5,6 +5,7 @@
 <p>Mon nouveau rucher:</p>
 
 <form method="POST">
+    <!-- quand action = pas precisé, renvoie POST sur la meme page -->
     {# This hidden_tag is a CSRF security feature. #}
     {{ form.hidden_tag() }}
     <p>
