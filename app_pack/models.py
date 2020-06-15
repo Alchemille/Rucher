@@ -1,12 +1,14 @@
 from app_pack import db
-import requests, random, os.path, urllib.request
+import requests
+import random
+import os.path
+import urllib.request
 from flask import url_for
+from googletrans import Translator
+
 
 class Rucher(db.Model):
 
-    #__tablename__ = 'Ruchers' # by default, table name is rucher
-    # possible contructor OR use db.Model
-    
     id = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(64), index=True, unique=True)
     plants = db.Column(db.String(120))
@@ -14,40 +16,49 @@ class Rucher(db.Model):
 
     def get_url_image(self):
 
-        filename = os.path.join(os.path.dirname(__file__), 'static', self.plants + '.jpg')
+        filename = os.path.join(os.path.dirname(
+            __file__), 'static', self.plants + '.jpg')
 
         # get cached image if exits
         if os.path.isfile(filename):
             return url_for('static', filename=self.plants + '.jpg')
 
         # request image from pixabay if no cached image
+        translator = Translator()
+        plant_en = translator.translate(self.plants)
+
         response = requests.get("https://pixabay.com/api/",
-            params={
-                'key': '17026220-1aa33a59036a53ced9e61bee6',
-                'q': self.plants + '+flower',
-            }
-        )
+                                params={
+                                    'key': '17026220-1aa33a59036a53ced9e61bee6',
+                                    'q': plant_en.text + '+tree',
+                                }
+                                )
         hits = response.json()['hits']
 
-        # return default image if no hit
+        # return random flower image if no hit
         if not hits:
-            return url_for('static', filename='fleurs.jpg') # equivalent to 'static/fleurs.jpg'
+            response = requests.get("https://pixabay.com/api/",
+                                    params={
+                                        'key': '17026220-1aa33a59036a53ced9e61bee6',
+                                        'q': 'bee+flower',
+                                    }
+                                    )
+            hits = response.json()['hits']
 
         # cache resulting image
         URL = random.choice(hits)['imageURL']
         r = requests.get(URL)
         with open(filename, 'wb') as outfile:
-            outfile.write(r.content)        
+            outfile.write(r.content)
 
-        return 'URL' 
+        return 'URL'
 
     def __repr__(self):
-        return 'Rucher {} située à {}'.format(self.id, self.location)  
+        return 'Rucher {} située à {}'.format(self.id, self.location)
+
 
 class Ruche(db.Model):
-
-    #__tablename__ = 'Ruches' # by default, table name is ruche
-
+    
     id = db.Column(db.Integer, primary_key=True)
     specie = db.Column(db.String(64), index=True)
 

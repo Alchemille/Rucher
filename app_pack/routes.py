@@ -14,11 +14,6 @@ from flickr_api import Photo, Walker
 import requests, random
 from werkzeug.exceptions import NotFound                     
 
-
-"""
-default static route : https://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
-"""
-
 @app.route('/')
 def index():
 
@@ -56,23 +51,8 @@ def see_rucher(id):
     if not rucher:
         raise NotFound
 
-    query = rucher.plants
 
-    r = requests.get("https://api.qwant.com/api/search/images",
-        params={
-            'q': query,
-            't': 'images',
-            'uiv': 4
-        },
-        headers={
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-        }
-    )
-
-    response = r.json().get('data').get('result').get('items')
-    urls = [r.get('media') for r in response]
-
-    return redirect(random.choice(urls))
+    return "Hi"
 
 @app.errorhandler(404)
 def page_not_found(e):

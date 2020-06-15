@@ -9,13 +9,15 @@
 
     <div class="card-columns">
         {% for i in ruchers %}
-        <div class="card" style="width: 18rem;">
+        <div class="card border-info mb-3 ">
 
             <div class="center-cropped card-img-top" style="background-image: url('{{ i.get_url_image() }}'); height: 200px;">
-                <img src="{{ i.get_url_image() }}" />
+                <a href="{{ url_for('see_rucher', id=i.id) }}">
+                <img src="{{ i.get_url_image() }}" />                    
+                </a>
+                
             </div>
 
-            <!-- <img class="card-img-top" src="{{ i.get_url_image() }}" alt="Card image cap">  -->
             <div class="card-body">
                 <p class="card-text">{{ i }}</p>
                 <form action="{{ url_for('delete_rucher', id=i.id) }}" method="post">
@@ -32,14 +34,12 @@
         {% endfor %}
     </div>
 
-</div>
-
 
 
 <div>
     <a class="btn btn-primary" href="{{url_for('add_rucher')}}">Ajouter un rucher</a>
 </div>
 
-
+</div>
 
 {% endblock %}

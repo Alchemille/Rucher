@@ -1,6 +1,7 @@
 # Database files
 app.db
 learned.md
+app_pack/static/*.jpg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
