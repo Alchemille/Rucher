@@ -51,8 +51,6 @@ def delete_rucher(id):
 @app.route('/rucher/<id>')
 def see_rucher(id):
 
-    # source : https://jereze.com/code/image-search-api/
-
     rucher = Rucher.query.get(id)
 
     if not rucher:

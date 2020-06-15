@@ -1,7 +1,6 @@
 from app_pack import db
-import requests, random
+import requests, random, os.path, urllib.request
 from flask import url_for
-
 
 class Rucher(db.Model):
 
@@ -15,20 +14,32 @@ class Rucher(db.Model):
 
     def get_url_image(self):
 
-        #r = requests.get("https://pixabay.com/api/?key=17026220-1aa33a59036a53ced9e61bee6&q=yellow")
+        filename = os.path.join(os.path.dirname(__file__), 'static', self.plants + '.jpg')
 
+        # get cached image if exits
+        if os.path.isfile(filename):
+            return url_for('static', filename=self.plants + '.jpg')
+
+        # request image from pixabay if no cached image
         response = requests.get("https://pixabay.com/api/",
             params={
                 'key': '17026220-1aa33a59036a53ced9e61bee6',
-                'q': self.plants,
+                'q': self.plants + '+flower',
             }
         )
         hits = response.json()['hits']
 
+        # return default image if no hit
         if not hits:
-            return url_for('static', filename='fleurs.jpg')
+            return url_for('static', filename='fleurs.jpg') # equivalent to 'static/fleurs.jpg'
 
-        return random.choice(hits)['imageURL']
+        # cache resulting image
+        URL = random.choice(hits)['imageURL']
+        r = requests.get(URL)
+        with open(filename, 'wb') as outfile:
+            outfile.write(r.content)        
+
+        return 'URL' 
 
     def __repr__(self):
         return 'Rucher {} située à {}'.format(self.id, self.location)  
