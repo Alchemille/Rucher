@@ -10,7 +10,11 @@ from app_pack import app, db
 from app_pack.models import Rucher
 from flickr_api import Photo, Walker
 
-app.config['SECRET_KEY'] = 'mysecretkey'
+import requests, random
+
+"""
+default static route : https://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
+"""
 
 @app.route('/')
 def index():
@@ -44,10 +48,25 @@ def delete_rucher(id):
 @app.route('/rucher/<id>')
 def see_rucher(id):
 
-    w = Walker(Photo.search, text="tilleuil")
-    photo:Photo = next(w)
-    print(dir(photo), photo.url_m)
-    return redirect(photo.url_l)
+    # source : https://jereze.com/code/image-search-api/
+
+    query = Rucher.query.get(id).plants
+
+    r = requests.get("https://api.qwant.com/api/search/images",
+        params={
+            'q': query,
+            't': 'images',
+            'uiv': 4
+        },
+        headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+        }
+    )
+
+    response = r.json().get('data').get('result').get('items')
+    urls = [r.get('media') for r in response]
+
+    return redirect(random.choice(urls))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
