@@ -7,7 +7,17 @@
 
 {% for i in ruchers %}
 
-    <div>
+
+
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src= {{ i.get_url_image() }} alt="Card image cap">
+        <div class="card-body">
+            <p class="card-text">{{ i }}</p>
+        </div>
+    </div>
+        
+
+    <!-- <div>
         <div class="btn-group">
             <a href="{{url_for('see_rucher', id=i.id)}}">{{ i.location }}</a>
             {# use form rather than simple redirect since POST : https://stackoverflow.com/questions/10407433/how-do-i-get-my-html-button-to-delete-the-right-list-item-from-a-sqlite-database #}
@@ -19,7 +29,7 @@
                 </button>
             </form>      
         </div>
-    </div>
+    </div> -->
 
 {% endfor %}
 

@@ -4,7 +4,6 @@ from wtforms import (StringField, BooleanField, DateTimeField,
                      RadioField,SelectField,TextField,
                      TextAreaField,SubmitField)
 
-from werkzeug.exceptions import NotFound                     
 from wtforms.validators import DataRequired
 from app_pack.forms import *
 
@@ -13,6 +12,8 @@ from app_pack.models import Rucher
 from flickr_api import Photo, Walker
 
 import requests, random
+from werkzeug.exceptions import NotFound                     
+
 
 """
 default static route : https://stackoverflow.com/questions/20646822/how-to-serve-static-files-in-flask
