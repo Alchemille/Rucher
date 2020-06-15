@@ -1,5 +1,6 @@
 from app_pack import db
 import requests, random
+from flask import url_for
 
 
 class Rucher(db.Model):
@@ -14,21 +15,20 @@ class Rucher(db.Model):
 
     def get_url_image(self):
 
-        r = requests.get("https://api.qwant.com/api/search/images",
+        #r = requests.get("https://pixabay.com/api/?key=17026220-1aa33a59036a53ced9e61bee6&q=yellow")
+
+        response = requests.get("https://pixabay.com/api/",
             params={
+                'key': '17026220-1aa33a59036a53ced9e61bee6',
                 'q': self.plants,
-                't': 'images',
-                'uiv': 4
-            },
-            headers={
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
             }
         )
+        hits = response.json()['hits']
 
-        response = r.json().get('data').get('result').get('items')
-        urls = [r.get('media') for r in response]
+        if not hits:
+            return url_for('static', filename='fleurs.jpg')
 
-        return random.choice(urls)
+        return random.choice(hits)['imageURL']
 
     def __repr__(self):
         return 'Rucher {} située à {}'.format(self.id, self.location)  

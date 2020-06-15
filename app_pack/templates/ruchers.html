@@ -3,41 +3,43 @@
 <div class="jumbotron">
 
 
-<h1>Liste des ruchers actuels</h1>
-
-{% for i in ruchers %}
+    <h1>Liste des ruchers actuels</h1>
 
 
 
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src= {{ i.get_url_image() }} alt="Card image cap">
-        <div class="card-body">
-            <p class="card-text">{{ i }}</p>
+    <div class="card-columns">
+        {% for i in ruchers %}
+        <div class="card" style="width: 18rem;">
+
+            <div class="center-cropped card-img-top" style="background-image: url('{{ i.get_url_image() }}'); height: 200px;">
+                <img src="{{ i.get_url_image() }}" />
+            </div>
+
+            <!-- <img class="card-img-top" src="{{ i.get_url_image() }}" alt="Card image cap">  -->
+            <div class="card-body">
+                <p class="card-text">{{ i }}</p>
+                <form action="{{ url_for('delete_rucher', id=i.id) }}" method="post">
+                    <button class="btn btn-dark" type="submit">
+                        <svg class="bi bi-trash-fill" width="20" height="20" viewBox="0 0 16 16" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
         </div>
+        {% endfor %}
     </div>
-        
 
-    <!-- <div>
-        <div class="btn-group">
-            <a href="{{url_for('see_rucher', id=i.id)}}">{{ i.location }}</a>
-            {# use form rather than simple redirect since POST : https://stackoverflow.com/questions/10407433/how-do-i-get-my-html-button-to-delete-the-right-list-item-from-a-sqlite-database #}
-            <form action="{{ url_for('delete_rucher', id=i.id) }}" method="post">
-                <button class="btn btn-dark" type="submit">
-                    <svg class="bi bi-trash-fill" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-                    </svg>
-                </button>
-            </form>      
-        </div>
-    </div> -->
+</div>
 
-{% endfor %}
+
 
 <div>
     <a class="btn btn-primary" href="{{url_for('add_rucher')}}">Ajouter un rucher</a>
 </div>
 
-</div>
+
 
 {% endblock %}
-
