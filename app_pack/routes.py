@@ -3,6 +3,8 @@ from flask_wtf import FlaskForm
 from wtforms import (StringField, BooleanField, DateTimeField,
                      RadioField,SelectField,TextField,
                      TextAreaField,SubmitField)
+
+from werkzeug.exceptions import NotFound                     
 from wtforms.validators import DataRequired
 from app_pack.forms import *
 
@@ -50,7 +52,12 @@ def see_rucher(id):
 
     # source : https://jereze.com/code/image-search-api/
 
-    query = Rucher.query.get(id).plants
+    rucher = Rucher.query.get(id)
+
+    if not rucher:
+        raise NotFound
+
+    query = rucher.plants
 
     r = requests.get("https://api.qwant.com/api/search/images",
         params={
@@ -67,6 +74,10 @@ def see_rucher(id):
     urls = [r.get('media') for r in response]
 
     return redirect(random.choice(urls))
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
