@@ -1,0 +1,57 @@
+{% extends "base.html"%}
+{% block content %}
+<div class="jumbotron">
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+
+        {% for i in ruches %}
+        
+        <button type="button" class="btn btn-secondary">  {{ i.num }} </button>
+
+        {% endfor %}
+
+    </div>    
+
+</div>
+
+<div class="container">
+
+    <p>Nouvelle ruche:</p>
+
+    <form method="POST">
+        <!-- quand action = pas precisé, renvoie POST sur la meme page -->
+        {# This hidden_tag is a CSRF security feature. #}
+        {{ form.hidden_tag() }}
+        <p>
+            {{form.num.label }} <br> {{form.num}} <br>
+            {% for error in form.num.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.rucher.label }} <br> {{form.rucher}} <br>
+            {% for error in form.rucher.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        {{ form.breed.label }} <br> {{form.breed}} <br>
+        {% for error in form.breed.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        </p>
+        {{ form.feedback.label }} <br> {{form.feedback}} <br>
+        {% for error in form.feedback.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        </p>
+        <br>
+        {{ form.submit() }}
+    </form>
+
+    <!-- <div>
+        <a class="btn btn-primary" href="{{url_for('add_ruche', rucher_id=id)}}">Ajouter une ruche</a>
+    </div> -->
+
+</div>
+
+{% endblock %}

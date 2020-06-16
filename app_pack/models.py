@@ -5,7 +5,7 @@ import os.path
 import urllib.request
 from flask import url_for
 from googletrans import Translator
-
+from datetime import datetime
 
 class Rucher(db.Model):
 
@@ -13,6 +13,14 @@ class Rucher(db.Model):
     location = db.Column(db.String(64), index=True, unique=True)
     plants = db.Column(db.String(120))
     feedback = db.Column(db.Text)
+    ruches = db.relationship('Ruche', backref='parent', lazy='dynamic')
+
+    def get_ruches(self):
+
+        ruches = Ruche.query.filter_by(rucher=self.id).all()
+        print(ruches)
+        return ruches
+
 
     def get_url_image(self):
 
@@ -59,8 +67,18 @@ class Rucher(db.Model):
 
 class Ruche(db.Model):
     
+    rucher = db.Column(db.Integer, db.ForeignKey('rucher.id'))
     id = db.Column(db.Integer, primary_key=True)
+    num = db.Column(db.Integer)
+    feedback = db.Column(db.Text)
     specie = db.Column(db.String(64), index=True)
 
     def __repr__(self):
         return 'Ruche {}'.format(id)
+
+class Event(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow, unique=True)
+    type = db.Column(db.Integer, index=True)
+    note = db.Column(db.String(64))

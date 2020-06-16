@@ -8,7 +8,7 @@ from wtforms.validators import DataRequired
 from app_pack.forms import *
 
 from app_pack import app, db
-from app_pack.models import Rucher
+from app_pack.models import Rucher, Ruche
 from flickr_api import Photo, Walker
 
 import requests, random
@@ -31,7 +31,7 @@ def add_rucher():
         db.session.add(new_rucher)
         db.session.commit()
 
-        flash('Rucher {} ajouté'.format(form.location.data))
+        #flash('Rucher {} ajouté'.format(form.location.data))
 
         return redirect('/')
 
@@ -43,41 +43,41 @@ def delete_rucher(id):
     db.session.commit()
     return redirect('/')
 
-@app.route('/rucher/<id>')
+@app.route('/rucher/<id>', methods=['GET', 'POST'])
 def see_rucher(id):
 
     rucher = Rucher.query.get(id)
 
     if not rucher:
-        raise NotFound
+        raise NotFound    
 
+    form = RucheForm()
+    if form.validate_on_submit():
 
-    return "Hi"
+        new_ruche = Ruche(rucher=id, specie=form.breed.data, num=form.num.data, feedback=form.feedback.data)
+        db.session.add(new_ruche)
+        db.session.commit()
+
+        return redirect(url_for('delete_rucher', id=id))    
+
+    return render_template('rucher.html', ruches=rucher.get_ruches(), form=form)
+
+@app.route('/add_ruche/<rucher_id>')
+def add_ruche(rucher_id):
+    form = RucheForm()
+    if form.validate_on_submit():
+
+        new_ruche = Ruche(rucher=rucher_id, specie=form.breed.data, num=form.num.data, feedback=form.feedback.data)
+        db.session.add(new_ruche)
+        db.session.commit()
+
+        return redirect('/rucher/<id>')
+
+    return render_template('add_ruche.html', form=form)
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-
-    form = LoginForm()
-    if form.validate_on_submit() and form.password.data == 'billy':
-
-        flash('Login requested for user {}, remember_me={}'.format(
-            form.name.data, form.remember_me.data)) # appear only once
-        # or use session in template rendering in thankyou/
-        return redirect(url_for("merci"))
-        # or redirect("/thankyou")
-
-    return render_template('login.html', form=form)
-
-
-@app.route('/thankyou')
-def merci():
-
-    return render_template('merci.html')
-
 
 if __name__ == '__main__':
     app.run(reload= True, debug=True)

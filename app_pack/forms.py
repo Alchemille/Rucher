@@ -15,9 +15,10 @@ class RucherAddForm(FlaskForm):
 
 class RucheForm(FlaskForm):
 
-    id = StringField("Numero",validators=[DataRequired()])
+    num = StringField("Numero",validators=[DataRequired()])
     breed = RadioField("Espece actuelle", choices = [('bugfast', 'bugfast'), ('caucasienne', 'caucasienne'), ('autre', 'autre')], validators=[DataRequired()])
-    queen = StringField("Reine")
+    rucher = StringField("Rucher parent", validators=[DataRequired()])
+    #queen = StringField("Reine")
     feedback = TextAreaField()
     submit = SubmitField('Valider')
 
