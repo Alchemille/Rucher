@@ -30,7 +30,7 @@ class Rucher(db.Model):
         response = requests.get("https://pixabay.com/api/",
                                 params={
                                     'key': '17026220-1aa33a59036a53ced9e61bee6',
-                                    'q': plant_en.text + '+tree',
+                                    'q': plant_en.text + '+plant',
                                 }
                                 )
         hits = response.json()['hits']
@@ -51,10 +51,10 @@ class Rucher(db.Model):
         with open(filename, 'wb') as outfile:
             outfile.write(r.content)
 
-        return 'URL'
+        return URL
 
     def __repr__(self):
-        return 'Rucher {} située à {}'.format(self.id, self.location)
+        return 'Rucher à {}'.format(self.location)
 
 
 class Ruche(db.Model):

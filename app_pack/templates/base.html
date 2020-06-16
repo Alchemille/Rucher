@@ -35,6 +35,21 @@
       /* modern browsers */
       opacity: 0;
     }
+
+    .jumbotron {
+      padding-top: 16px;
+    }
+
+    .card_text_rucher {
+      line-height: 40px;
+      margin-bottom: 0;
+    }
+
+    .card-columns {
+      -webkit-column-count: 6;
+      -moz-column-count: 6;
+      column-count: 6;
+    }
   </style>
 </head>
 
@@ -42,7 +57,6 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="{{url_for('index')}}">Accueil</a>
   </nav>
-  <hr>
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   <ul>
