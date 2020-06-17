@@ -13,6 +13,8 @@ class Rucher(db.Model):
     location = db.Column(db.String(64), index=True, unique=True)
     plants = db.Column(db.String(120))
     feedback = db.Column(db.Text)
+    lat = db.Column(db.Integer)
+    longit = db.Column(db.Integer)
     ruches = db.relationship('Ruche', backref='parent', lazy='dynamic')
 
     def get_ruches(self):

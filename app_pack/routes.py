@@ -27,7 +27,7 @@ def add_rucher():
     form = RucherAddForm()
     if form.validate_on_submit():
 
-        new_rucher = Rucher(location=form.location.data, plants=form.plant.data, feedback=form.feedback.data)
+        new_rucher = Rucher(location=form.location.data, plants=form.plant.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
         db.session.add(new_rucher)
         db.session.commit()
 

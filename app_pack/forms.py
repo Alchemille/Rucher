@@ -10,6 +10,8 @@ class RucherAddForm(FlaskForm):
 
     location = StringField("Emplacement",validators=[DataRequired()])
     plant = StringField("Plantes melliferes a proximite")
+    lat = StringField("Latitude")
+    longit = StringField("Longitude")
     feedback = TextAreaField()
     submit = SubmitField('Valider')
 

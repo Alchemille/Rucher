@@ -42,7 +42,7 @@
 
 
 <div class="d-flex justify-content-center align-items-center">
-    <div id='map' style='width: 400px; height: 300px;'></div>
+    <div id='map' style='width: 500px; height: 500px;'></div>
     <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoianNvbWEiLCJhIjoibFJmYl9JWSJ9.AUm8d76cbOvVEn2mMeG_ZA';
     var map = new mapboxgl.Map({
@@ -50,13 +50,14 @@
       style: 'mapbox://styles/mapbox/streets-v9'
     });
     map.on('load', function() {
+      {% for i in ruchers %}
       var geojsonData = {
         "type": "FeatureCollection",
         "features": [{
           "type": "Feature",
           "geometry": {
             "type": "Point",
-            "coordinates": [0, 0]
+            "coordinates": [{{ i.id * 10 }}, {{ i.id * 10 }}]
           }
         }]
       };
@@ -68,6 +69,7 @@
           "data": geojsonData
         }
       })
+      {% endfor %}
     })
     </script>
     <p></p>

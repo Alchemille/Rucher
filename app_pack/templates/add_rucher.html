@@ -2,27 +2,39 @@
 {% block content %}
 <div class="jumbotron">
 
-<p>Mon nouveau rucher:</p>
+    <p>Mon nouveau rucher:</p>
 
-<form method="POST">
-    <!-- quand action = pas precisé, renvoie POST sur la meme page -->
-    {# This hidden_tag is a CSRF security feature. #}
-    {{ form.hidden_tag() }}
-    <p>
-    {{form.location.label }} <br> {{form.location}} <br>
-    {% for error in form.location.errors %} 
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-    </p>
-    <p>
-    {{ form.plant.label }} <br> {{form.plant}} <br>
-    {% for error in form.plant.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-    </p>
-    <br>
-    {{ form.submit() }}
-</form>
+    <form method="POST">
+        <!-- quand action = pas precisé, renvoie POST sur la meme page -->
+        {# This hidden_tag is a CSRF security feature. #}
+        {{ form.hidden_tag() }}
+        <p>
+            {{form.location.label }} <br> {{form.location}} <br>
+            {% for error in form.location.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.plant.label }} <br> {{form.plant}} <br>
+            {% for error in form.plant.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.lat.label }} <br> {{form.lat}} <br>
+            {% for error in form.lat.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.longit.label }} <br> {{form.longit}} <br>
+            {% for error in form.longit.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <br>
+        {{ form.submit() }}
+    </form>
 
 </div>
 {% endblock %}
