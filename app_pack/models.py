@@ -38,7 +38,7 @@ class Rucher(db.Model):
         response = requests.get("https://pixabay.com/api/",
                                 params={
                                     'key': '17026220-1aa33a59036a53ced9e61bee6',
-                                    'q': plant_en.text + '+plant',
+                                    'q': plant_en.text + '+nature',
                                 }
                                 )
         hits = response.json()['hits']
@@ -62,7 +62,7 @@ class Rucher(db.Model):
         return URL
 
     def __repr__(self):
-        return 'Rucher à {}'.format(self.location)
+        return '{} ruches à {}'.format(Ruche.query.filter_by(parent=self).count(), self.location)
 
 
 class Ruche(db.Model):

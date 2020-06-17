@@ -6,7 +6,6 @@
     <h1 class="text-center">Ruchers actuels</h1>
 
 
-
     <div class="card-columns">
         {% for i in ruchers %}
         <div class="card border-info mb-3 ">
@@ -35,11 +34,43 @@
     </div>
 
 
-
 <div>
     <a class="btn btn-primary" href="{{url_for('add_rucher')}}">Ajouter un rucher</a>
 </div>
 
+</div>
+
+
+<div class="d-flex justify-content-center align-items-center">
+    <div id='map' style='width: 400px; height: 300px;'></div>
+    <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoianNvbWEiLCJhIjoibFJmYl9JWSJ9.AUm8d76cbOvVEn2mMeG_ZA';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v9'
+    });
+    map.on('load', function() {
+      var geojsonData = {
+        "type": "FeatureCollection",
+        "features": [{
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0, 0]
+          }
+        }]
+      };
+      map.addLayer({
+        "id": "points",
+        "type": "circle",
+        "source": {
+          "type": "geojson",
+          "data": geojsonData
+        }
+      })
+    })
+    </script>
+    <p></p>
 </div>
 
 {% endblock %}

@@ -2,6 +2,7 @@
 app.db
 learned.md
 app_pack/static/*.jpg
+todo.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
