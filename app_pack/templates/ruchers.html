@@ -47,17 +47,19 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoianNvbWEiLCJhIjoibFJmYl9JWSJ9.AUm8d76cbOvVEn2mMeG_ZA';
     var map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v9'
+      style: 'mapbox://styles/mapbox/streets-v9',
+      center: [0.529145, 45.440493],
+      zoom: 9      
     });
     map.on('load', function() {
-      {% for i in ruchers %}
+    {% for i in ruchers %}
       var geojsonData = {
         "type": "FeatureCollection",
         "features": [{
           "type": "Feature",
           "geometry": {
             "type": "Point",
-            "coordinates": [{{ i.id * 10 }}, {{ i.id * 10 }}]
+            "coordinates": ["{{ i.lat }}", "{{ i.longit }}"]
           }
         }]
       };
@@ -69,7 +71,7 @@
           "data": geojsonData
         }
       })
-      {% endfor %}
+    {% endfor %}
     })
     </script>
     <p></p>
