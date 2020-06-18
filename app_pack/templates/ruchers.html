@@ -3,9 +3,6 @@
 <div class="jumbotron">
 
 
-    <h1 class="text-center">Ruchers actuels</h1>
-
-
     <div class="card-columns">
         {% for i in ruchers %}
         <div class="card border-info mb-3 ">
@@ -40,14 +37,16 @@
 
 </div>
 
+<hr/>
 
+<div class="jumbotron_feli jumbotron">
 <div class="d-flex justify-content-center align-items-center">
-    <div id='map' style='width: 500px; height: 500px;'></div>
+    <div id='map' style='width: 700px; height: 500px;'></div>
     <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoianNvbWEiLCJhIjoibFJmYl9JWSJ9.AUm8d76cbOvVEn2mMeG_ZA';
     var map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v9',
+      style: 'mapbox://styles/mapbox/streets-v10',
       center: [0.529145, 45.440493],
       zoom: 9      
     });
@@ -76,5 +75,7 @@
     </script>
     <p></p>
 </div>
+</div>
+
 
 {% endblock %}
