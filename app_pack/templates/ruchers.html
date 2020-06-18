@@ -48,20 +48,30 @@
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v10',
       center: [0.529145, 45.440493],
-      zoom: 9      
+      zoom: 10      
     });
     map.on('load', function() {
-    {% for i in ruchers %}
       var geojsonData = {
         "type": "FeatureCollection",
         "features": [{
           "type": "Feature",
           "geometry": {
             "type": "Point",
-            "coordinates": ["{{ i.lat }}", "{{ i.longit }}"]
+            "coordinates": [0.529145, 45.440493]
           }
         }]
       };
+      {% for i in ruchers %}
+      var new_rucher = {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": ["{{ i.lat }}", "{{ i.longit }}"]
+          }
+        }
+      geojsonData.features.push(new_rucher)
+      {% endfor %}
+
       map.addLayer({
         "id": "points",
         "type": "circle",
@@ -70,7 +80,6 @@
           "data": geojsonData
         }
       })
-    {% endfor %}
     })
     </script>
     <p></p>
