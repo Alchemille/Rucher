@@ -12,14 +12,54 @@ from app_pack.models import Rucher, Ruche
 from flickr_api import Photo, Walker
 
 import requests, random
-from werkzeug.exceptions import NotFound                     
+from werkzeug.exceptions import NotFound  
+
+import json
+from geojson import Point, Feature                   
+
+
+def create_position(id, title, latitude, longitude, description):
+    point = Point([latitude, longitude])
+    properties = {
+        "title": title,
+        "description": description,
+        'icon': "campsite",
+        'marker-color': '#3bb2d0',
+        'marker-symbol': id,
+    }
+    feature = Feature(geometry = point, properties = properties)
+    return feature
+
+
+def create_positions_details():
+
+    positions = []
+
+    print(Rucher.query.with_entities(Rucher.lat, Rucher.longit).all())
+
+    for rucher in Rucher.query.all():
+
+        position = create_position(
+            rucher.id,
+            rucher.location,
+            rucher.lat,
+            rucher.longit,
+            str(rucher)
+        )
+        positions.append(position)
+
+    return positions
+
 
 @app.route('/')
 def index():
 
+    positions = create_positions_details()
+    print(positions)
+
     ruchers = Rucher.query.all()
 
-    return render_template('ruchers.html', ruchers=ruchers)
+    return render_template('ruchers.html', ruchers=ruchers, positions = positions)
 
 @app.route('/add_rucher', methods=['GET', 'POST'])
 def add_rucher():
