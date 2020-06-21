@@ -55,7 +55,6 @@ def create_positions_details():
 def index():
 
     positions = create_positions_details()
-    print(positions)
 
     ruchers = Rucher.query.all()
 
@@ -64,6 +63,7 @@ def index():
 @app.route('/add_rucher', methods=['GET', 'POST'])
 def add_rucher():
 
+    positions = create_positions_details()
     form = RucherAddForm()
     if form.validate_on_submit():
 
@@ -75,7 +75,7 @@ def add_rucher():
 
         return redirect('/')
 
-    return render_template('add_rucher.html', form=form)
+    return render_template('add_rucher.html', form=form, positions=positions)
 
 @app.route('/delete_rucher/<id>', methods=['POST'])      
 def delete_rucher(id):
