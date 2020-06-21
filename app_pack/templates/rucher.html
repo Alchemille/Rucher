@@ -2,14 +2,35 @@
 {% block content %}
 <div class="jumbotron">
 
-    <div class="btn-group" role="group" aria-label="Basic example">
+    <div class="container">
+        <div class="row">
 
         {% for i in ruches %}
         
-        <button type="button" class="btn btn-secondary">  {{ i.num }} </button>
+        <div class="col-md-3 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title"> Ruche {{ i.num }} </h5>
+
+                <p class="card-text">
+
+                {{ i.specie }}
+                
+                {% if i.feedback %}
+                <br>
+                {{ i.feedback }}
+                {% endif %}
+
+                </p>
+
+
+            </div>
+        </div>
+        </div>
 
         {% endfor %}
 
+    </div>
     </div>    
 
 </div>
@@ -28,12 +49,7 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
-            {{ form.rucher.label }} <br> {{form.rucher}} <br>
-            {% for error in form.rucher.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
+
         {{ form.breed.label }} <br> {{form.breed}} <br>
         {% for error in form.breed.errors %}
         <span style="color: red;">[{{ error }}]</span>

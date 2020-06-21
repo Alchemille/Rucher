@@ -19,7 +19,7 @@ from geojson import Point, Feature
 
 
 def create_position(id, title, latitude, longitude, description):
-    point = Point([latitude, longitude])
+    point = Point([longitude, latitude])
     properties = {
         "title": title,
         "description": description,
@@ -98,7 +98,7 @@ def see_rucher(id):
         db.session.add(new_ruche)
         db.session.commit()
 
-        return redirect(url_for('delete_rucher', id=id))    
+        return redirect('#')    
 
     return render_template('rucher.html', ruches=rucher.get_ruches(), form=form)
 
@@ -117,7 +117,7 @@ def add_ruche(rucher_id):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html')
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(reload= True, debug=True)

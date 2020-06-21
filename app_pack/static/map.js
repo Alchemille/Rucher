@@ -7,8 +7,7 @@ var map = new mapboxgl.Map({
 });
 map.on('load', function () {
     
-    var positions = {{ positions| safe
-}}
+    var positions = {{ positions | safe }}
     positions.forEach(function (marker) {
     var el = document.createElement('div');
     el.className = 'marker';

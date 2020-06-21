@@ -64,7 +64,7 @@ class Rucher(db.Model):
         return URL
 
     def __repr__(self):
-        return '{} ruches à {}'.format(Ruche.query.filter_by(parent=self).count(), self.location)
+        return '{} à {}'.format(Ruche.query.filter_by(parent=self).count(), self.location)
 
 
 class Ruche(db.Model):
