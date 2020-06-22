@@ -16,9 +16,7 @@
 
                 {{ i.specie }}
                 
-                {% if i.feedback %}
-                <br>
-                {{ i.feedback }}
+                {% if i.feedback %} , {{ i.feedback }}
                 {% endif %}
 
                 </p>
@@ -37,7 +35,7 @@
 
 <div class="container">
 
-    <p>Nouvelle ruche:</p>
+    <h5>Nouvelle ruche:</h5>
 
     <form method="POST">
         <!-- quand action = pas precisé, renvoie POST sur la meme page -->
@@ -50,7 +48,7 @@
             {% endfor %}
         </p>
 
-        {{ form.breed.label }} <br> {{form.breed}} <br>
+        {{ form.breed.label }} <br> {{form.breed(placeholder="Bugfast, caucasienne...")}} <br>
         {% for error in form.breed.errors %}
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}

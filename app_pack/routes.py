@@ -35,7 +35,7 @@ def create_positions_details():
 
     positions = []
 
-    print(Rucher.query.with_entities(Rucher.lat, Rucher.longit).all())
+    #print(Rucher.query.with_entities(Rucher.lat, Rucher.longit).all())
 
     for rucher in Rucher.query.all():
 
@@ -65,6 +65,7 @@ def add_rucher():
 
     positions = create_positions_details()
     form = RucherAddForm()
+
     if form.validate_on_submit():
 
         new_rucher = Rucher(location=form.location.data, plants=form.plant.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
@@ -91,7 +92,15 @@ def see_rucher(id):
     if not rucher:
         raise NotFound    
 
+    list_species = [(i.specie, i.specie) for i in db.session.query(Ruche).all()]
+    # print(list_species)
+    # list_species2 = [(g.specie, g.specie) for g in Ruche.query.all()]
+    # print(list_species2)
+    list_species = list(set(list_species))
+
     form = RucheForm()
+    form.breed.choices = list_species
+
     if form.validate_on_submit():
 
         new_ruche = Ruche(rucher=id, specie=form.breed.data, num=form.num.data, feedback=form.feedback.data)
@@ -104,7 +113,6 @@ def see_rucher(id):
 
 @app.route('/add_ruche/<rucher_id>')
 def add_ruche(rucher_id):
-    form = RucheForm()
     if form.validate_on_submit():
 
         new_ruche = Ruche(rucher=rucher_id, specie=form.breed.data, num=form.num.data, feedback=form.feedback.data)
