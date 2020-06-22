@@ -19,6 +19,7 @@ class RucheForm(FlaskForm):
 
     num = StringField("Numero",validators=[DataRequired()])
     breed = SelectField("Espece actuelle", validators=[DataRequired()])
+    new_breed = StringField("Si autre, quelle espece?")
     feedback = TextAreaField()
     submit = SubmitField('Valider')
 

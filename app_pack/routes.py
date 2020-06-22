@@ -80,6 +80,7 @@ def add_rucher():
 
 @app.route('/delete_rucher/<id>', methods=['POST'])      
 def delete_rucher(id):
+    Ruche.query.filter_by(rucher=id).delete()
     db.session.delete(Rucher.query.get(id))
     db.session.commit()
     return redirect('/')
@@ -96,6 +97,7 @@ def see_rucher(id):
     # print(list_species)
     # list_species2 = [(g.specie, g.specie) for g in Ruche.query.all()]
     # print(list_species2)
+    list_species.append(('other', 'autre'))
     list_species = list(set(list_species))
 
     form = RucheForm()
@@ -103,7 +105,12 @@ def see_rucher(id):
 
     if form.validate_on_submit():
 
-        new_ruche = Ruche(rucher=id, specie=form.breed.data, num=form.num.data, feedback=form.feedback.data)
+        specie = form.breed.data
+        print(specie, form.new_breed.data)
+        if specie == "other":
+            specie = form.new_breed.data
+
+        new_ruche = Ruche(rucher=id, specie=specie, num=form.num.data, feedback=form.feedback.data)
         db.session.add(new_ruche)
         db.session.commit()
 
