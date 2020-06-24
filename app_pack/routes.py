@@ -80,7 +80,7 @@ def add_rucher():
 
 @app.route('/delete_rucher/<id>', methods=['POST'])      
 def delete_rucher(id):
-    Ruche.query.filter_by(rucher=id).delete()
+    #Ruche.query.filter_by(rucher=id).delete()
     db.session.delete(Rucher.query.get(id))
     db.session.commit()
     return redirect('/')

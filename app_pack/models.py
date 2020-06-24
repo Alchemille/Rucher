@@ -15,7 +15,7 @@ class Rucher(db.Model):
     feedback = db.Column(db.Text)
     lat = db.Column(db.Integer)
     longit = db.Column(db.Integer)
-    ruches = db.relationship('Ruche', backref='parent', lazy='dynamic')
+    ruches = db.relationship('Ruche', backref='parent', cascade = "all,delete",  lazy='dynamic')
 
     def get_ruches(self):
 
