@@ -71,7 +71,7 @@ class Ruche(db.Model):
     
     rucher = db.Column(db.Integer, db.ForeignKey('rucher.id'))
     id = db.Column(db.Integer, primary_key=True)
-    num = db.Column(db.Integer)
+    num = db.Column(db.Integer, unique=True)
     feedback = db.Column(db.Text)
     specie = db.Column(db.String(64), index=True)
 
