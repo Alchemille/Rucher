@@ -86,11 +86,12 @@ def delete_rucher(id):
     return redirect('/')
 
 
-@app.route('/delete_ruche/<id>', methods=['POST', 'GET'])
+@app.route('/delete_ruche/<id>', methods=['POST'])
 def delete_ruche(id):
+    id_rucher = Ruche.query.get(id).rucher
     db.session.delete(Ruche.query.get(id))
     db.session.commit()
-    return redirect('#')
+    return redirect(url_for('see_rucher', id=id_rucher))
 
 @app.route('/rucher/<id>', methods=['GET', 'POST'])
 def see_rucher(id):

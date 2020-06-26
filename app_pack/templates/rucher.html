@@ -14,10 +14,19 @@
 
                 <p class="card-text">
 
-                {{ i.specie }}
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item text-dark bg-light">{{ i.specie }}</li>
                 
-                {% if i.feedback %} , {{ i.feedback }}
+                {% if i.feedback %}
+                <li class="list-group-item text-dark bg-light">{{ i.feedback }}</li>
                 {% endif %}
+
+                <li class="list-group-item text-dark bg-light">{{ i.id }}</li>
+
+                <li class="list-group-item text-dark bg-light">{{ i.num }}</li>
+
+                </ul>
+
 
                 </p>
 
