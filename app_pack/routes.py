@@ -95,7 +95,32 @@ def delete_ruche(id):
 
 @app.route('/update_ruche/<id>', methods=['GET', 'POST'])
 def update_ruche(id):
-    return "HI"
+
+    old_ruche = Ruche.query.get(id)
+    list_species = [(i.specie, i.specie) for i in db.session.query(Ruche).all()]
+    # list_species2 = [(g.specie, g.specie) for g in Ruche.query.all()]
+    list_species.append(('other', 'autre'))
+    list_species = list(set(list_species))
+
+    form = RucheForm()
+    form.breed.choices = list_species
+    form.num.data = old_ruche.num
+
+    if form.validate_on_submit():
+
+        specie = form.breed.data
+        print(specie, form.new_breed.data)
+        if specie == "other":
+            specie = form.new_breed.data
+
+        old_ruche.specie = specie
+        old_ruche.feedback = form.feedback.data
+        db.session.commit()
+
+        id_rucher = Ruche.query.get(id).rucher
+        return redirect(url_for('see_rucher', id=id_rucher))    
+
+    return render_template('update_ruche.html', ruche=old_ruche, form=form)
 
 
 @app.route('/rucher/<id>', methods=['GET', 'POST'])
@@ -107,9 +132,7 @@ def see_rucher(id):
         raise NotFound    
 
     list_species = [(i.specie, i.specie) for i in db.session.query(Ruche).all()]
-    # print(list_species)
     # list_species2 = [(g.specie, g.specie) for g in Ruche.query.all()]
-    # print(list_species2)
     list_species.append(('other', 'autre'))
     list_species = list(set(list_species))
 
