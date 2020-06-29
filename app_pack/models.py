@@ -74,6 +74,7 @@ class Ruche(db.Model):
     num = db.Column(db.Integer, unique=True)
     feedback = db.Column(db.Text)
     specie = db.Column(db.String(64), index=True)
+    age_reine = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
         return 'Ruche {}'.format(id)
