@@ -108,6 +108,8 @@ def update_ruche(id):
 
     if form.validate_on_submit():
 
+        id_rucher = Ruche.query.get(id).rucher
+        print(id_rucher)
         specie = form.breed.data
         print(specie, form.new_breed.data)
         if specie == "other":
@@ -116,9 +118,9 @@ def update_ruche(id):
         old_ruche.specie = specie
         old_ruche.age_reine = form.age_queen.data
         old_ruche.feedback = form.feedback.data
+        old_ruche.rucher = form.rucher.data
         db.session.commit()
 
-        id_rucher = Ruche.query.get(id).rucher
         return redirect(url_for('see_rucher', id=id_rucher))    
 
     return render_template('update_ruche.html', ruche=old_ruche, form=form)

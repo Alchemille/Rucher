@@ -11,6 +11,12 @@
         {# This hidden_tag is a CSRF security feature. #}
         {{ form.hidden_tag() }}
         <p>
+        {{ form.rucher.label }} <br> {{form.rucher(value = ruche.rucher) }} <br>
+        {% for error in form.rucher.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        </p>
+        <p>
         {{ form.breed.label }} <br> {{form.breed(default = ruche.specie) }} <br>
         {% for error in form.breed.errors %}
         <span style="color: red;">[{{ error }}]</span>
@@ -22,7 +28,7 @@
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
         </p>
-        {{ form.age_queen.label }} <br> {{form.age_queen(placeholder=ruche.specie)}} <br>
+        {{ form.age_queen.label }} <br> {{form.age_queen(value=ruche.age_reine)}} <br>
         {% for error in form.age_queen.errors %}
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}

@@ -22,12 +22,12 @@ class RucheForm(FlaskForm):
         if field.data == "other" and not form.new_breed.data:
             raise ValidationError("L'espece doit etre précisée") 
 
-
+    rucher = StringField("Rucher Parent")
     num = StringField("Numero",validators=[DataRequired()])
     breed = SelectField("Espece actuelle", validators=[check_espece_renseignee])
     new_breed = StringField("Si autre, quelle espece?")
     age_queen = StringField("Age de la reine")
-    feedback = TextAreaField()
+    feedback = TextAreaField("Autres caractéristiques")
     submit = SubmitField('Valider')
 
 
