@@ -4,7 +4,7 @@ from wtforms import (StringField, BooleanField, DateTimeField,
                      RadioField,SelectField,TextField,
                      TextAreaField,SubmitField, PasswordField)
 from wtforms.validators import DataRequired, ValidationError
-
+from datetime import datetime
 
 class RucherAddForm(FlaskForm):
 
@@ -26,7 +26,7 @@ class RucheForm(FlaskForm):
     num = StringField("Numero",validators=[DataRequired()])
     breed = SelectField("Espece actuelle", validators=[check_espece_renseignee])
     new_breed = StringField("Si autre, quelle espece?")
-    age_queen = StringField("Age de la reine")
+    age_queen = DateTimeField("Date de naissance de la reine", default=datetime.today(), format='%d/%m/%y')
     feedback = TextAreaField("Autres caractéristiques")
     submit = SubmitField('Valider')
 
