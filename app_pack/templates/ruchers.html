@@ -2,9 +2,13 @@
 {% block content %}
 <div class="jumbotron">
 
+  <div class="container">
 
-  <div class="card-columns">
+
+  <div class="row">
     {% for i in ruchers %}
+
+    <div class="col-md-3 mb-4">
     <div class="card border-info mb-3 ">
 
       <div class="center-cropped card-img-top" style="background-image: url('{{ i.get_url_image() }}'); height: 200px;">
@@ -27,13 +31,17 @@
         </form>
       </div>
     </div>
+    </div>
     {% endfor %}
   </div>
-
 
   <div>
     <a class="btn btn-primary" href="{{url_for('add_rucher')}}">Ajouter un rucher</a>
   </div>
+  </div>
+
+
+
 
 </div>
 
