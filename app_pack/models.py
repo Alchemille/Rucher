@@ -75,13 +75,15 @@ class Ruche(db.Model):
     feedback = db.Column(db.Text)
     specie = db.Column(db.String(64), index=True)
     age_reine = db.Column(db.DateTime, index=True, default=datetime.today().strftime("%d/%m/%y"))
+    events = db.relationship('Event', backref='parent_ruche', cascade='all,delete', lazy='dynamic')
 
     def __repr__(self):
         return 'Ruche {}'.format(id)
 
 class Event(db.Model):
 
+    ruche = db.Column(db.Integer, db.ForeignKey('ruche.num'))
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow, unique=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.today().strftime("%d/%m/%y"))
     type = db.Column(db.Integer, index=True)
     note = db.Column(db.String(64))

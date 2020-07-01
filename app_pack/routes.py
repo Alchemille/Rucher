@@ -155,7 +155,7 @@ def see_rucher(id):
 
         return redirect('#')    
 
-    return render_template('rucher.html', ruches=rucher.get_ruches(), form=form)
+    return render_template('rucher.html', ruches=rucher.get_ruches(), rucher=rucher, form=form)
 
 @app.errorhandler(404)
 def page_not_found(e):
