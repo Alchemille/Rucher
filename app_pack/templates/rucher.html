@@ -18,12 +18,10 @@
                 <li class="list-group-item text-dark bg-light">{{ i.specie }}</li>
                 
                 {% if i.feedback %}
-                <li class="list-group-item text-dark bg-light">{{ i.feedback }}</li>
+                <li class="list-group-item text-dark bg-light"> {{ i.feedback }}</li>
                 {% endif %}
 
-                <li class="list-group-item text-dark bg-light">{{ i.id }}</li>
-
-                <li class="list-group-item text-dark bg-light">{{ i.num }}</li>
+                <li class="list-group-item text-dark bg-light"> Age de la reine : {{ i.age_reine }}</li>
 
                 </ul>
 
@@ -96,6 +94,12 @@
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
         </p>
+        <p>
+        {{ form.age_queen.label }} <br> {{form.age_queen}} <br>
+        {% for error in form.age_queen.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        </p>        
         <p>            
         {{ form.feedback.label }} <br> {{form.feedback}} <br>
         {% for error in form.feedback.errors %}
@@ -105,10 +109,6 @@
         <br>
         {{ form.submit() }}
     </form>
-
-    <!-- <div>
-        <a class="btn btn-primary" href="{{url_for('add_ruche', rucher_id=id)}}">Ajouter une ruche</a>
-    </div> -->
 
 </div>
 </div>

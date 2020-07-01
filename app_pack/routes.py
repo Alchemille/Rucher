@@ -114,6 +114,7 @@ def update_ruche(id):
             specie = form.new_breed.data
 
         old_ruche.specie = specie
+        old_ruche.age_reine = form.age_queen.data
         old_ruche.feedback = form.feedback.data
         db.session.commit()
 
@@ -146,25 +147,13 @@ def see_rucher(id):
         if specie == "other":
             specie = form.new_breed.data
 
-        new_ruche = Ruche(rucher=id, specie=specie, num=form.num.data, feedback=form.feedback.data)
+        new_ruche = Ruche(rucher=id, specie=specie, num=form.num.data, age_reine=form.age_queen.data,  feedback=form.feedback.data)
         db.session.add(new_ruche)
         db.session.commit()
 
         return redirect('#')    
 
     return render_template('rucher.html', ruches=rucher.get_ruches(), form=form)
-
-@app.route('/add_ruche/<rucher_id>')
-def add_ruche(rucher_id):
-    if form.validate_on_submit():
-
-        new_ruche = Ruche(rucher=rucher_id, specie=form.breed.data, num=form.num.data, feedback=form.feedback.data)
-        db.session.add(new_ruche)
-        db.session.commit()
-
-        return redirect('/rucher/<id>')
-
-    return render_template('add_ruche.html', form=form)
 
 @app.errorhandler(404)
 def page_not_found(e):
