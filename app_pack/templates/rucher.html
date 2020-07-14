@@ -56,14 +56,12 @@
                     </form>
                     </div>
                     <div class="btn-group mr-2" role="group" aria-label="Second group">
-                    <form action="{{ url_for('update_ruche', id=i.id) }}" method="post" class="ml-auto">
-                        <button class="btn btn-dark" type="submit">
+                        <a href="{{ url_for('update_ruche', id=i.id) }}" class="btn btn-dark">
                             <svg width="15" height="15" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
                                 <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
                             </svg>
-                        </button>
-                    </form>
+                        </a>
                     </div>
                 </div>
 
@@ -78,53 +76,16 @@
 
 </div>
 
-<hr/>
-
-
+<div class="jumbotron">
 <div class="d-flex justify-content-center align-items-center">
-<div class="jumbotron_feli jumbotron">
+<div class="jumbotron">
 <div class="container">
 
     <h5>Nouvelle ruche:</h5>
 
-    <form method="POST">
-        <!-- quand action = pas precisé, renvoie POST sur la meme page -->
-        {# This hidden_tag is a CSRF security feature. #}
-        {{ form.hidden_tag() }}
-        <p>
-            {{form.num.label }} <br> {{form.num}} <br>
-            {% for error in form.num.errors %} field with several data
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-        {{ form.breed.label }} <br> {{form.breed}} <br>
-        {% for error in form.breed.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-        </p>
-        <p>
-        {{ form.new_breed.label }} <br> {{form.new_breed}} <br>
-        {% for error in form.new_breed.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-        </p>
-        <p>
-        {{ form.age_queen.label }} <br> {{form.age_queen}} <br>
-        {% for error in form.age_queen.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-        </p>        
-        <p>            
-        {{ form.feedback.label }} <br> {{form.feedback}} <br>
-        {% for error in form.feedback.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-        </p>
-        <br>
-        {{ form.submit() }}
-    </form>
+    {% include 'ruche_form.html' %}
 
+</div>
 </div>
 </div>
 </div>
