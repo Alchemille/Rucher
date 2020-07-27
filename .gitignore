@@ -2,6 +2,7 @@
 app.db
 learned.md
 app_pack/static/*.jpg
+app_pack/static/*.png
 todo.md
 
 # Byte-compiled / optimized / DLL files

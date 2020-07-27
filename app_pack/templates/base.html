@@ -19,6 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+  <link rel="stylesheet" type="text/css" href="mystyle.css">
 
   <style>
     .center-cropped {
@@ -41,9 +42,9 @@
     }
 
     .jumbotron {
-      padding-top: 32px;
+      padding-top: 40px;
       margin-bottom: 0;
-      padding-bottom: 32px;
+      padding-bottom: 40px;
     }
 
     .card_text_rucher {
@@ -59,7 +60,12 @@
 
     html,
     body {
-      font-family: 'Lato', sans-serif;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      font-size: 11pt;
+      line-height: 1.5em;
+      color: #777;
+
     }
 
     .h1 {
@@ -92,7 +98,23 @@
 
     .mapboxgl-popup-content {
       text-align: center;
-      font-family: 'Open Sans', sans-serif;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .masthead {
+      height: 30vh;
+      background-image: url(static/ruches1.jpg);
+      background-size: cover;
+      background-position: right 50% bottom 15%;
+      background-repeat: no-repeat;
+    }
+
+    .navbar-default {
+      background: none;
+    }
+
+    .navbar {
+      background: none;
     }
   </style>
 </head>
@@ -119,7 +141,7 @@
   {% block content %}
   {% endblock %}
 
-  <hr/>
+  <hr />
 
   <footer class="text-muted">
     <div class="container-fluid">

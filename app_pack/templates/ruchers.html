@@ -1,6 +1,17 @@
 {% extends "base.html"%}
 {% block content %}
-<div class="jumbotron">
+
+<header class="masthead">
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <div class="col-12 text-center">
+        <h1 style='color:#FFF; font-weight: 400; font-family: inherit;'><strong>Ruchers</strong></h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="jumbotron_feli jumbotron">
 
   <div class="container">
 
@@ -9,7 +20,7 @@
     {% for i in ruchers %}
 
     <div class="col-md-3 mb-4">
-    <div class="card border-info mb-3 ">
+    <div class="card mb-3 ">
 
       <div class="center-cropped card-img-top" style="background-image: url('{{ i.get_url_image() }}'); height: 200px;">
         <a href="{{ url_for('see_rucher', id=i.id) }}">
@@ -36,7 +47,7 @@
   </div>
 
   <div>
-    <a class="btn btn-primary" href="{{url_for('add_rucher')}}">Ajouter un rucher</a>
+    <a class="btn btn-outline-warning" href="{{url_for('add_rucher')}}">Ajouter un rucher</a>
   </div>
   </div>
 
@@ -44,6 +55,8 @@
 
 
 </div>
+
+<hr/>
 
 <div class="jumbotron_feli jumbotron">
   <div class="d-flex justify-content-center align-items-center">
