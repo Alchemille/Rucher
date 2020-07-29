@@ -1,0 +1,110 @@
+#myheader h1 {
+  color: #FFF;
+  font-weight: 300;
+  line-height: 1em;
+  font-size: 7em;
+  text-align: center;
+  vertical-align: baseline;
+  display:table;
+  width:100%;
+}
+
+.myheader {
+  color: #FFF;
+  display: block;
+  text-decoration: none;
+  font-weight: 300;
+  line-height: 1em;
+  font-size: 2em;
+  text-align: center;
+}
+
+.center-cropped {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+/* Set the image to fill its parent and make transparent */
+.center-cropped img {
+  min-height: 100%;
+  min-width: 100%;
+  /* IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  /* IE 5-7 */
+  filter: alpha(opacity=0);
+  /* modern browsers */
+  opacity: 0;
+}
+
+.jumbotron {
+  padding-top: 40px;
+  margin-bottom: 0;
+  padding-bottom: 40px;
+}
+
+.card_text_rucher {
+  line-height: 40px;
+  margin-bottom: 0;
+}
+
+.card-columns {
+  -webkit-column-count: 6;
+  -moz-column-count: 6;
+  column-count: 6;
+}
+
+html,
+body,
+input,
+textarea,
+select {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 350;
+  font-size: 11pt;
+  line-height: 1.5em;
+  color: #777;
+
+}
+
+.h1 {
+  margin-bottom: 2rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.jumbotron_feli {
+  background-color: rgb(255, 255, 255);
+}
+
+.head-container {
+  max-width: 32em;
+}
+
+.marker {
+  border: none;
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
+  background-image: url(/static/marker.png);
+  background-color: rgba(0, 0, 0, 0);
+  /* transform: translate(28px, 56px, 0); */
+}
+
+.mapboxgl-popup {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+.masthead {
+  height: 30vh;
+  background-image: url(/static/ruches1.jpg);
+  background-size: cover;
+  background-position: right 50% bottom 15%;
+  background-repeat: no-repeat;
+}

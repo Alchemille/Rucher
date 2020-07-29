@@ -2,19 +2,21 @@
 {% block content %}
 
 <header class="masthead">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <div class="col-12 text-center">
-                <h1 style='color:#FFF; font-weight: 400; font-family: inherit;'><strong>Rucher {{ rucher.id }}</strong>
+        <div class="container h-100 align-items-center justify-content-center d-flex">
+            <div id="myheader">
+                <h1>Rucher {{ rucher.id }}
                 </h1>
-                <span class="badge badge-info"> {{ rucher.location }} </span>
-                <span class="badge badge-info"> {{ rucher.plants }} </span>
-                {% if rucher.feedback %}
-                <span class="badge badge-info"> {{ rucher.feedback }} </span>
-                {% endif %}
+                <div class="row h-100 align-items-center">
+                    <div class="col-12 text-center">
+                        <span class="badge badge-info"> {{ rucher.location }} </span>
+                        <span class="badge badge-info"> {{ rucher.plants }} </span>
+                        {% if rucher.feedback %}
+                        <span class="badge badge-info"> {{ rucher.feedback }} </span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 </header>
 
 
@@ -85,17 +87,14 @@
 
         <hr />
 
+        <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
 
-        <!-- <div class="card mx-auto">
-            <div class="card-body"> -->
-
-            <h5 class="card-title">Nouvelle ruche:</h5>
+            <h5>Nouvelle ruche:</h5>
 
             {% include 'ruche_form.html' %}
-            <!-- </div>
-
-        </div> -->
-
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
