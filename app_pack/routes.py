@@ -66,14 +66,15 @@ def add_rucher():
     positions = create_positions_details()
     form = RucherAddForm()
 
-    if form.validate_on_submit():
+    if form.validate_on_submit():   
 
-        print("TESTTTTT")
+        if Rucher.query.filter(Rucher.location == form.location.data):
+            flash("Un rucher exister déja a {}. Renseigner une localisation différente".format(form.location.data))
+            return redirect('#')
+            
         new_rucher = Rucher(location=form.location.data, plants=form.plant.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
         db.session.add(new_rucher) # new_rucher.id added here
         db.session.commit()
-
-        #flash('Rucher {} ajouté'.format(form.location.data))
 
         return redirect('/')
 
@@ -145,11 +146,10 @@ def see_rucher(id):
 
     if form.validate_on_submit():
 
-        specie = form.breed.data
-        print(form.breed.data, form.new_breed.data)
-        print(Ruche.query.all())
-        if specie == "other":
-            specie = form.new_breed.data
+        specie = form.new_breed.data
+
+        if not specie:
+            specie = form.breed.data
 
         # check ruche num is unique
         if Ruche.query.filter(Ruche.num == form.num.data).first():
