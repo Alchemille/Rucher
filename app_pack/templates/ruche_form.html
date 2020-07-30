@@ -13,6 +13,12 @@
     {% endfor %}
     </p>
     <p>
+    {{ form.num.label }} <br> {{form.num(value = ruche.num) }} <br>
+    {% for error in form.num.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>    
+    <p>
     {{ form.breed.label }} <br> {{form.breed(default = ruche.specie) }} <br>
     {% for error in form.breed.errors %}
     <span style="color: red;">[{{ error }}]</span>

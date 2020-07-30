@@ -68,6 +68,12 @@ select {
 
 }
 
+input,
+textarea,
+select {
+  color: black;
+}
+
 .h1 {
   margin-bottom: 2rem;
   font-weight: 300;
