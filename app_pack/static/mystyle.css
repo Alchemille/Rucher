@@ -19,6 +19,31 @@
   text-align: center;
 }
 
+#top-message {
+  z-index: 999;
+    position: fixed;
+    width: 100%;
+  height:50px;
+  left:50%;
+  transform:translateX(-50%);
+  top:50px;
+  background-color: #ffd480;
+}
+
+#message {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  background-color: #ffd480;
+}
+
+#inner-message {
+  margin: 0 auto;
+  z-index: 999;
+  color: #ff3300;
+}
+
 .center-cropped {
   background-position: center center;
   background-repeat: no-repeat;
@@ -62,7 +87,7 @@ textarea,
 select {
   font-family: 'Roboto', sans-serif;
   font-weight: 350;
-  font-size: 11pt;
+  font-size: 12pt;
   line-height: 1.5em;
   color: #777;
 

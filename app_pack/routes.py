@@ -142,20 +142,25 @@ def see_rucher(id):
     list_species = list(set(list_species))
     form = RucheForm()
     form.breed.choices = list_species
-    print("in rucher")
 
     if form.validate_on_submit():
 
-        print("well...")
         specie = form.breed.data
-        print("hey, ", specie, form.new_breed.data, form.num.data, form.age_queen.data, form.feedback.data)
+        print(form.breed.data, form.new_breed.data)
+        print(Ruche.query.all())
         if specie == "other":
             specie = form.new_breed.data
+
+        # check ruche num is unique
+        if Ruche.query.filter(Ruche.num == form.num.data).first():
+            
+            flash("La ruche {} existe déja".format(form.num.data))
+            return redirect('#')
         
         new_ruche = Ruche(rucher=id, specie=specie, num=form.num.data, age_reine=form.age_queen.data,  feedback=form.feedback.data)
         db.session.add(new_ruche)
         db.session.commit()
-        print(Ruche.query.all())
+        
         return redirect('#')    
 
     return render_template('rucher.html', ruches=rucher.get_ruches(), rucher=rucher, form=form)
