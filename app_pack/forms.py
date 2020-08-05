@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import (StringField, BooleanField, DateTimeField,
                      RadioField,SelectField,TextField,
                      TextAreaField,SubmitField, PasswordField)
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from datetime import datetime
 
 class RucherAddForm(FlaskForm):
@@ -30,9 +30,24 @@ class RucheForm(FlaskForm):
     feedback = TextAreaField("Autres caractéristiques")
     submit = SubmitField('Valider')
 
-
 class LoginForm(FlaskForm):
-    name = StringField("Votre Nom")
-    password = PasswordField('Entrer le mot de passe', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Mot de passe', validators=[DataRequired()])
+    submit = SubmitField('Connexion')
+
+
+class RegistrationForm(FlaskForm):
+    name = StringField("Nom", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField('Mot de passe', validators=[DataRequired(), EqualTo('pass_confirm', message='Les mots de passe sont différents!')])
+    pass_confirm = PasswordField('Confirmer mot de passe', validators=[DataRequired()])
     remember_me = BooleanField('Se souvenir de moi')
-    submit = SubmitField('Valider')
+    submit = SubmitField('Se connecter')
+
+    def check_email_not_used(self,  field):
+        if User.query.filter(email=field.data).first():
+            raise ValidationError('Email déja utilisé')
+
+    def check_name_not_used(self, field):
+        if User.query.filter(email=field.data).first():
+            raise ValidationError('Nom déja utilisé')
