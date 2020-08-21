@@ -5,6 +5,7 @@ from wtforms import (StringField, BooleanField, DateTimeField,
                      TextAreaField,SubmitField, PasswordField)
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from datetime import datetime
+from app_pack.models import Rucher, Ruche, User
 
 class RucherAddForm(FlaskForm):
 
@@ -37,17 +38,18 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    name = StringField("Nom", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired(), Email()])
-    password = PasswordField('Mot de passe', validators=[DataRequired(), EqualTo('pass_confirm', message='Les mots de passe sont différents!')])
-    pass_confirm = PasswordField('Confirmer mot de passe', validators=[DataRequired()])
-    remember_me = BooleanField('Se souvenir de moi')
-    submit = SubmitField('Se connecter')
 
     def check_email_not_used(self,  field):
-        if User.query.filter(email=field.data).first():
+        if User.query.filter(User.email==field.data).first():
             raise ValidationError('Email déja utilisé')
 
     def check_name_not_used(self, field):
-        if User.query.filter(email=field.data).first():
+        if User.query.filter(User.email==field.data).first():
             raise ValidationError('Nom déja utilisé')
+
+    name = StringField("Nom", validators=[DataRequired(), check_name_not_used])
+    email = StringField("Email", validators=[DataRequired(), Email(message='Pas une adresse mail'), check_email_not_used])
+    password = PasswordField('Mot de passe', validators=[DataRequired(), EqualTo('pass_confirm', message='Les mots de passe sont différents!')])
+    pass_confirm = PasswordField('Confirmer mot de passe', validators=[DataRequired()])
+    remember_me = BooleanField('Se souvenir de moi')
+    submit = SubmitField("S'enregister")

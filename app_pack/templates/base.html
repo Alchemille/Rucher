@@ -24,7 +24,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="message-nav navbar navbar-expand-lg navbar-dark bg-light">
     <ul class="nav">
 
       <li class="nav-item">
@@ -40,22 +40,22 @@
     </ul>  
   </nav>
 
+
+  {% with messages = get_flashed_messages() %}
+
+  {% if messages %}
+    {% for message in messages %}
+    <div class="message-flash alert alert-error">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{message}}
+  </div>
+    {% endfor %}
+  {% endif %}
+  {% endwith %}  
+
   {% block content %}
   {% endblock %}
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-    <div id="message">
-      <div id="inner-message" class="alert alert-error">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          {{message}}
-      </div>
-  </div>
-
-    {% endfor %}
-  {% endif %}
-  {% endwith %}
 
   <hr />
 

@@ -9,6 +9,10 @@
   width:100%;
 }
 
+.form_error {
+  color: red;
+}
+
 .myheader {
   color: #FFF;
   display: block;
@@ -28,20 +32,29 @@
   transform:translateX(-50%);
   top:50px;
   background-color: #ffd480;
+  text-align: left;
 }
 
-#message {
+.message-nav {
   position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  background-color: #ffd480;
+  z-index: 999;
+  opacity: 0.5;
+}
+
+.message-flash {
   top: 50px;
   left: 0;
   width: 100%;
   background-color: #ffd480;
-}
-
-#inner-message {
-  margin: 0 auto;
   z-index: 999;
-  color: #ff3300;
+  color: #ff3300;  
+  height: 56px;
+  line-height: 28px;
+  opacity: 0.5;
 }
 
 .center-cropped {
@@ -74,6 +87,7 @@
   padding-top: 40px;
   margin-bottom: 0;
   padding-bottom: 40px;
+  background-color: rgb(255, 255, 255);
 }
 
 .jumbotron_feli {

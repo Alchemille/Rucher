@@ -54,6 +54,7 @@ def create_positions_details():
 
 @app.route('/')
 def index():
+    print(User.__table__.c)
     return render_template('home.html')
 
 @app.route('/logout')
@@ -61,7 +62,7 @@ def index():
 def logout():
     logout_user()
     flash('You logged out!')
-    return redirect(url_for('home'))
+    return redirect(url_for('index'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -79,7 +80,7 @@ def login():
             #Log in the user
 
             login_user(user)
-            flash('Logged in successfully.')
+            flash('Connexion réussie!')
 
             # If a user was trying to visit a page that requires a login
             # flask saves that URL as 'next'.
@@ -104,7 +105,7 @@ def register():
 
         db.session.add(user)
         db.session.commit()
-        flash('Thanks for registering! Now you can login!')
+        flash('Merci de vous etre enregistré(e). Vous pouvez maintenant vous connecter')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 

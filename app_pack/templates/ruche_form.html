@@ -9,36 +9,36 @@
     <p>
     {{ form.rucher.label }} <br> {{form.rucher(value = ruche.rucher) }} <br>
     {% for error in form.rucher.errors %}
-    <span style="color: red;">[{{ error }}]</span>
+    <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>
     <p>
     {{ form.num.label }} <br> {{form.num(value = ruche.num) }} <br>
     {% for error in form.num.errors %}
-    <span style="color: red;">[{{ error }}]</span>
+    <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>    
     <p>
     {{ form.breed.label }} <br> {{form.breed(default = ruche.specie) }} <br>
     {% for error in form.breed.errors %}
-    <span style="color: red;">[{{ error }}]</span>
+    <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>
     <p>
     {{ form.new_breed.label }} <br> {{form.new_breed(placeholder=ruche.specie)}} <br>
     {% for error in form.new_breed.errors %}
-    <span style="color: red;">[{{ error }}]</span>
+    <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>
     {{ form.age_queen.label }} <br> {{form.age_queen(value=ruche.age_reine)}} <br>
     {% for error in form.age_queen.errors %}
-    <span style="color: red;">[{{ error }}]</span>
+    <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>        
     <p>            
     {{ form.feedback.label }} <br> {{form.feedback(id="feedback") }} <br>
     {% for error in form.feedback.errors %}
-    <span style="color: red;">[{{ error }}]</span>
+    <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>
     <br>
