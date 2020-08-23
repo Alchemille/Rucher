@@ -9,6 +9,17 @@
   width:100%;
 }
 
+#myheader p {
+  color: #FFF;
+  font-weight: 300;
+  line-height: 1em;
+  font-size: 2em;
+  text-align: center;
+  vertical-align: baseline;
+  display:table;
+  width:100%;
+}
+
 .form_error {
   color: red;
 }

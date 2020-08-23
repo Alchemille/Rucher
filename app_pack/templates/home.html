@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron">
-  {% if current_user.is_authenticated %}
-    <p>Hi {{ current_user.username }}!</p>
-  {% else %}
-    <p>Please login or register!</p>
-  {% endif %}
-</div>
+<header class="masthead">
+  <div class="container h-100 align-items-center justify-content-center d-flex">
+    <div id="myheader">
+      <h1>Bienvenue</h1>
+      {% if current_user.is_authenticated %}
+      <p>Salut {{ current_user.username }}!</p>
+      {% else %}
+      <p>Connectez-vous ou Inscrivez-vous</p>
+      {% endif %}
+    </div>
+  </div>
+</header>
 
 {% endblock %}
