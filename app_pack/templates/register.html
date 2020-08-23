@@ -1,17 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
-<header class="masthead">
-    <div class="container h-100 align-items-center justify-content-center d-flex">
-        <div id="myheader">
-          <h1>Inscription</h1>
-        </div>
-    </div>
-  </header>
+{% with text="Inscription" %}
+    {% include "header_theme.html" %}
+{% endwith %}
 
 <div class="jumbotron">
-    <div class="row h-100 align-items-center">
-        <div class="col-12 text-center">
+        <div class="text-center">
     
     
             <form method="POST">
@@ -51,7 +46,6 @@
     
         </div>
     </div>
-</div>
 
 
 {% endblock %}
