@@ -57,15 +57,16 @@
 }
 
 .message-flash {
-  top: 50px;
+  top: 238px;
   left: 0;
   width: 100%;
   background-color: #ffd480;
   z-index: 999;
-  color: #ff3300;  
+  color: black;  
   height: 56px;
   line-height: 28px;
-  opacity: 0.5;
+  opacity: 0.7;
+  position: absolute;
 }
 
 .center-cropped {

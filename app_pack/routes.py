@@ -129,7 +129,7 @@ def add_rucher():
 
     if form.validate_on_submit():   
 
-        if Rucher.query.filter(Rucher.location == form.location.data):
+        if Rucher.query.filter(Rucher.location == form.location.data).first():
             flash("Un rucher exister déja a {}. Renseigner une localisation différente".format(form.location.data))
             return redirect('#')
             
@@ -137,7 +137,7 @@ def add_rucher():
         db.session.add(new_rucher) # new_rucher.id added here
         db.session.commit()
 
-        return redirect('/')
+        return redirect(url_for(see_ruchers))
 
     return render_template('add_rucher.html', form=form, positions=positions)
 
@@ -147,7 +147,7 @@ def delete_rucher(id):
     #Ruche.query.filter_by(rucher=id).delete()
     db.session.delete(Rucher.query.get(id))
     db.session.commit()
-    return redirect('/')
+    return redirect(url_for(see_ruchers))
 
 
 @app.route('/delete_ruche/<id>', methods=['POST'])

@@ -1,5 +1,11 @@
 {% extends "base.html"%}
 {% block content %}
+
+{% with text="Créer un rucher" %}
+    {% include "header_theme.html" %}
+{% endwith %}
+
+
 <div class="jumbotron jumbotron_feli">
     <div class="row h-100 align-items-center">
         <div class="col-12 text-center">
@@ -13,25 +19,25 @@
                 <p>
                     {{form.location.label }} <br> {{form.location}} <br>
                     {% for error in form.location.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
+                    <span class="form_error">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <p>
                     {{ form.plant.label }} <br> {{form.plant}} <br>
                     {% for error in form.plant.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
+                    <span class="form_error">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <p>
                     {{ form.lat.label }} <br> {{form.lat(id="lat", placeholder="Cliquer sur la carte")}} <br>
                     {% for error in form.lat.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
+                    <span class="form_error">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <p>
                     {{ form.longit.label }} <br> {{form.longit(id="long", placeholder="Cliquer sur la carte")}} <br>
                     {% for error in form.longit.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
+                    <span class="form_error">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <br>
