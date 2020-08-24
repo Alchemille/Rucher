@@ -55,6 +55,8 @@ def create_positions_details():
 @app.route('/')
 def index():
     print(User.__table__.c)
+    print(Rucher.__table__.c)
+    print(Ruche.__table__.c)
     return render_template('home.html')
 
 @app.route('/logout')
@@ -128,11 +130,7 @@ def add_rucher():
     form = RucherAddForm()
 
     if form.validate_on_submit():   
-
-        if Rucher.query.filter(Rucher.location == form.location.data).first():
-            flash("Un rucher exister déja a {}. Renseigner une localisation différente".format(form.location.data))
-            return redirect('#')
-            
+ 
         new_rucher = Rucher(location=form.location.data, plants=form.plant.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
         db.session.add(new_rucher) # new_rucher.id added here
         db.session.commit()
@@ -216,12 +214,6 @@ def see_rucher(id):
         if not specie:
             specie = form.breed.data
 
-        # check ruche num is unique
-        if Ruche.query.filter(Ruche.num == form.num.data).first():
-            
-            flash("La ruche {} existe déja".format(form.num.data))
-            return redirect('#')
-        
         new_ruche = Ruche(rucher=id, specie=specie, num=form.num.data, age_reine=form.age_queen.data,  feedback=form.feedback.data)
         db.session.add(new_ruche)
         db.session.commit()

@@ -5,6 +5,7 @@ from wtforms import (StringField, BooleanField, DateTimeField,
                      TextAreaField,SubmitField, PasswordField)
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from datetime import datetime
+from app_pack import app, db
 from app_pack.models import Rucher, Ruche, User
 
 class RucherAddForm(FlaskForm):
@@ -23,8 +24,22 @@ class RucheForm(FlaskForm):
         if field.data == "other" and not form.new_breed.data:
             raise ValidationError("L'espece doit etre précisée") 
 
+    def check_num_unique(form, field):
+        q = db.session.query(
+                User, Rucher, Ruche,
+            ).filter(
+                User.id == Rucher.user,
+            ).filter(
+                Rucher.id == Ruche.rucher,
+            ).filter(
+                Ruche.num == field.data,
+            )      
+        print(q.first())
+        if q.first():
+            raise ValidationError("La ruche {} existe déja".format(form.num.data))
+
     rucher = StringField("Rucher Parent")
-    num = StringField("Numero",validators=[DataRequired()])
+    num = StringField("Numero",validators=[DataRequired(), check_num_unique])
     breed = SelectField("Espece actuelle", validators=[check_espece_renseignee])
     new_breed = StringField("Si autre, quelle espece?")
     age_queen = DateTimeField("Date de naissance de la reine", default=datetime.today(), format='%d/%m/%y')

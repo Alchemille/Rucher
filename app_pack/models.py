@@ -31,6 +31,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
+    ruchers = db.relationship('Rucher', backref='owner', cascade="all,delete", lazy='dynamic')
+    ruches = db.relationship('Ruche', backref='owner', cascade="all,delete", lazy='dynamic')
+    registration_date = db.Column(db.DateTime, index=True, default=datetime.today().strftime("%d/%m/%y"))
 
     def __init__(self, email, username, password): # note: in other models, no init method -> use the one of db.Model, which accepts any argument.
         # in Python, a class has only 1 constructor !
@@ -44,8 +47,9 @@ class User(db.Model, UserMixin):
 
 class Rucher(db.Model):
 
+    user = db.Column(db.Integer, db.ForeignKey('users.id'))
     id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(64), index=True, unique=True)
+    location = db.Column(db.String(64), index=True)
     plants = db.Column(db.String(120))
     feedback = db.Column(db.Text)
     lat = db.Column(db.Integer)
@@ -105,12 +109,15 @@ class Rucher(db.Model):
 class Ruche(db.Model):
     
     rucher = db.Column(db.Integer, db.ForeignKey('rucher.id'))
+    user = db.Column(db.Integer, db.ForeignKey('users.id'))
     id = db.Column(db.Integer, primary_key=True)
-    num = db.Column(db.Integer, unique=True)
+    num = db.Column(db.Integer)
     feedback = db.Column(db.Text)
     specie = db.Column(db.String(64), index=True)
     age_reine = db.Column(db.DateTime, index=True, default=datetime.today().strftime("%d/%m/%y"))
     events = db.relationship('Event', backref='parent_ruche', cascade='all,delete', lazy='dynamic')
+
+    __table_args__ = (db.UniqueConstraint('num', 'user', name='numruche_user_unique'),)    
 
     def __repr__(self):
         return 'Ruche {}'.format(self.id)
