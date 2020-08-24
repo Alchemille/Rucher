@@ -119,9 +119,6 @@ class Ruche(db.Model):
 
     __table_args__ = (db.UniqueConstraint('num', 'user', name='numruche_user_unique'),)    
 
-    def __repr__(self):
-        return 'Ruche {}'.format(self.id)
-
 class Event(db.Model):
 
     ruche = db.Column(db.Integer, db.ForeignKey('ruche.num'))

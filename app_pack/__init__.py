@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import MetaData
 from flask_login import LoginManager
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy_repr import RepresentableBase
 
 login_manager = LoginManager()
 
@@ -17,7 +19,7 @@ naming_convention = {
 
 app = Flask(__name__)
 app.config.from_object(Config)
-db = SQLAlchemy(app, metadata=MetaData(naming_convention=naming_convention))
+db = SQLAlchemy(app, model_class=RepresentableBase, metadata=MetaData(naming_convention=naming_convention))
 migrate = Migrate(app, db)
 
 login_manager.init_app(app)
