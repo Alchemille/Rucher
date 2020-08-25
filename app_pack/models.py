@@ -114,7 +114,7 @@ class Ruche(db.Model):
     num = db.Column(db.Integer)
     feedback = db.Column(db.Text)
     specie = db.Column(db.String(64), index=True)
-    age_reine = db.Column(db.DateTime, index=True, default=datetime.today().strftime("%d/%m/%y"))
+    age_reine = db.Column(db.DateTime, index=True)
     events = db.relationship('Event', backref='parent_ruche', cascade='all,delete', lazy='dynamic')
 
     __table_args__ = (db.UniqueConstraint('num', 'user', name='numruche_user_unique'),)    
@@ -123,6 +123,6 @@ class Event(db.Model):
 
     ruche = db.Column(db.Integer, db.ForeignKey('ruche.num'))
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.today().strftime("%d/%m/%y"))
+    timestamp = db.Column(db.DateTime)
     type = db.Column(db.Integer, index=True)
     note = db.Column(db.String(64))

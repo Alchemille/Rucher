@@ -1,47 +1,39 @@
 <form method="POST">
 
-    {% if ruche is not defined %}
-    {% set ruche = {} %}
-    {% endif %}
-
     {# This hidden_tag is a CSRF security feature. #}
     {{ form.hidden_tag() }}
     <p>
-    {{ form.rucher.label }} <br> {{form.rucher(value = ruche.rucher) }} <br>
+    {{ form.rucher.label }} <br> {{form.rucher }} <br>
     {% for error in form.rucher.errors %}
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>
     <p>
-    {{ form.num.label }} <br> {{form.num(value = ruche.num) }} <br>
+    {{ form.num.label }} <br> {{form.num}} <br>
     {% for error in form.num.errors %}
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>    
     <p>
-    {{ form.breed.label }} <br> {{form.breed(default = "other") }} <br>
+    {{ form.breed.label }} <br> {{form.breed }} <br>
     {% for error in form.breed.errors %}
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>
     <p>
-    {{ form.new_breed.label }} <br> {{form.new_breed(value=ruche.specie)}} <br>
+    {{ form.new_breed.label }} <br> {{form.new_breed}} <br>
     {% for error in form.new_breed.errors %}
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>
-    {% if ruche.age_reine is not defined %}
-    {% set birthday_reine = {} %}
-    {% else %}
-    {% set birthday_reine = ruche.age_reine.strftime("%d/%m/%y") %}
-    {% endif %}    
-    {{ form.age_queen.label }} <br> {{form.age_queen(value=birthday_reine)}} <br>
-    {% for error in form.age_queen.errors %}
+    {{ form.age_reine.label }} <br> {{form.age_reine}} <br>
+
+    {% for error in form.age_reine.errors %}
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>        
     <p>            
-    {{ form.feedback.label }} <br> {{form.feedback(id="feedback") }} <br>
+    {{ form.feedback.label }} <br> {{form.feedback }} <br>
     {% for error in form.feedback.errors %}
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
@@ -49,6 +41,3 @@
     <br>
     {{ form.submit() }}
 </form>
-
-
-<script> var textarea = document.getElementById('feedback'); textarea.innerHTML = "{{ ruche.feedback }}" </script>

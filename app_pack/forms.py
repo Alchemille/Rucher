@@ -1,6 +1,6 @@
 from flask import Flask, render_template, session, redirect, url_for, session
 from flask_wtf import FlaskForm
-from wtforms import (StringField, BooleanField, DateTimeField,
+from wtforms import (StringField, BooleanField, DateTimeField, IntegerField,
                      RadioField,SelectField,TextField,
                      TextAreaField,SubmitField, PasswordField)
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
@@ -41,11 +41,11 @@ class RucheForm(FlaskForm):
         if q.first():
             raise ValidationError("La ruche {} existe déja".format(form.num.data))
 
-    rucher = StringField("Rucher Parent")
-    num = StringField("Numero",validators=[DataRequired(), check_num_unique, check_rucher_exists])
-    breed = SelectField("Espece actuelle", validators=[check_espece_renseignee])
+    rucher = IntegerField("Rucher Parent", validators=[check_rucher_exists])
+    num = IntegerField("Numero",validators=[DataRequired(), check_num_unique])
+    breed = SelectField("Espece actuelle", default="other", validators=[check_espece_renseignee])
     new_breed = StringField("Si autre, quelle espece?")
-    age_queen = DateTimeField("Date de naissance de la reine", default=datetime.today(), format='%d/%m/%y')
+    age_reine = DateTimeField("Date de naissance de la reine", default=datetime.today(), format="%d/%m/%y")
     feedback = TextAreaField("Autres caractéristiques")
     submit = SubmitField('Valider')
 
