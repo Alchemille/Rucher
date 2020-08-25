@@ -147,7 +147,7 @@ def add_rucher():
 def delete_rucher(id):
 
     if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
-        flash("Vous n'avez pas l'authorization d'effectuer cette opération")
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")
     else:
         #Ruche.query.filter_by(rucher=id).delete()
         db.session.delete(Rucher.query.get(id))
@@ -161,7 +161,7 @@ def delete_rucher(id):
 def delete_ruche(id):
 
     if not Ruche.query.get(id) or current_user.id != Ruche.query.get(id).user:
-        flash("Vous n'avez pas l'authorization d'effectuer cette opération")    
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
         return redirect(url_for('see_ruchers'))
 
     id_rucher = Ruche.query.get(id).rucher
@@ -174,7 +174,7 @@ def delete_ruche(id):
 def update_ruche(id):
 
     if not Ruche.query.get(id) or current_user.id != Ruche.query.get(id).user:
-        flash("Vous n'avez pas l'authorization d'effectuer cette opération")    
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
         return redirect(url_for('see_ruchers'))
 
     old_ruche = Ruche.query.get(id)
@@ -208,7 +208,7 @@ def update_ruche(id):
 def see_rucher(id):
 
     if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
-        flash("Vous n'avez pas l'authorization d'effectuer cette opération")    
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
         return redirect(url_for('see_ruchers'))
 
     rucher = Rucher.query.get(id)
@@ -220,7 +220,7 @@ def see_rucher(id):
     # list_species2 = [(g.specie, g.specie) for g in Ruche.query.all()]
     list_species.append(('other', 'autre'))
     list_species = list(set(list_species))
-    form = RucheForm()
+    form = RucheForm(rucher=id)
     form.specie_select.choices = list_species
 
     if form.validate_on_submit():

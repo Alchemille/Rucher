@@ -33,7 +33,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     ruchers = db.relationship('Rucher', backref='owner', cascade="all,delete", lazy='dynamic')
     ruches = db.relationship('Ruche', backref='owner', cascade="all,delete", lazy='dynamic')
-    registration_date = db.Column(db.DateTime, index=True, default=datetime.today().strftime("%d/%m/%y"))
+    registration_date = db.Column(db.DateTime, index=True)
 
     def __init__(self, email, username, password): # note: in other models, no init method -> use the one of db.Model, which accepts any argument.
         # in Python, a class has only 1 constructor !
