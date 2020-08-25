@@ -13,7 +13,7 @@ from flickr_api import Photo, Walker
 
 import requests, random
 from werkzeug.exceptions import NotFound  
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 
 import json
 from geojson import Point, Feature       
@@ -34,13 +34,13 @@ def create_position(id, title, latitude, longitude, description):
     return feature
 
 
-def create_positions_details():
+def create_positions_details(ruchers):
 
     positions = []
 
     #print(Rucher.query.with_entities(Rucher.lat, Rucher.longit).all())
 
-    for rucher in Rucher.query.filter(user==flask_login.current_user.id).all():
+    for rucher in ruchers:
 
         position = create_position(
             rucher.id,
@@ -118,9 +118,9 @@ def register():
 @login_required
 def see_ruchers():
 
-    positions = create_positions_details()
+    ruchers = Rucher.query.filter_by(user=current_user.id).all()
 
-    ruchers = Rucher.query.filter(user==flask_login.current_user.id).all()
+    positions = create_positions_details(ruchers)
 
     return render_template('ruchers.html', ruchers=ruchers, positions = positions)
 
@@ -128,12 +128,13 @@ def see_ruchers():
 @login_required
 def add_rucher():
 
-    positions = create_positions_details()
+    ruchers = Rucher.query.filter_by(user=current_user.id).all()
+    positions = create_positions_details(ruchers)
     form = RucherAddForm()
 
     if form.validate_on_submit():   
  
-        new_rucher = Rucher(user=flask_login.current_user.id, location=form.location.data, plants=form.plant.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
+        new_rucher = Rucher(user=current_user.id, location=form.location.data, plants=form.plant.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
         db.session.add(new_rucher) # new_rucher.id added here
         db.session.commit()
 
@@ -145,18 +146,24 @@ def add_rucher():
 @login_required
 def delete_rucher(id):
 
-    if (flask_login.current_user.id != Rucher.query.get(id).user):
-        raise 
-
-    #Ruche.query.filter_by(rucher=id).delete()
-    db.session.delete(Rucher.query.get(id))
-    db.session.commit()
+    if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
+        flash("Vous n'avez pas l'authorization d'effectuer cette opération")
+    else:
+        #Ruche.query.filter_by(rucher=id).delete()
+        db.session.delete(Rucher.query.get(id))
+        db.session.commit()
+        
     return redirect(url_for('see_ruchers'))
 
 
 @app.route('/delete_ruche/<id>', methods=['POST'])
 @login_required
 def delete_ruche(id):
+
+    if not Ruche.query.get(id) or current_user.id != Ruche.query.get(id).user:
+        flash("Vous n'avez pas l'authorization d'effectuer cette opération")    
+        return redirect(url_for('see_ruchers'))
+
     id_rucher = Ruche.query.get(id).rucher
     db.session.delete(Ruche.query.get(id))
     db.session.commit()
@@ -165,6 +172,10 @@ def delete_ruche(id):
 @app.route('/update_ruche/<id>', methods=['GET', 'POST'])
 @login_required
 def update_ruche(id):
+
+    if not Ruche.query.get(id) or current_user.id != Ruche.query.get(id).user:
+        flash("Vous n'avez pas l'authorization d'effectuer cette opération")    
+        return redirect(url_for('see_ruchers'))
 
     old_ruche = Ruche.query.get(id)
     list_species = [(i.specie, i.specie) for i in db.session.query(Ruche).all()]
@@ -196,6 +207,10 @@ def update_ruche(id):
 @login_required
 def see_rucher(id):
 
+    if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
+        flash("Vous n'avez pas l'authorization d'effectuer cette opération")    
+        return redirect(url_for('see_ruchers'))
+
     rucher = Rucher.query.get(id)
 
     if not rucher:
@@ -214,7 +229,7 @@ def see_rucher(id):
         if not specie:
             specie = form.specie_select.data
 
-        new_ruche = Ruche(user=flask_login.current_user.id, rucher=form.rucher.data, specie=specie, num=form.num.data, age_reine=form.age_reine.data,  feedback=form.feedback.data)
+        new_ruche = Ruche(user=current_user.id, rucher=form.rucher.data, specie=specie, num=form.num.data, age_reine=form.age_reine.data,  feedback=form.feedback.data)
         db.session.add(new_ruche)
         db.session.commit()
         

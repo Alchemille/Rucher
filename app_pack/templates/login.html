@@ -25,7 +25,7 @@
                     {% endfor %}
                 </p>      
                 <p>
-                    {{ form.remember_me.label }} <br> {{ form.remember_me() }}<br>
+                    {{ form.remember_me.label }} {{ form.remember_me() }}<br>
                     {% for error in form.remember_me.errors %}
                     <span class="form_error">[{{ error }}]</span>
                     {% endfor %}

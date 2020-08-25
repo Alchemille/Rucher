@@ -23,7 +23,7 @@ db = SQLAlchemy(app, model_class=RepresentableBase, metadata=MetaData(naming_con
 migrate = Migrate(app, db)
 
 login_manager.init_app(app)
-login_manager.login_view = 'login' # will be a view
+login_manager.login_view = 'login' # redirection to 'login.html' when decorator @login_required not satisfied
 
 from app_pack import routes, models
 
