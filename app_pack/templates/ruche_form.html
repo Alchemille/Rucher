@@ -15,14 +15,14 @@
     {% endfor %}
     </p>    
     <p>
-    {{ form.breed.label }} <br> {{form.breed }} <br>
-    {% for error in form.breed.errors %}
+    {{ form.specie_select.label }} <br> {{form.specie_select }} <br>
+    {% for error in form.specie_select.errors %}
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>
     <p>
-    {{ form.new_breed.label }} <br> {{form.new_breed}} <br>
-    {% for error in form.new_breed.errors %}
+    {{ form.specie.label }} <br> {{form.specie}} <br>
+    {% for error in form.specie.errors %}
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>

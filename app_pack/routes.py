@@ -16,7 +16,9 @@ from werkzeug.exceptions import NotFound
 from flask_login import login_user, login_required, logout_user
 
 import json
-from geojson import Point, Feature                   
+from geojson import Point, Feature       
+
+import flask_login
 
 
 def create_position(id, title, latitude, longitude, description):
@@ -131,7 +133,7 @@ def add_rucher():
 
     if form.validate_on_submit():   
  
-        new_rucher = Rucher(location=form.location.data, plants=form.plant.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
+        new_rucher = Rucher(user=flask_login.current_user.id, location=form.location.data, plants=form.plant.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
         db.session.add(new_rucher) # new_rucher.id added here
         db.session.commit()
 
@@ -167,16 +169,15 @@ def update_ruche(id):
     list_species = list(set(list_species))
 
     form = RucheForm(obj=old_ruche)
-    form.breed.choices = list_species
+    form.specie_select.choices = list_species
 
     if form.validate_on_submit():
 
         form.populate_obj(old_ruche)
 
-        specie = form.breed.data
-        print(specie, form.new_breed.data)
-        if specie == "other":
-            specie = form.new_breed.data
+        specie = form.specie.data
+        if not specie:
+            specie = form.specie_select.data
 
         old_ruche.specie = specie
         db.session.commit()
@@ -201,14 +202,13 @@ def see_rucher(id):
     list_species.append(('other', 'autre'))
     list_species = list(set(list_species))
     form = RucheForm()
-    form.breed.choices = list_species
+    form.specie_select.choices = list_species
 
     if form.validate_on_submit():
 
-        specie = form.new_breed.data
-
+        specie = form.specie.data
         if not specie:
-            specie = form.breed.data
+            specie = form.specie_select.data
 
         new_ruche = Ruche(rucher=form.rucher.data, specie=specie, num=form.num.data, age_reine=form.age_reine.data,  feedback=form.feedback.data)
         db.session.add(new_ruche)
