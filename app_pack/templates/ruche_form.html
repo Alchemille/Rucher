@@ -30,7 +30,12 @@
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
     </p>
-    {{ form.age_queen.label }} <br> {{form.age_queen(value=ruche.age_reine)}} <br>
+    {% if ruche.age_reine is not defined %}
+    {% set birthday_reine = {} %}
+    {% else %}
+    {% set birthday_reine = ruche.age_reine.strftime("%d/%m/%y") %}
+    {% endif %}    
+    {{ form.age_queen.label }} <br> {{form.age_queen(value=birthday_reine)}} <br>
     {% for error in form.age_queen.errors %}
     <span class="form_error">[{{ error }}]</span>
     {% endfor %}
