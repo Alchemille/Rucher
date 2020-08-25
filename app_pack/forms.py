@@ -19,8 +19,11 @@ class RucherAddForm(FlaskForm):
 
 class RucheForm(FlaskForm):
 
+    def check_rucher_exists(form, field):
+        if not Rucher.query.get(field.data):
+            raise ValidationError("Veuillez entrer un numéro de rucher valide")
+
     def check_espece_renseignee(form, field):
-        print(field.data, form.new_breed.data)
         if field.data == "other" and not form.new_breed.data:
             raise ValidationError("L'espece doit etre précisée") 
 
@@ -39,7 +42,7 @@ class RucheForm(FlaskForm):
             raise ValidationError("La ruche {} existe déja".format(form.num.data))
 
     rucher = StringField("Rucher Parent")
-    num = StringField("Numero",validators=[DataRequired(), check_num_unique])
+    num = StringField("Numero",validators=[DataRequired(), check_num_unique, check_rucher_exists])
     breed = SelectField("Espece actuelle", validators=[check_espece_renseignee])
     new_breed = StringField("Si autre, quelle espece?")
     age_queen = DateTimeField("Date de naissance de la reine", default=datetime.today(), format='%d/%m/%y')
