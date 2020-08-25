@@ -40,7 +40,7 @@ def create_positions_details():
 
     #print(Rucher.query.with_entities(Rucher.lat, Rucher.longit).all())
 
-    for rucher in Rucher.query.all():
+    for rucher in Rucher.query.filter(user==flask_login.current_user.id).all():
 
         position = create_position(
             rucher.id,
@@ -71,6 +71,9 @@ def logout():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))    
+
     form = LoginForm()
     if form.validate_on_submit():
         # Grab the user from our User Models table
@@ -81,21 +84,18 @@ def login():
         # https://stackoverflow.com/questions/2209755/python-operation-vs-is-not
 
         if user.check_password(form.password.data) and user is not None:
-            #Log in the user
 
-            login_user(user)
+            login_user(user, remember=form.remember_me.data)
             flash('Connexion réussie!')
-
-            # If a user was trying to visit a page that requires a login
-            # flask saves that URL as 'next'.
             next = request.args.get('next')
-
-            # So let's now check if that next exists, otherwise we'll go to
-            # the welcome page.
             if next == None or not next[0]=='/':
                 next = url_for('see_ruchers')
 
             return redirect(next)
+
+        else:
+            flash("Email ou mot de passe invalide")
+
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -120,7 +120,7 @@ def see_ruchers():
 
     positions = create_positions_details()
 
-    ruchers = Rucher.query.all()
+    ruchers = Rucher.query.filter(user==flask_login.current_user.id).all()
 
     return render_template('ruchers.html', ruchers=ruchers, positions = positions)
 
@@ -137,17 +137,21 @@ def add_rucher():
         db.session.add(new_rucher) # new_rucher.id added here
         db.session.commit()
 
-        return redirect(url_for(see_ruchers))
+        return redirect(url_for('see_ruchers'))
 
     return render_template('add_rucher.html', form=form, positions=positions)
 
 @app.route('/delete_rucher/<id>', methods=['POST'])      
 @login_required
 def delete_rucher(id):
+
+    if (flask_login.current_user.id != Rucher.query.get(id).user):
+        raise 
+
     #Ruche.query.filter_by(rucher=id).delete()
     db.session.delete(Rucher.query.get(id))
     db.session.commit()
-    return redirect(url_for(see_ruchers))
+    return redirect(url_for('see_ruchers'))
 
 
 @app.route('/delete_ruche/<id>', methods=['POST'])
@@ -210,7 +214,7 @@ def see_rucher(id):
         if not specie:
             specie = form.specie_select.data
 
-        new_ruche = Ruche(rucher=form.rucher.data, specie=specie, num=form.num.data, age_reine=form.age_reine.data,  feedback=form.feedback.data)
+        new_ruche = Ruche(user=flask_login.current_user.id, rucher=form.rucher.data, specie=specie, num=form.num.data, age_reine=form.age_reine.data,  feedback=form.feedback.data)
         db.session.add(new_ruche)
         db.session.commit()
         
