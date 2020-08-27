@@ -11,7 +11,7 @@ from app_pack.models import Rucher, Ruche, User
 class RucherAddForm(FlaskForm):
 
     location = StringField("Nom du rucher",validators=[DataRequired()])
-    plant = StringField("Plantes melliferes a proximite")
+    plants = StringField("Plantes melliferes a proximite")
     lat = StringField("Latitude")
     longit = StringField("Longitude")
     feedback = TextAreaField()

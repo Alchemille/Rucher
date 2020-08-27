@@ -164,7 +164,7 @@ def add_rucher():
 
     if form.validate_on_submit():   
  
-        new_rucher = Rucher(user=current_user.id, location=form.location.data, plants=form.plant.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
+        new_rucher = Rucher(user=current_user.id, location=form.location.data, plants=form.plants.data, feedback=form.feedback.data, lat=form.lat.data, longit=form.longit.data)
         db.session.add(new_rucher) # new_rucher.id added here
         db.session.commit()
 
