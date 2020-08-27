@@ -4,11 +4,10 @@
 <header class="masthead">
         <div class="container h-100 align-items-center justify-content-center d-flex">
             <div id="myheader">
-                <h1>Rucher {{ rucher.id }}
+                <h1>{{ rucher.location }}
                 </h1>
                 <div class="row h-100 align-items-center">
                     <div class="col-12 text-center">
-                        <span class="badge badge-info"> {{ rucher.location }} </span>
                         <span class="badge badge-info"> {{ rucher.plants }} </span>
                         {% if rucher.feedback %}
                         <span class="badge badge-info"> {{ rucher.feedback }} </span>

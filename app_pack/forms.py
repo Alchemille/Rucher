@@ -10,7 +10,7 @@ from app_pack.models import Rucher, Ruche, User
 
 class RucherAddForm(FlaskForm):
 
-    location = StringField("Emplacement",validators=[DataRequired()])
+    location = StringField("Nom du rucher",validators=[DataRequired()])
     plant = StringField("Plantes melliferes a proximite")
     lat = StringField("Latitude")
     longit = StringField("Longitude")
@@ -41,7 +41,7 @@ class RucheForm(FlaskForm):
         if q.first():
             raise ValidationError("La ruche {} existe déja".format(form.num.data))
 
-    rucher = IntegerField("Rucher Parent", validators=[check_rucher_exists])
+    rucher = SelectField("Rucher Parent", validators=[check_rucher_exists])
     num = IntegerField("Numero",validators=[DataRequired(), check_num_unique])
     specie_select = SelectField("Espece actuelle", default="other", validators=[check_espece_renseignee])
     specie = StringField("Si autre, quelle espece?")

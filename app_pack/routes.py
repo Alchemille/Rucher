@@ -169,6 +169,21 @@ def delete_ruche(id):
     db.session.commit()
     return redirect(url_for('see_rucher', id=id_rucher))
 
+
+def get_species():
+
+    ruches = Ruche.query.filter_by(user=current_user.id).all()
+    list_species = [(i.specie, i.specie) for i in ruches]
+    list_species.append(('other', 'autre'))
+    list_species = list(set(list_species))
+    return list_species
+
+def get_names_ruchers():
+    
+    ruchers = Rucher.query.filter_by(user=current_user.id).all()
+    list_ruchers = [(i.id, i.location) for i in ruchers]
+    return list_ruchers
+
 @app.route('/update_ruche/<id>', methods=['GET', 'POST'])
 @login_required
 def update_ruche(id):
@@ -178,13 +193,9 @@ def update_ruche(id):
         return redirect(url_for('see_ruchers'))
 
     old_ruche = Ruche.query.get(id)
-    list_species = [(i.specie, i.specie) for i in db.session.query(Ruche).all()]
-    # list_species2 = [(g.specie, g.specie) for g in Ruche.query.all()]
-    list_species.append(('other', 'autre'))
-    list_species = list(set(list_species))
-
     form = RucheForm(obj=old_ruche)
-    form.specie_select.choices = list_species
+    form.specie_select.choices = get_species()
+    form.rucher.choices = get_names_ruchers()
 
     if form.validate_on_submit():
 
@@ -209,19 +220,12 @@ def see_rucher(id):
 
     if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
         flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
-        return redirect(url_for('see_ruchers'))
+        return redirect(url_for('see_ruchers'))   
 
-    rucher = Rucher.query.get(id)
-
-    if not rucher:
-        raise NotFound    
-
-    list_species = [(i.specie, i.specie) for i in db.session.query(Ruche).all()]
-    # list_species2 = [(g.specie, g.specie) for g in Ruche.query.all()]
-    list_species.append(('other', 'autre'))
-    list_species = list(set(list_species))
     form = RucheForm(rucher=id)
-    form.specie_select.choices = list_species
+    form.specie_select.choices = get_species()
+    form.rucher.choices = get_names_ruchers()
+    rucher = Rucher.query.get(id)
 
     if form.validate_on_submit():
 
