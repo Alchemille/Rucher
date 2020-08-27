@@ -12,37 +12,7 @@
 
             <h5>Mon nouveau rucher:</h5>
 
-            <form method="POST">
-                <!-- quand action = pas precisé, renvoie POST sur la meme page -->
-                {# This hidden_tag is a CSRF security feature. #}
-                {{ form.hidden_tag() }}
-                <p>
-                    {{form.location.label }} <br> {{form.location}} <br>
-                    {% for error in form.location.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.plant.label }} <br> {{form.plant}} <br>
-                    {% for error in form.plant.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.lat.label }} <br> {{form.lat(id="lat", placeholder="Cliquer sur la carte")}} <br>
-                    {% for error in form.lat.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.longit.label }} <br> {{form.longit(id="long", placeholder="Cliquer sur la carte")}} <br>
-                    {% for error in form.longit.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <br>
-                {{ form.submit() }}
-            </form>
+            {% include 'rucher_form.html' %}
         </div>
     </div>
 </div>

@@ -59,7 +59,6 @@ class Rucher(db.Model):
     def get_ruches(self):
 
         ruches = Ruche.query.filter_by(rucher=self.id).all()
-        print(ruches)
         return ruches
 
 

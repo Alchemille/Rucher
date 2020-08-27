@@ -1,0 +1,17 @@
+{% extends "base.html"%}
+{% block content %}
+
+{% with text="Rucher " + rucher.location %}
+    {% include "header_theme.html" %}
+{% endwith %}
+
+<div class="d-flex justify-content-center align-items-center">
+<div class="jumbotron_feli jumbotron">
+<div class="container">
+
+    <h5>Modification sur le rucher {{ rucher.location }}:</h5>
+    {% include 'rucher_form.html' %}
+</div>
+</div>
+</div>
+{% endblock %}

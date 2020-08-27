@@ -124,6 +124,36 @@ def see_ruchers():
 
     return render_template('ruchers.html', ruchers=ruchers, positions = positions)
 
+
+
+@app.route('/rucher/<id>', methods=['GET', 'POST'])
+@login_required
+def see_rucher(id):
+
+    if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
+        return redirect(url_for('see_ruchers'))   
+
+    form = RucheForm(rucher=id)
+    form.specie_select.choices = get_species()
+    form.rucher.choices = get_names_ruchers()
+    rucher = Rucher.query.get(id)
+
+    if form.validate_on_submit():
+
+        specie = form.specie.data
+        if not specie:
+            specie = form.specie_select.data
+
+        new_ruche = Ruche(user=current_user.id, rucher=form.rucher.data, specie=specie, num=form.num.data, age_reine=form.age_reine.data,  feedback=form.feedback.data)
+        db.session.add(new_ruche)
+        db.session.commit()
+        
+        return redirect('#')    
+
+    return render_template('rucher.html', ruches=rucher.get_ruches(), rucher=rucher, form=form)
+
+
 @app.route('/add_rucher', methods=['GET', 'POST'])
 @login_required
 def add_rucher():
@@ -142,6 +172,31 @@ def add_rucher():
 
     return render_template('add_rucher.html', form=form, positions=positions)
 
+@app.route('/update_rucher/<id>', methods=['GET','POST'])      
+@login_required
+def update_rucher(id):
+
+    if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")
+        return redirect(url_for('see_ruchers'))
+
+    old_rucher = Rucher.query.get(id)
+    form = RucherAddForm(obj=old_rucher)
+
+    if form.validate_on_submit():
+
+        form.populate_obj(old_rucher)
+
+        db.session.commit()
+
+        flash("Rucher modifié avec succes")
+
+        return redirect(url_for('see_rucher', id=id))    
+
+    return render_template('update_rucher.html', rucher=old_rucher, form=form)
+
+
+
 @app.route('/delete_rucher/<id>', methods=['POST'])      
 @login_required
 def delete_rucher(id):
@@ -154,21 +209,6 @@ def delete_rucher(id):
         db.session.commit()
         
     return redirect(url_for('see_ruchers'))
-
-
-@app.route('/delete_ruche/<id>', methods=['POST'])
-@login_required
-def delete_ruche(id):
-
-    if not Ruche.query.get(id) or current_user.id != Ruche.query.get(id).user:
-        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
-        return redirect(url_for('see_ruchers'))
-
-    id_rucher = Ruche.query.get(id).rucher
-    db.session.delete(Ruche.query.get(id))
-    db.session.commit()
-    return redirect(url_for('see_rucher', id=id_rucher))
-
 
 def get_species():
 
@@ -214,36 +254,21 @@ def update_ruche(id):
     return render_template('update_ruche.html', ruche=old_ruche, form=form)
 
 
-@app.route('/rucher/<id>', methods=['GET', 'POST'])
+
+@app.route('/delete_ruche/<id>', methods=['POST'])
 @login_required
-def see_rucher(id):
+def delete_ruche(id):
 
-    if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
+    if not Ruche.query.get(id) or current_user.id != Ruche.query.get(id).user:
         flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
-        return redirect(url_for('see_ruchers'))   
+        return redirect(url_for('see_ruchers'))
 
-    form = RucheForm(rucher=id)
-    form.specie_select.choices = get_species()
-    form.rucher.choices = get_names_ruchers()
-    rucher = Rucher.query.get(id)
+    id_rucher = Ruche.query.get(id).rucher
+    db.session.delete(Ruche.query.get(id))
+    db.session.commit()
+    return redirect(url_for('see_rucher', id=id_rucher))
 
-    if form.validate_on_submit():
-
-        specie = form.specie.data
-        if not specie:
-            specie = form.specie_select.data
-
-        new_ruche = Ruche(user=current_user.id, rucher=form.rucher.data, specie=specie, num=form.num.data, age_reine=form.age_reine.data,  feedback=form.feedback.data)
-        db.session.add(new_ruche)
-        db.session.commit()
-        
-        return redirect('#')    
-
-    return render_template('rucher.html', ruches=rucher.get_ruches(), rucher=rucher, form=form)
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
-
-if __name__ == '__main__':
-    app.run(reload= True, debug=True)
