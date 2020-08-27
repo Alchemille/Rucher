@@ -137,6 +137,7 @@ def see_rucher(id):
     form = RucheForm(rucher=id)
     form.specie_select.choices = get_species()
     form.rucher.choices = get_names_ruchers()
+    print(get_names_ruchers())
     rucher = Rucher.query.get(id)
 
     if form.validate_on_submit():

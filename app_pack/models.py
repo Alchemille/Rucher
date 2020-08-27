@@ -4,7 +4,6 @@ import random
 import os.path
 import urllib.request
 from flask import url_for
-from googletrans import Translator
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -60,46 +59,6 @@ class Rucher(db.Model):
 
         ruches = Ruche.query.filter_by(rucher=self.id).all()
         return ruches
-
-
-    def get_url_image(self):
-
-        filename = os.path.join(os.path.dirname(
-            __file__), 'static', self.plants + '.jpg')
-
-        # get cached image if exits
-        if os.path.isfile(filename):
-            return url_for('static', filename=self.plants + '.jpg')
-
-        # request image from pixabay if no cached image
-        translator = Translator()
-        plant_en = translator.translate(self.plants)
-
-        response = requests.get("https://pixabay.com/api/",
-                                params={
-                                    'key': '17026220-1aa33a59036a53ced9e61bee6',
-                                    'q': plant_en.text + '+nature',
-                                }
-                                )
-        hits = response.json()['hits']
-
-        # return random flower image if no hit
-        if not hits:
-            response = requests.get("https://pixabay.com/api/",
-                                    params={
-                                        'key': '17026220-1aa33a59036a53ced9e61bee6',
-                                        'q': 'bee+flower',
-                                    }
-                                    )
-            hits = response.json()['hits']
-
-        # cache resulting image
-        URL = random.choice(hits)['imageURL']
-        r = requests.get(URL)
-        with open(filename, 'wb') as outfile:
-            outfile.write(r.content)
-
-        return URL
 
 
 class Ruche(db.Model):
