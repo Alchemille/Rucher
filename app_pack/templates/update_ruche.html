@@ -2,16 +2,16 @@
 {% block content %}
 
 {% with text="Ruche " ~ ruche.num %}
-    {% include "header_theme.html" %}
+{% include "header_theme.html" %}
 {% endwith %}
 
 <div class="d-flex justify-content-center align-items-center">
-<div class="jumbotron_feli jumbotron">
-<div class="container">
+    <div class="jumbotron">
+        <div class="container">
 
-    <h5>Modification sur la ruche {{ ruche.num }}:</h5>
-    {% include 'ruche_form.html' %}
-</div>
-</div>
+            <h5>Modification sur la ruche {{ ruche.num }}:</h5>
+            {% include 'ruche_form.html' %}
+        </div>
+    </div>
 </div>
 {% endblock %}
