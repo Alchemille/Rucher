@@ -289,7 +289,9 @@ def events():
     form = EventForm()
     print(get_types_events())
     form.type_select.choices = get_types_events()
-    return render_template('events.html', form=form)
+
+    events = Event.query.filter(Event.parent_ruche.has(user=current_user.id))
+    return render_template('events.html', events=events, form=form)
 
 
 @app.errorhandler(404)

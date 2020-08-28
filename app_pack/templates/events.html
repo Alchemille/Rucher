@@ -13,31 +13,27 @@
                 <th scope="col">#</th>
                 <th scope="col">Rucher</th>
                 <th scope="col">Ruche</th>
+                <th scope="col">Type</th>
                 <th scope="col">Date</th>
                 <th scope="col">Note</th>
 
             </tr>
         </thead>
         <tbody>
+            {% for event in events %}
+
             <tr>
                 <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>Interesting</td>
+                <td>{{event.parent_ruche.num}}</td>
+                <td>{{event.parent_ruche.parent.location}}</td>
+                <td>{{event.type}}</td>
+                <td>{{event.date}}</td>
+                <td>{{event.note}}</td>
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
+
+
+            {% endfor %}
+
         </tbody>
     </table>
 
