@@ -8,7 +8,7 @@ from wtforms.validators import DataRequired
 from app_pack.forms import *
 
 from app_pack import app, db
-from app_pack.models import Rucher, Ruche, User
+from app_pack.models import Rucher, Ruche, User, Event
 from flickr_api import Photo, Walker
 
 import requests, random
@@ -17,8 +17,6 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 import json
 from geojson import Point, Feature       
-
-import flask_login
 
 
 def create_position(id, title, latitude, longitude, description):
@@ -225,6 +223,20 @@ def get_names_ruchers():
     list_ruchers = [(i.id, i.location) for i in ruchers]
     return list_ruchers
 
+def get_types_events():
+
+    q = db.session.query(
+           Event,
+        ).filter(
+            Ruche.user == current_user.id,
+        ).filter(
+            Ruche.id == Event.ruche,
+        ).all()
+    list_types_events = [(i.type, i.type) for i in q]
+    list_types_events.append(('other', 'autre'))
+    list_types_events = list(set(list_types_events))
+    return list_types_events
+
 @app.route('/update_ruche/<id>', methods=['GET', 'POST'])
 @login_required
 def update_ruche(id):
@@ -268,6 +280,16 @@ def delete_ruche(id):
     db.session.delete(Ruche.query.get(id))
     db.session.commit()
     return redirect(url_for('see_rucher', id=id_rucher))
+
+
+@app.route('/events/', methods=['GET', 'POST'])
+@login_required
+def events():
+    
+    form = EventForm()
+    print(get_types_events())
+    form.type_select.choices = get_types_events()
+    return render_template('events.html', form=form)
 
 
 @app.errorhandler(404)

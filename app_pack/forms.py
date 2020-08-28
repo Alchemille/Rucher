@@ -7,6 +7,7 @@ from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from datetime import datetime
 from app_pack import app, db
 from app_pack.models import Rucher, Ruche, User
+from flask_login import current_user
 
 class RucherAddForm(FlaskForm):
 
@@ -19,23 +20,15 @@ class RucherAddForm(FlaskForm):
 
 class RucheForm(FlaskForm):
 
-    def check_rucher_exists(form, field):
-        print(field.data)
-        print(Rucher.query.get(field.data))
-        if not Rucher.query.get(field.data):
-            raise ValidationError("Veuillez entrer un numéro de rucher valide")
-
     def check_espece_renseignee(form, field):
         if field.data == "other" and not form.specie.data:
             raise ValidationError("L'espece doit etre précisée") 
 
     def check_num_unique(form, field):
         q = db.session.query(
-                User, Rucher, Ruche,
+                Ruche,
             ).filter(
-                User.id == Rucher.user,
-            ).filter(
-                Rucher.id == Ruche.rucher,
+                Ruche.user == current_user.id,
             ).filter(
                 Ruche.num == field.data,
             )      
@@ -43,13 +36,27 @@ class RucheForm(FlaskForm):
         if q.first():
             raise ValidationError("La ruche {} existe déja".format(form.num.data))
 
-    rucher = SelectField("Rucher Parent", coerce=int, validators=[check_rucher_exists])
+    rucher = SelectField("Rucher Parent", coerce=int)
     num = IntegerField("Numero",validators=[DataRequired(), check_num_unique])
     specie_select = SelectField("Espece actuelle", default="other", validators=[check_espece_renseignee])
     specie = StringField("Si autre, quelle espece?")
     age_reine = DateTimeField("Date de naissance de la reine", default=datetime.today(), format="%d/%m/%y")
     feedback = TextAreaField("Autres caractéristiques")
     submit = SubmitField('Valider')
+
+class EventForm(FlaskForm):
+
+    def check_ruche_exists_allowed(form, field):
+        ruche = Ruche.query.filter_by(user=current_user.id, num=field.num).all()
+        if not ruche:
+            raise ValidationError("Vous ne possédez pas cette ruche")
+
+    ruche = IntegerField('Ruche', validators=[DataRequired(), check_ruche_exists_allowed])
+    timestamp = DateTimeField("Date de l'évenement", default=datetime.today(), format="%d/%m/%y")
+    type_select = SelectField("Type d'évenement")
+    type = StringField("Si autre, lequel?")
+    note = TextAreaField("Remarques")
+    submit = SubmitField("Valider")
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])

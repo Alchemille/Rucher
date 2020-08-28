@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% with text="Evenements" %}
+{% include "header_theme.html" %}
+{% endwith %}
+
+<div class="jumbotron">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Rucher</th>
+                <th scope="col">Ruche</th>
+                <th scope="col">Date</th>
+                <th scope="col">Note</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>Interesting</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="jumbotron">
+
+            <h5>Nouvel Evenement:</h5>
+
+            <form method="POST">
+
+                {# This hidden_tag is a CSRF security feature. #}
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.ruche.label }} <br> {{form.ruche }} <br>
+                    {% for error in form.ruche.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.timestamp.label }} <br> {{form.timestamp}} <br>
+                    {% for error in form.timestamp.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.type_select.label }} <br> {{form.type_select }} <br>
+                    {% for error in form.type_select.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.type.label }} <br> {{form.type}} <br>
+                    {% for error in form.type.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.note.label }} <br> {{form.note }} <br>
+                    {% for error in form.note.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <br>
+                {{ form.submit() }}
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

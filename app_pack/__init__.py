@@ -29,4 +29,4 @@ from app_pack import routes, models
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'User': models.User, 'Rucher': models.Rucher, 'Ruche': models.Ruche}
+    return {'db': db, 'User': models.User, 'Rucher': models.Rucher, 'Ruche': models.Ruche, 'Event': models.Event}
