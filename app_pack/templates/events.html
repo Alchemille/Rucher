@@ -10,9 +10,8 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Rucher</th>
                 <th scope="col">Ruche</th>
+                <th scope="col">Rucher</th>
                 <th scope="col">Type</th>
                 <th scope="col">Date</th>
                 <th scope="col">Note</th>
@@ -23,11 +22,10 @@
             {% for event in events %}
 
             <tr>
-                <th scope="row">1</th>
                 <td>{{event.parent_ruche.num}}</td>
                 <td>{{event.parent_ruche.parent.location}}</td>
                 <td>{{event.type}}</td>
-                <td>{{event.date}}</td>
+                <td>{{event.timestamp.strftime("%d/%m/%y")}}</td>
                 <td>{{event.note}}</td>
             </tr>
 

@@ -46,15 +46,20 @@ class RucheForm(FlaskForm):
 
 class EventForm(FlaskForm):
 
+    def check_type_defined(form, field):
+        if form.type_select.data=="other" and not form.type.data:
+            raise ValidationError("Le type d'éventement doit etre renseigné")
+
+
     def check_ruche_exists_allowed(form, field):
-        ruche = Ruche.query.filter_by(user=current_user.id, num=field.num).all()
+        ruche = Ruche.query.filter_by(user=current_user.id, num=field.data).all()
         if not ruche:
             raise ValidationError("Vous ne possédez pas cette ruche")
 
     ruche = IntegerField('Ruche', validators=[DataRequired(), check_ruche_exists_allowed])
     timestamp = DateTimeField("Date de l'évenement", default=datetime.today(), format="%d/%m/%y")
     type_select = SelectField("Type d'évenement")
-    type = StringField("Si autre, lequel?")
+    type = StringField("Si autre, lequel?", validators=[check_type_defined])
     note = TextAreaField("Remarques")
     submit = SubmitField("Valider")
 

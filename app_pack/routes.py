@@ -290,6 +290,20 @@ def events():
     print(get_types_events())
     form.type_select.choices = get_types_events()
 
+    if form.validate_on_submit():
+
+        id_parent_ruche = Ruche.query.filter_by(num=form.ruche.data, user=current_user.id).first().id
+        
+        if not form.type.data:
+            type = form.type_select.data
+        else: type = form.type.data
+
+        new_event = Event(ruche=id_parent_ruche, timestamp=form.timestamp.data, type=type, note=form.note.data)
+        db.session.add(new_event)
+        db.session.commit()
+
+        return redirect('#')   
+        
     events = Event.query.filter(Event.parent_ruche.has(user=current_user.id))
     return render_template('events.html', events=events, form=form)
 
