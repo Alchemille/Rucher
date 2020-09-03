@@ -308,6 +308,18 @@ def events():
     return render_template('events.html', events=events, form=form)
 
 
+@app.route('/delete_event/<id>', methods=['POST'])
+@login_required
+def delete_event(id):
+
+    if not Event.query.get(id) or current_user.id != Event.query.get(id).parent_ruche.user:
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
+        return redirect(url_for('see_ruchers'))
+
+    db.session.delete(Event.query.get(id))
+    db.session.commit()
+    return redirect(url_for('events'))
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
