@@ -24,7 +24,7 @@
 
             <tr>
                 <td>{{event.parent_ruche.num}}</td>
-                <td>{{event.parent_ruche.parent.location}}</td>
+                <td><a href="{{ url_for('see_rucher', id=event.parent_ruche.rucher) }}">{{event.parent_ruche.parent.location}}</a></td>
                 <td>{{event.type}}</td>
                 <td>{{event.timestamp.strftime("%d/%m/%y")}}</td>
                 <td>{{event.note}}</td>
