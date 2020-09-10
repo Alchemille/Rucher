@@ -54,6 +54,7 @@ class Rucher(db.Model):
     lat = db.Column(db.Integer)
     longit = db.Column(db.Integer)
     ruches = db.relationship('Ruche', backref='parent', cascade = "all,delete",  lazy='dynamic')
+    events = db.relationship('Event', backref='rucher_events', cascade='all,delete', lazy='dynamic')
 
     def get_ruches(self):
 
@@ -76,6 +77,7 @@ class Ruche(db.Model):
 
 class Event(db.Model):
 
+    rucher = db.Column(db.Integer, db.ForeignKey('rucher.id'))
     ruche = db.Column(db.Integer, db.ForeignKey('ruche.id'))
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime)

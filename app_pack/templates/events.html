@@ -23,8 +23,12 @@
             {% for event in events %}
 
             <tr>
-                <td>{{event.parent_ruche.num}}</td>
-                <td><a href="{{ url_for('see_rucher', id=event.parent_ruche.rucher) }}">{{event.parent_ruche.parent.location}}</a></td>
+                {% if event.ruche is not none %}
+                    <td>{{event.parent_ruche.num}}</td>
+                {% else %}
+                    <td>toutes!</td>
+                {% endif %}
+                <td><a href="{{ url_for('see_rucher', id=event.parent_ruche.rucher) }}">{{event.rucher_events.location}}</a></td>
                 <td>{{event.type}}</td>
                 <td>{{event.timestamp.strftime("%d/%m/%y")}}</td>
                 <td>{{event.note}}</td>
@@ -56,6 +60,12 @@
 
                 {# This hidden_tag is a CSRF security feature. #}
                 {{ form.hidden_tag() }}
+                <p>
+                    {{ form.rucher.label }} <br> {{form.rucher}} <br>
+                    {% for error in form.rucher.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>                
                 <p>
                     {{ form.ruche.label }} <br> {{form.ruche }} <br>
                     {% for error in form.ruche.errors %}

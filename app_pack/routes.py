@@ -223,6 +223,11 @@ def get_names_ruchers():
     list_ruchers = [(i.id, i.location) for i in ruchers]
     return list_ruchers
 
+def get_name_rucher(rucher_id):
+    rucher = Rucher.query.get(rucher_id).location
+    return rucher
+
+
 def get_types_events():
 
     q = db.session.query(
@@ -286,25 +291,37 @@ def delete_ruche(id):
 @login_required
 def events():
     
-    form = EventForm()
-    print(get_types_events())
+    rucher = request.args.get("rucher", -1) # if no rucher args, default is -1
+    form = EventForm(request.form, rucher=rucher) # default rucher is either the one in args or let blank
     form.type_select.choices = get_types_events()
 
-    if form.validate_on_submit():
+    if rucher != -1:    
+        form.rucher.choices = [(rucher, get_name_rucher(rucher))]
+    else:
+        form.rucher.choices = get_names_ruchers()
+        form.rucher.choices.append((-1, ''))
 
-        id_parent_ruche = Ruche.query.filter_by(num=form.ruche.data, user=current_user.id).first().id
+    if form.validate_on_submit():
         
         if not form.type.data:
             type = form.type_select.data
         else: type = form.type.data
 
-        new_event = Event(ruche=id_parent_ruche, timestamp=form.timestamp.data, type=type, note=form.note.data)
+        if form.ruche.data:
+            id_parent_ruche = Ruche.query.filter_by(num=form.ruche.data, user=current_user.id).first().id
+            new_event = Event(ruche=id_parent_ruche, rucher=Ruche.query.get(id_parent_ruche).rucher, timestamp=form.timestamp.data, type=type, note=form.note.data)
+
+        else: 
+            rucher_id = form.rucher.data
+            print(rucher_id)
+            new_event = Event(rucher=rucher_id, timestamp=form.timestamp.data, type=type, note=form.note.data)
+
         db.session.add(new_event)
         db.session.commit()
 
         return redirect('#')   
         
-    events = Event.query.filter(Event.parent_ruche.has(user=current_user.id))
+    events = Event.query.filter(Event.rucher_events.has(user=current_user.id))        
     return render_template('events.html', events=events, form=form)
 
 

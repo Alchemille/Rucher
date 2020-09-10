@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import (StringField, BooleanField, DateTimeField, IntegerField,
                      RadioField,SelectField,TextField,
                      TextAreaField,SubmitField, PasswordField)
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Optional
 from datetime import datetime
 from app_pack import app, db
 from app_pack.models import Rucher, Ruche, User
@@ -25,14 +25,7 @@ class RucheForm(FlaskForm):
             raise ValidationError("L'espece doit etre précisée") 
 
     def check_num_unique(form, field):
-        q = db.session.query(
-                Ruche,
-            ).filter(
-                Ruche.user == current_user.id,
-            ).filter(
-                Ruche.num == field.data,
-            )      
-        print(q.first())
+        q = Ruche.query.filter_by(user=current_user.id, num=field.data)    
         if q.first():
             raise ValidationError("La ruche {} existe déja".format(form.num.data))
 
@@ -52,11 +45,23 @@ class EventForm(FlaskForm):
 
 
     def check_ruche_exists_allowed(form, field):
-        ruche = Ruche.query.filter_by(user=current_user.id, num=field.data).all()
-        if not ruche:
-            raise ValidationError("Vous ne possédez pas cette ruche")
+        if field.data:
+            ruche = Ruche.query.filter_by(user=current_user.id, num=field.data).all()
+            if not ruche:
+                raise ValidationError("Vous ne possédez pas cette ruche")
 
-    ruche = IntegerField('Ruche', validators=[DataRequired(), check_ruche_exists_allowed])
+    def check_object_defined(form, field):
+        if (not field.data and form.rucher.data == -1):
+            raise ValidationError("Vous devez renseigner une ruche ou un rucher")
+
+    def check_ruche_rucher_consistent(form, field):
+        if field.data:
+            rucher_ruche = Ruche.query.filter_by(user=current_user.id, num=field.data).first().rucher
+            if form.rucher.data != -1 and rucher_ruche != form.rucher.data:
+                raise ValidationError("Le numéro de ruche et le rucher sont inconsistents")
+
+    rucher = SelectField("Rucher (optionnel)", coerce=int)
+    ruche = IntegerField('Ruche (optionnel)', validators=[check_ruche_exists_allowed, check_object_defined, check_ruche_rucher_consistent, Optional(strip_whitespace=True)])
     timestamp = DateTimeField("Date de l'évenement", default=datetime.today(), format="%d/%m/%y")
     type_select = SelectField("Type d'évenement")
     type = StringField("Si autre, lequel?", validators=[check_type_defined])
