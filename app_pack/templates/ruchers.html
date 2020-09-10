@@ -35,7 +35,7 @@
               <li class="list-group-item text-dark bg-light"> {{i.get_ruches()|length}} ruches</li>
 
               
-              <li class="list-group-item text-dark bg-light"> Dernier évenement : {{ i.events[0].timestamp.strftime("%d/%m/%y") }}</li>
+              <li class="list-group-item text-dark bg-light"> Dernière visite : {{ i.events[-1].timestamp.strftime("%d/%m/%y") }}</li>
 
             </ul>
 

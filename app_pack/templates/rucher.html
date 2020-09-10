@@ -57,6 +57,9 @@
                             <li class="list-group-item text-dark bg-light"> Naissance reine :
                                 {{ i.age_reine.strftime("%d/%m/%y") }}</li>
 
+                            <li class="list-group-item text-dark bg-light"> Dernière visite :
+                                {{ i.events[-1].timestamp.strftime("%d/%m/%y") }}</li>
+
                         </ul>
 
 
