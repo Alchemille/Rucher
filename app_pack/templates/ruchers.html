@@ -34,9 +34,15 @@
 
               <li class="list-group-item text-dark bg-light"> {{i.get_ruches()|length}} ruches</li>
 
-              
-              <li class="list-group-item text-dark bg-light"> Dernière visite : {{ i.events[-1].timestamp.strftime("%d/%m/%y") }}</li>
+              {% if i.events[0] %}
 
+              <li class="list-group-item text-dark bg-light"> Dernière visite :
+                  {{ i.events[-1].timestamp.strftime("%d/%m/%y") }}</li>
+              
+              {% else %}
+              <li class="list-group-item text-dark bg-light"> Pas encore de visite </li>
+              {% endif %}
+              
             </ul>
 
 

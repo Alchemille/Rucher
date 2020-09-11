@@ -291,7 +291,7 @@ def delete_ruche(id):
 @login_required
 def events():
     
-    rucher = request.args.get("rucher", -1) # if no rucher args, default is -1
+    rucher = int(request.args.get("rucher", -1)) # if no rucher args, default is -1
     form = EventForm(request.form, rucher=rucher) # default rucher is either the one in args or let blank
     form.type_select.choices = get_types_events()
 

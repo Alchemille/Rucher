@@ -15,13 +15,7 @@
                     {% endif %}
                     <span class="badge badge-info">
                         <a href="{{ url_for('update_rucher', id=rucher.id) }}" style="color:white;">
-                            <svg width="14" height="11" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" />
-                                <path fill-rule="evenodd"
-                                    d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z" />
-                            </svg>
+                            Modifier le rucher
                         </a>
                     </span>
                 </div>
@@ -57,9 +51,15 @@
                             <li class="list-group-item text-dark bg-light"> Naissance reine :
                                 {{ i.age_reine.strftime("%d/%m/%y") }}</li>
 
+                            {% if i.events[0] %}
+
                             <li class="list-group-item text-dark bg-light"> Dernière visite :
                                 {{ i.events[-1].timestamp.strftime("%d/%m/%y") }}</li>
-
+                            
+                            {% else %}
+                            <li class="list-group-item text-dark bg-light"> Pas encore de visite </li>
+                            {% endif %}
+                                                        
                         </ul>
 
 
@@ -98,7 +98,7 @@
 
         </div>
 
-        <a class="btn btn-outline-secondary" href="{{url_for('events', rucher=rucher.id)}}">Ajouter un évènement</a>
+        <a class="btn btn-outline-secondary" href="{{url_for('events', rucher=rucher.id)}}">Ajouter un évènement sur ce rucher</a>
 
 
         <hr />
