@@ -322,7 +322,8 @@ def events():
 
         return redirect('#')   
 
-    form_search = SearchEvent(request.args) # form filled with what user previously searched for. Works as form_search is submitted with GET and not POST, so data in URL and not body
+    type = request.args.get("type", "tous")
+    form_search = SearchEvent(rucher=rucher, type_select=type)
     form_search.type_select.choices = get_types_events()
     form_search.type_select.choices.append(('tous', 'tous'))
     form_search.rucher.choices = get_names_ruchers()
