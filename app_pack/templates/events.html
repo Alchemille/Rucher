@@ -7,6 +7,76 @@
 
 <div class="jumbotron">
 
+    <form class="container" , method="GET" , id="id_form_search">
+        {# This hidden_tag is a CSRF security feature. #}
+        {{ form_search.hidden_tag() }}
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+                {{ form_search.rucher.label }} {{form_search.rucher}}
+                {% for error in form_search.rucher.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+
+            <div>
+                {{ form_search.ruche.label }} {{form_search.ruche(placeholder="Numéro de ruche") }}
+                {% for error in form_search.ruche.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+
+            <div>
+                {{ form_search.type_select.label }} {{form_search.type_select }}
+                {% for error in form_search.type_select.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+
+            {{ form_search.submit() }}
+        </div>
+
+    </form>
+
+    <script>
+        const form_js = document.getElementById("id_form_search");
+
+        form_js.addEventListener('submit', (event) => {
+
+            const search_params = {
+                rucher: form_js.elements['rucher'].value,
+                ruche: form_js.elements['ruche'].value,
+                type: form_js.elements['type_select'].value
+            }
+
+            const url = new URL(`${window.origin}/search_events`);
+            url.search = new URLSearchParams(search_params);
+
+            fetch(url)
+                .then((response) => {
+                    if (response.status !== 200) {
+                        console.log(`Looks like there was a problem. Status code: ${response.status}`);
+                        return;
+                    }
+                    response.text().then((data) => {
+                        document.getElementById("table_events").innerHTML = data
+                        console.log(data);
+                    });
+                })
+                .catch((error) => {
+                    console.log("Fetch error: " + error);
+                });
+
+        
+
+            event.preventDefault();
+        });
+
+    </script>
+
+    <br>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -19,36 +89,9 @@
 
             </tr>
         </thead>
-        <tbody>
-            {% for event in events %}
 
-            <tr>
-                {% if event.ruche is not none %}
-                    <td>{{event.parent_ruche.num}}</td>
-                {% else %}
-                    <td>toutes!</td>
-                {% endif %}
-                <td><a href="{{ url_for('see_rucher', id=event.parent_ruche.rucher) }}">{{event.rucher_events.location}}</a></td>
-                <td>{{event.type}}</td>
-                <td>{{event.timestamp.strftime("%d/%m/%y")}}</td>
-                <td>{{event.note}}</td>
-                <td>
-                    <form action="{{ url_for('delete_event', id=event.id) }}" method="post" class="ml-auto">
-                        <button class="btn btn-dark" type="submit">
-                            <svg class="bi bi-trash-fill" width="15" height="15" viewBox="0 0 16 16"
-                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
-                            </svg>
-                        </button>
-                    </form>
-                </td>
-            </tr>
+        {% include "event_table.html" %}
 
-
-            {% endfor %}
-
-        </tbody>
     </table>
 
     <div class="d-flex justify-content-center align-items-center">
@@ -65,9 +108,9 @@
                     {% for error in form.rucher.errors %}
                     <span class="form_error">[{{ error }}]</span>
                     {% endfor %}
-                </p>                
+                </p>
                 <p>
-                    {{ form.ruche.label }} <br> {{form.ruche }} <br>
+                    {{ form.ruche.label }} <br> {{form.ruche(placeholder="1") }} <br>
                     {% for error in form.ruche.errors %}
                     <span class="form_error">[{{ error }}]</span>
                     {% endfor %}

@@ -68,6 +68,14 @@ class EventForm(FlaskForm):
     note = TextAreaField("Remarques")
     submit = SubmitField("Valider")
 
+class SearchEvent(FlaskForm):
+
+    rucher = SelectField("Rucher", coerce=int)
+    ruche = IntegerField("Ruche")
+    type_select = SelectField("Type d'évenement")   
+    sort = RadioField(choices=[('old', "ancien"), ("new", "récent")])
+    submit = SubmitField("Search")
+
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Mot de passe', validators=[DataRequired()])

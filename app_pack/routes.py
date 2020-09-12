@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, redirect, url_for, session, flash, request
+from flask import Flask, render_template, session, redirect, url_for, session, flash, request, jsonify, make_response
 from flask_wtf import FlaskForm
 from wtforms import (StringField, BooleanField, DateTimeField,
                      RadioField,SelectField,TextField,
@@ -233,9 +233,9 @@ def get_types_events():
     q = db.session.query(
            Event,
         ).filter(
-            Ruche.user == current_user.id,
+            Rucher.user == current_user.id,
         ).filter(
-            Ruche.id == Event.ruche,
+            Rucher.id == Event.rucher,
         ).all()
     list_types_events = [(i.type, i.type) for i in q]
     list_types_events.append(('other', 'autre'))
@@ -255,7 +255,9 @@ def update_ruche(id):
     form.specie_select.choices = get_species()
     form.rucher.choices = get_names_ruchers()
 
-    if form.validate_on_submit():
+    error_to_ignore = ['La ruche {} existe déja'.format(old_ruche.num)]
+    # ignore this error since the check_num_unique() validator should not be inforced if the num of the ruche is unchanged
+    if form.validate_on_submit() or form.errors.get('num') == error_to_ignore:
 
         form.populate_obj(old_ruche)
 
@@ -313,16 +315,43 @@ def events():
 
         else: 
             rucher_id = form.rucher.data
-            print(rucher_id)
             new_event = Event(rucher=rucher_id, timestamp=form.timestamp.data, type=type, note=form.note.data)
 
         db.session.add(new_event)
         db.session.commit()
 
         return redirect('#')   
-        
+
+    form_search = SearchEvent(request.args) # form filled with what user previously searched for. Works as form_search is submitted with GET and not POST, so data in URL and not body
+    form_search.type_select.choices = get_types_events()
+    form_search.type_select.choices.append(('tous', 'tous'))
+    form_search.rucher.choices = get_names_ruchers()
+    form_search.rucher.choices.append((-1, 'tous'))    
+
     events = Event.query.filter(Event.rucher_events.has(user=current_user.id))        
-    return render_template('events.html', events=events, form=form)
+    return render_template('events.html', events=events, form=form, form_search=form_search)
+
+
+@app.route('/search_events', methods=['GET'])
+@login_required
+def search_event():
+
+    events = Event.query.filter(Event.rucher_events.has(user=current_user.id))
+    req = request.args
+    rucher = int(req["rucher"])
+    type = req["type"]
+
+
+    if rucher != -1:
+        events = events.filter_by(rucher=rucher)
+    if type != 'tous':
+        events = events.filter_by(type=type)
+    if req['ruche'] != "":
+        ruche_of_interest = Ruche.query.filter_by(num=req['ruche']).first()
+        rucher_of_interest = ruche_of_interest.rucher
+        events = events.filter((Event.ruche==ruche_of_interest.id) | ((Event.rucher==rucher_of_interest) & (Event.ruche==None)))
+
+    return render_template("event_table.html", events=events)
 
 
 @app.route('/delete_event/<id>', methods=['POST'])
