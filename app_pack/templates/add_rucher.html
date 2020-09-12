@@ -40,7 +40,7 @@
                         new mapboxgl.Marker(el)
                             .setLngLat(marker.geometry.coordinates)
                             .setPopup(new mapboxgl.Popup({ offset: [0, -15] }) // add popups
-                                .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+                                .setHTML('<h5>' + marker.properties.title + '</h5><p>' + marker.properties.description + '</p>'))
                             .addTo(map);
                     });
     })

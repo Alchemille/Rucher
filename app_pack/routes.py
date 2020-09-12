@@ -45,7 +45,7 @@ def create_positions_details(ruchers):
             rucher.location,
             rucher.lat,
             rucher.longit,
-            str(rucher)
+            str(len(rucher.get_ruches())) + " ruches" 
         )
         positions.append(position)
 
