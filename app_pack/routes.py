@@ -15,7 +15,9 @@ from werkzeug.exceptions import NotFound
 from flask_login import login_user, login_required, logout_user, current_user
 
 import json
-from geojson import Point, Feature       
+from geojson import Point, Feature    
+from sqlalchemy import desc
+
 
 
 def create_position(id, title, latitude, longitude, description):
@@ -338,18 +340,25 @@ def search_event():
 
     events = Event.query.filter(Event.rucher_events.has(user=current_user.id))
     req = request.args
-    rucher = int(req["rucher"])
-    type = req["type"]
-
+    rucher = int(req.get("rucher", -1))
+    type = req.get("type", "tous")
+    ruche = req.get("ruche", "")
+    sort = req.get("sort")
 
     if rucher != -1:
         events = events.filter_by(rucher=rucher)
     if type != 'tous':
         events = events.filter_by(type=type)
-    if req['ruche'] != "":
-        ruche_of_interest = Ruche.query.filter_by(num=req['ruche']).first()
+    if ruche != "":
+        ruche_of_interest = Ruche.query.filter_by(num=ruche).first()
         rucher_of_interest = ruche_of_interest.rucher
         events = events.filter((Event.ruche==ruche_of_interest.id) | ((Event.rucher==rucher_of_interest) & (Event.ruche==None)))
+
+    if sort:
+        if req["direction"] == "true":
+            events = events.order_by(sort)
+        else:
+            events = events.order_by(desc(sort))
 
     return render_template("event_table.html", events=events)
 

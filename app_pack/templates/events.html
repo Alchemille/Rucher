@@ -39,42 +39,6 @@
 
     </form>
 
-    <script>
-        const form_js = document.getElementById("id_form_search");
-
-        form_js.addEventListener('submit', (event) => {
-
-            const search_params = {
-                rucher: form_js.elements['rucher'].value,
-                ruche: form_js.elements['ruche'].value,
-                type: form_js.elements['type_select'].value
-            }
-
-            const url = new URL(`${window.origin}/search_events`);
-            url.search = new URLSearchParams(search_params);
-
-            fetch(url)
-                .then((response) => {
-                    if (response.status !== 200) {
-                        console.log(`Looks like there was a problem. Status code: ${response.status}`);
-                        return;
-                    }
-                    response.text().then((data) => {
-                        document.getElementById("table_events").innerHTML = data
-                        console.log(data);
-                    });
-                })
-                .catch((error) => {
-                    console.log("Fetch error: " + error);
-                });
-
-        
-
-            event.preventDefault();
-        });
-
-    </script>
-
     <br>
 
     <table class="table table-striped">
@@ -83,7 +47,7 @@
                 <th scope="col">Ruche</th>
                 <th scope="col">Rucher</th>
                 <th scope="col">Type</th>
-                <th scope="col">Date</th>
+                <th scope="col">Date <button id="sort-date">Sort</button> </th>
                 <th scope="col">Note</th>
                 <th scope="col">#</th>
 
@@ -148,6 +112,57 @@
     </div>
 
 </div>
+
+<script>
+
+    let params = {
+        direction: true,
+    };
+
+    function update_table(){
+        const url = new URL(`${window.origin}/search_events`);
+        url.search = new URLSearchParams(params);
+
+        fetch(url)
+            .then((response) => {
+                if (response.status !== 200) {
+                    console.log(`Looks like there was a problem. Status code: ${response.status}`);
+                    return;
+                }
+                response.text().then((data) => {
+                    document.getElementById("table_events").innerHTML = data
+                });
+            })
+            .catch((error) => {
+                console.log("Fetch error: " + error);
+            });
+    }
+
+    const form_js = document.getElementById("id_form_search");
+    
+    document.getElementById("sort-date").addEventListener('click', (event) => {
+        event.preventDefault();
+        params = {
+            ...params,
+            sort: "timestamp",
+            direction: !params.direction,
+        };
+        update_table();
+    })
+
+    form_js.addEventListener('submit', (event) => {
+        event.preventDefault();
+        params = {
+            ...params,
+            rucher: form_js.elements['rucher'].value,
+            ruche: form_js.elements['ruche'].value,
+            type: form_js.elements['type_select'].value,
+        };
+        update_table();
+    });
+
+</script>
+
 
 
 {% endblock %}
