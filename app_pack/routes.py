@@ -9,7 +9,6 @@ from app_pack.forms import *
 
 from app_pack import app, db
 from app_pack.models import Rucher, Ruche, User, Event
-from flickr_api import Photo, Walker
 
 import requests, random
 from werkzeug.exceptions import NotFound  
@@ -257,7 +256,7 @@ def update_ruche(id):
 
     error_to_ignore = ['La ruche {} existe déja'.format(old_ruche.num)]
     # ignore this error since the check_num_unique() validator should not be inforced if the num of the ruche is unchanged
-    if form.validate_on_submit() or form.errors.get('num') == error_to_ignore:
+    if form.validate_on_submit() or form.errors == {'num': error_to_ignore}:
 
         form.populate_obj(old_ruche)
 

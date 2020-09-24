@@ -4,6 +4,7 @@ learned.md
 app_pack/static/*.jpg
 app_pack/static/*.png
 todo.md
+venv2/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
