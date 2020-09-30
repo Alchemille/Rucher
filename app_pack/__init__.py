@@ -20,7 +20,7 @@ naming_convention = {
 }
 
 app = Flask(__name__)
-app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
+app.wsgi_app = WhiteNoise(app.wsgi_app, root='app_pack/static/')
 app.config.from_object(Config)
 db = SQLAlchemy(app, model_class=RepresentableBase, metadata=MetaData(naming_convention=naming_convention))
 migrate = Migrate(app, db)
