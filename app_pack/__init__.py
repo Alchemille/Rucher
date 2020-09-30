@@ -6,6 +6,8 @@ from sqlalchemy import MetaData
 from flask_login import LoginManager
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_repr import RepresentableBase
+from whitenoise import WhiteNoise
+
 
 login_manager = LoginManager()
 
@@ -18,6 +20,7 @@ naming_convention = {
 }
 
 app = Flask(__name__)
+app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 app.config.from_object(Config)
 db = SQLAlchemy(app, model_class=RepresentableBase, metadata=MetaData(naming_convention=naming_convention))
 migrate = Migrate(app, db)

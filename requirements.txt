@@ -11,3 +11,4 @@ sqlalchemy_repr==0.0.2
 email_validator==1.1.1
 gunicorn==20.0.4
 psycopg2==2.8.6
+whitenoise
