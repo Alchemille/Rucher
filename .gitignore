@@ -1,10 +1,9 @@
 # Database files
 app.db
-learned.md
-app_pack/static/*.jpg
-app_pack/static/*.png
+learned.mds
 todo.md
 venv2/
+learned.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
