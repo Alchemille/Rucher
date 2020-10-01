@@ -1,8 +1,8 @@
-"""Recreate migrations
+"""empty message
 
-Revision ID: 8ff15d0a7604
+Revision ID: 3f38bc299085
 Revises: 
-Create Date: 2020-09-30 22:16:01.582217
+Create Date: 2020-10-01 10:34:28.129236
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8ff15d0a7604'
+revision = '3f38bc299085'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -37,8 +37,8 @@ def upgrade():
     sa.Column('location', sa.String(length=64), nullable=True),
     sa.Column('plants', sa.String(length=120), nullable=True),
     sa.Column('feedback', sa.Text(), nullable=True),
-    sa.Column('lat', sa.Integer(), nullable=True),
-    sa.Column('longit', sa.Integer(), nullable=True),
+    sa.Column('lat', sa.Float(), nullable=True),
+    sa.Column('longit', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['user'], ['users.id'], name=op.f('fk_rucher_user_users')),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_rucher'))
     )
