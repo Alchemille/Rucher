@@ -81,5 +81,5 @@ class Event(db.Model):
     ruche = db.Column(db.Integer, db.ForeignKey('ruche.id'))
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime)
-    type = db.Column(db.Integer, index=True)
+    type = db.Column(db.String(64), index=True)
     note = db.Column(db.String(64))
