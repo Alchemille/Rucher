@@ -51,8 +51,8 @@ class Rucher(db.Model):
     location = db.Column(db.String(64), index=True)
     plants = db.Column(db.String(120))
     feedback = db.Column(db.Text)
-    lat = db.Column(db.Integer)
-    longit = db.Column(db.Integer)
+    lat = db.Column(db.Float)
+    longit = db.Column(db.Float)
     ruches = db.relationship('Ruche', backref='parent', cascade = "all,delete",  lazy='dynamic')
     events = db.relationship('Event', backref='rucher_events', cascade='all,delete', lazy='dynamic')
 
