@@ -45,11 +45,10 @@
 }
 
 .message-flash {
-  top: 238px;
+  top: 56;
   left: 0;
   width: 100%;
   background-color: #ffd480;
-  z-index: 999;
   color: black;  
   height: 56px;
   line-height: 28px;
