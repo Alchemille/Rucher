@@ -58,6 +58,7 @@ def index():
     print(User.__table__.c)
     print(Rucher.__table__.c)
     print(Ruche.__table__.c)
+    flash('test')
     return render_template('home.html')
 
 @app.route('/logout')
