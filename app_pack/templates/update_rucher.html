@@ -5,13 +5,8 @@
 {% include "header_theme.html" %}
 {% endwith %}
 
-<div class="d-flex justify-content-center align-items-center">
-    <div class="jumbotron">
-        <div class="container">
+{% with text="Modification sur le rucher " + rucher.location %}
+{% include "rucher_form.html" %}
+{% endwith %}
 
-            <h5>Modification sur le rucher {{ rucher.location }}:</h5>
-            {% include 'rucher_form.html' %}
-        </div>
-    </div>
-</div>
 {% endblock %}

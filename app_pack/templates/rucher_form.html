@@ -1,37 +1,83 @@
-<form method="POST">
-    <!-- quand action = pas precisé, renvoie POST sur la meme page -->
-    {# This hidden_tag is a CSRF security feature. #}
-    {{ form.hidden_tag() }}
-    <p>
-        {{form.location.label }} <br> {{form.location}} <br>
-        {% for error in form.location.errors %}
-        <span class="form_error">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.frelons_asiat.label }} <br> {{form.frelons_asiat}} <br>
-        {% for error in form.frelons_asiat.errors %}
-        <span class="form_error">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.plants.label }} <br> {{form.plants}} <br>
-        {% for error in form.plants.errors %}
-        <span class="form_error">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.lat.label }} <br> {{form.lat(id="lat", placeholder="Cliquer sur la carte")}} <br>
-        {% for error in form.lat.errors %}
-        <span class="form_error">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.longit.label }} <br> {{form.longit(id="long", placeholder="Cliquer sur la carte")}} <br>
-        {% for error in form.longit.errors %}
-        <span class="form_error">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <br>
-    {{ form.submit() }}
-</form>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="jumbotron">
+        <div class="container">
+
+            <h5>{{text}}</h5>
+
+                <form method="POST">
+                    <!-- quand action = pas precisé, renvoie POST sur la meme page -->
+                    {# This hidden_tag is a CSRF security feature. #}
+                    {{ form.hidden_tag() }}
+                    <p>
+                        {{form.location.label }} <br> {{form.location}} <br>
+                        {% for error in form.location.errors %}
+                        <span class="form_error">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.frelons_asiat.label }} <br> {{form.frelons_asiat}} <br>
+                        {% for error in form.frelons_asiat.errors %}
+                        <span class="form_error">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.plants.label }} <br> {{form.plants}} <br>
+                        {% for error in form.plants.errors %}
+                        <span class="form_error">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.lat.label }} <br> {{form.lat(id="lat", placeholder="Cliquer sur la carte")}} <br>
+                        {% for error in form.lat.errors %}
+                        <span class="form_error">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.longit.label }} <br> {{form.longit(id="long", placeholder="Cliquer sur la carte")}} <br>
+                        {% for error in form.longit.errors %}
+                        <span class="form_error">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <br>
+                    {{ form.submit() }}
+                </form>
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="jumbotron ">
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="border border-info" id='map' style='width: 700px; height: 500px;'>
+            <script>
+                
+                var map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/outdoors-v11',
+                    center: [0.529145, 45.440493],
+                    zoom: 10
+                });
+                map.on('load', function () {
+
+                    var positions = {{ positions| safe
+                }}
+                    positions.forEach(function (marker) {
+                        var el = document.createElement('div');
+                        el.className = 'marker';
+
+                        new mapboxgl.Marker(el)
+                            .setLngLat(marker.geometry.coordinates)
+                            .setPopup(new mapboxgl.Popup({ offset: [0, -15] }) // add popups
+                                .setHTML('<h5>' + marker.properties.title + '</h5><p>' + marker.properties.description + '</p>'))
+                            .addTo(map);
+                    });
+    })
+
+                map.on('click', function (e) {
+                    document.getElementById("long").value = e.lngLat.lng
+                    document.getElementById("lat").value = e.lngLat.lat
+                })
+            </script>
+        </div>
+    </div>
+</div>

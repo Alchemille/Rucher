@@ -5,54 +5,8 @@
     {% include "header_theme.html" %}
 {% endwith %}
 
-
-<div class="d-flex justify-content-center align-items-center">
-    <div class="jumbotron">
-        <div class="container">
-
-            <h5>Mon nouveau rucher:</h5>
-
-            {% include 'rucher_form.html' %}
-        </div>
-    </div>
-</div>
-<hr />
-
-<div class="jumbotron ">
-    <div class="d-flex justify-content-center align-items-center">
-        <div class="border border-info" id='map' style='width: 700px; height: 500px;'>
-            <script>
-                
-                var map = new mapboxgl.Map({
-                    container: 'map',
-                    style: 'mapbox://styles/mapbox/outdoors-v11',
-                    center: [0.529145, 45.440493],
-                    zoom: 10
-                });
-                map.on('load', function () {
-
-                    var positions = {{ positions| safe
-                }}
-                    positions.forEach(function (marker) {
-                        var el = document.createElement('div');
-                        el.className = 'marker';
-
-                        new mapboxgl.Marker(el)
-                            .setLngLat(marker.geometry.coordinates)
-                            .setPopup(new mapboxgl.Popup({ offset: [0, -15] }) // add popups
-                                .setHTML('<h5>' + marker.properties.title + '</h5><p>' + marker.properties.description + '</p>'))
-                            .addTo(map);
-                    });
-    })
-
-                map.on('click', function (e) {
-                    document.getElementById("long").value = e.lngLat.lng
-                    document.getElementById("lat").value = e.lngLat.lat
-                })
-            </script>
-        </div>
-    </div>
-</div>
-
+{% with text="Mon nouveau rucher:" %}
+    {% include "rucher_form.html" %}
+{% endwith %}
 
 {% endblock %}

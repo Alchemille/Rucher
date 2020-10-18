@@ -181,6 +181,7 @@ def update_rucher(id):
         return redirect(url_for('see_ruchers'))
 
     old_rucher = Rucher.query.get(id)
+    old_position = create_positions_details([old_rucher])
     form = RucherAddForm(obj=old_rucher)
 
     if form.validate_on_submit():
@@ -193,7 +194,7 @@ def update_rucher(id):
 
         return redirect(url_for('see_rucher', id=id))    
 
-    return render_template('update_rucher.html', rucher=old_rucher, form=form)
+    return render_template('update_rucher.html', rucher=old_rucher, form=form, positions=old_position)
 
 
 
