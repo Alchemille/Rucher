@@ -87,6 +87,11 @@ select {
 
 }
 
+.a_white {
+  color: white;
+}
+
+
 a {
   color: #777;
 }

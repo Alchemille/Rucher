@@ -50,6 +50,7 @@ class Rucher(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(64), index=True)
     plants = db.Column(db.String(120))
+    frelons_asiat = db.Column(db.Integer)
     feedback = db.Column(db.Text)
     lat = db.Column(db.Float)
     longit = db.Column(db.Float)

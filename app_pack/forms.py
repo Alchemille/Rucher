@@ -13,6 +13,7 @@ class RucherAddForm(FlaskForm):
 
     location = StringField("Nom du rucher",validators=[DataRequired()])
     plants = StringField("Plantes melliferes a proximite")
+    frelons_asiat = IntegerField("Frelons Asiatiques (échelle de 1 à 10)")
     lat = StringField("Latitude")
     longit = StringField("Longitude")
     feedback = TextAreaField()

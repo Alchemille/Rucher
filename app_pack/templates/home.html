@@ -7,7 +7,7 @@
       {% if current_user.is_authenticated %}
       <p>Salut {{ current_user.username }}!</p>
       {% else %}
-      <p>Connectez-vous ou Inscrivez-vous</p>
+      <p><a href="{{ url_for('login') }}" class="a_white">Connectez-vous</a> ou <a href="{{ url_for('register') }}" class = "a_white"> Inscrivez-vous</a></p>
       {% endif %}
     </div>
   </div>

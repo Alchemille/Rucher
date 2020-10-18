@@ -9,6 +9,12 @@
         {% endfor %}
     </p>
     <p>
+        {{ form.frelons_asiat.label }} <br> {{form.frelons_asiat}} <br>
+        {% for error in form.frelons_asiat.errors %}
+        <span class="form_error">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
         {{ form.plants.label }} <br> {{form.plants}} <br>
         {% for error in form.plants.errors %}
         <span class="form_error">[{{ error }}]</span>
