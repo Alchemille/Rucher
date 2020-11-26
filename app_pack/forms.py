@@ -1,9 +1,10 @@
 from flask import Flask, render_template, session, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import (StringField, BooleanField, DateTimeField, IntegerField,
-                     RadioField,SelectField,TextField,
+                     RadioField,SelectField,TextField, FloatField,
                      TextAreaField,SubmitField, PasswordField)
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Optional
+from wtforms.widgets import HiddenInput
 from datetime import datetime
 from app_pack import app, db
 from app_pack.models import Rucher, Ruche, User
@@ -99,3 +100,5 @@ class RegistrationForm(FlaskForm):
     pass_confirm = PasswordField('Confirmer mot de passe', validators=[DataRequired()])
     remember_me = BooleanField('Se souvenir de moi')
     submit = SubmitField("S'enregister")
+    longitude = FloatField(widget=HiddenInput())
+    latitude = FloatField(widget=HiddenInput())

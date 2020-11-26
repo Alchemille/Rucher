@@ -10,7 +10,7 @@ The features it supports for each user are:
 Left to implement:
 
 - Use geoiplookup to proxy center location of user.
-- Provide option to change center location.
 - Provide a feature to reason about "supers": their numbers and weights.
 - Check privacy/legal rules to comply with.
+- Profile page (possiblity to change center)
 - Monitoring of website.

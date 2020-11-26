@@ -73,6 +73,8 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))    
 
+
+
     form = LoginForm()
     if form.validate_on_submit():
         # Grab the user from our User Models table
@@ -104,13 +106,30 @@ def register():
     if form.validate_on_submit():
         user = User(email=form.email.data,
                     username=form.name.data,
-                    password=form.password.data)
+                    password=form.password.data,
+                    longitude=form.longitude.data,
+                    latitude=form.latitude.data)
 
         db.session.add(user)
         db.session.commit()
         flash('Merci de vous etre enregistré(e). Vous pouvez maintenant vous connecter')
         return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+
+    client_ip = request.remote_addr
+    print(client_ip)
+    resp = requests.get('https://json.geoiplookup.io/' + client_ip)
+    resp.raise_for_status()
+    try:
+        geo_json = resp.json()
+        latitude = geo_json['latitude']
+        longitude = geo_json['longitude']
+    except:
+        latitude = 48.58293151855469
+        longitude = 7.743750095367432
+        
+    print(geo_json)
+
+    return render_template('register.html', form=form, latitude=latitude, longitude=longitude)
 
 
 @app.route('/see_ruchers')

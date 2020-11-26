@@ -33,12 +33,14 @@ class User(db.Model, UserMixin):
     ruchers = db.relationship('Rucher', backref='owner', cascade="all,delete", lazy='dynamic')
     ruches = db.relationship('Ruche', backref='owner', cascade="all,delete", lazy='dynamic')
     registration_date = db.Column(db.DateTime, index=True)
+    longitude = db.Column(db.Float)
+    latitude = db.Column(db.Float)
 
-    def __init__(self, email, username, password): # note: in other models, no init method -> use the one of db.Model, which accepts any argument.
+    def __init__(self, *args, **kwargs): # note: in other models, no init method -> use the one of db.Model, which accepts any argument.
         # in Python, a class has only 1 constructor !
-        self.email = email
-        self.username = username
-        self.password_hash = generate_password_hash(password)
+        kwargs['password_hash'] = generate_password_hash(kwargs.pop('password'))
+        super().__init__(*args, **kwargs)
+  
 
     def check_password(self,password):
         # https://stackoverflow.com/questions/23432478/flask-generate-password-hash-not-constant-output
