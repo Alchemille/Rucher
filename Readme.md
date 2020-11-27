@@ -9,7 +9,7 @@ The features it supports for each user are:
 
 Left to implement:
 
-- Use geoiplookup to proxy center location of user.
+- Use geoiplookup to proxy center location of user. Take drag of map into account -> snappshot of map center when user submits form
 - Provide a feature to reason about "supers": their numbers and weights.
 - Check privacy/legal rules to comply with.
 - Profile page (possiblity to change center)

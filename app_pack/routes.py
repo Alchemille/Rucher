@@ -52,6 +52,32 @@ def create_positions_details(ruchers):
 
     return positions
 
+def get_proximate_position():
+
+    client_ip = request.remote_addr
+    print(client_ip)
+    resp = requests.get('https://json.geoiplookup.io/' + client_ip)
+    resp.raise_for_status()
+    try:
+        geo_json = resp.json()
+        latitude = geo_json['latitude']
+        longitude = geo_json['longitude']
+    except:
+        latitude = 48.58293151855469
+        longitude = 7.743750095367432
+
+    return latitude, longitude    
+
+def get_user_center():
+
+    latitude = User.query.get(current_user.id).latitude
+    longitude = User.query.get(current_user.id).longitude
+
+    if latitude is None or longitude is None:
+        latitude, longitude = get_proximate_position()
+
+    return [longitude, latitude]
+
 
 @app.route('/')
 def index():
@@ -72,8 +98,6 @@ def login():
 
     if current_user.is_authenticated:
         return redirect(url_for('index'))    
-
-
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -115,20 +139,7 @@ def register():
         flash('Merci de vous etre enregistré(e). Vous pouvez maintenant vous connecter')
         return redirect(url_for('login'))
 
-    client_ip = request.remote_addr
-    print(client_ip)
-    resp = requests.get('https://json.geoiplookup.io/' + client_ip)
-    resp.raise_for_status()
-    try:
-        geo_json = resp.json()
-        latitude = geo_json['latitude']
-        longitude = geo_json['longitude']
-    except:
-        latitude = 48.58293151855469
-        longitude = 7.743750095367432
-        
-    print(geo_json)
-
+    latitude, longitude = get_proximate_position()
     return render_template('register.html', form=form, latitude=latitude, longitude=longitude)
 
 
@@ -139,9 +150,9 @@ def see_ruchers():
     ruchers = Rucher.query.filter_by(user=current_user.id).all()
 
     positions = create_positions_details(ruchers)
+    center = get_user_center()
 
-    return render_template('ruchers.html', ruchers=ruchers, positions = positions)
-
+    return render_template('ruchers.html', ruchers=ruchers, positions = positions, center=center)
 
 
 @app.route('/rucher/<id>', methods=['GET', 'POST'])
@@ -189,7 +200,9 @@ def add_rucher():
 
         return redirect(url_for('see_ruchers'))
 
-    return render_template('add_rucher.html', form=form, positions=positions)
+    center = get_user_center()
+
+    return render_template('add_rucher.html', form=form, positions=positions, center=center)
 
 @app.route('/update_rucher/<id>', methods=['GET','POST'])      
 @login_required
@@ -213,8 +226,9 @@ def update_rucher(id):
 
         return redirect(url_for('see_rucher', id=id))    
 
-    return render_template('update_rucher.html', rucher=old_rucher, form=form, positions=old_position)
+    center = get_user_center()
 
+    return render_template('update_rucher.html', rucher=old_rucher, form=form, positions=old_position, center=center)
 
 
 @app.route('/delete_rucher/<id>', methods=['POST'])      
