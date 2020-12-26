@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import (StringField, BooleanField, DateTimeField, IntegerField,
                      RadioField,SelectField,TextField, FloatField,
                      TextAreaField,SubmitField, PasswordField)
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Optional
+from wtforms.validators import DataRequired, ValidationError, StopValidation, Email, EqualTo, Optional
 from wtforms.widgets import HiddenInput
 from datetime import datetime
 from app_pack import app, db
@@ -50,11 +50,11 @@ class EventForm(FlaskForm):
         if field.data:
             ruche = Ruche.query.filter_by(user=current_user.id, num=field.data).all()
             if not ruche:
-                raise ValidationError("Vous ne possédez pas cette ruche")
+                raise StopValidation("Vous ne possédez pas cette ruche")
 
     def check_object_defined(form, field):
         if (not field.data and form.rucher.data == -1):
-            raise ValidationError("Vous devez renseigner une ruche ou un rucher")
+            raise StopValidation("Vous devez renseigner une ruche ou un rucher")
 
     def check_ruche_rucher_consistent(form, field):
         if field.data:

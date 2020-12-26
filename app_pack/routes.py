@@ -340,6 +340,7 @@ def events():
 
     if form.validate_on_submit():
         
+        print("VALIDATED")
         if not form.type.data:
             type = form.type_select.data
         else: type = form.type.data
@@ -401,7 +402,8 @@ def search_event():
 @login_required
 def delete_event(id):
 
-    if not Event.query.get(id) or current_user.id != Event.query.get(id).parent_ruche.user:
+    print(Event.query.get(id), Event.query.get(id).parent_ruche, Event.query.get(id).rucher_events)
+    if not Event.query.get(id) or current_user.id != Event.query.get(id).rucher_events.user:
         flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
         return redirect(url_for('see_ruchers'))
 
