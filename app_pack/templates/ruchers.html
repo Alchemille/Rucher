@@ -16,7 +16,6 @@
 
       <div class="col-md-3 mb-4">
 
-        <a href="{{ url_for('see_rucher', id=i.id) }}">
         <div class="card bg-light ">
 
           <div class="card-body">
@@ -54,7 +53,7 @@
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
               <div class="btn-group mr-2" role="group" aria-label="First group">
                   <form action="{{ url_for('delete_rucher', id=i.id) }}" method="post" class="ml-auto">
-                      <button class="btn btn-dark" type="submit">
+                      <button class="btn btn-dark" type="submit" title="Supprimer le rucher">
                           <svg class="bi bi-trash-fill" width="15" height="15" viewBox="0 0 16 16"
                               fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                               <path fill-rule="evenodd"
@@ -64,7 +63,15 @@
                   </form>
               </div>
               <div class="btn-group mr-2" role="group" aria-label="Second group">
-                  <a href="{{ url_for('update_rucher', id=i.id) }}" class="btn btn-dark">
+                <a href="{{ url_for('see_rucher', id=i.id) }}" class="btn btn-dark" title="Voir le rucher">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                  </svg>
+                </a>
+            </div>
+              <div class="btn-group mr-2" role="group" aria-label="Second group">
+                  <a href="{{ url_for('update_rucher', id=i.id) }}" class="btn btn-dark" title="Modifier le rucher">
                       <svg width="15" height="15" viewBox="0 0 16 16" class="bi bi-pencil"
                           fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path fill-rule="evenodd"
@@ -79,7 +86,6 @@
           </div>
 
         </div>
-        </a>
       </div>
       {% endfor %}
     </div>

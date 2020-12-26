@@ -64,7 +64,7 @@ class EventForm(FlaskForm):
 
     rucher = SelectField("Rucher (optionnel si ruche renseignée)", coerce=int)
     ruche = IntegerField("Ruche (laisser vide si l'évènement s'applique a toutes les ruches)", validators=[check_ruche_exists_allowed, check_object_defined, check_ruche_rucher_consistent, Optional(strip_whitespace=True)])
-    timestamp = DateTimeField("Date de l'évenement", default=datetime.today(), format="%d/%m/%y")
+    timestamp = DateTimeField("Date de l'évenement au format jj/mm/aa", default=datetime.today(), format="%d/%m/%y")
     type_select = SelectField("Type d'évenement")
     type = StringField("Si autre, lequel?", validators=[check_type_defined])
     note = TextAreaField("Remarques")

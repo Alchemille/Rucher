@@ -47,8 +47,8 @@
                 <th scope="col">Ruche</th>
                 <th scope="col">Rucher</th>
                 <th scope="col">Type</th>
-                <th scope="col">Date <button type="button" class="btn btn-light btn-sm" id="sort-date">Sort</button> </th>
-                <th scope="col">Note</th>
+                <th scope="col">Date <button type="button" class="btn btn-light btn-sm" id="sort-date">Trier</button> </th>
+                <th scope="col">Remarques</th>
                 <th scope="col">#</th>
 
             </tr>
@@ -74,7 +74,7 @@
                     {% endfor %}
                 </p>
                 <p>
-                    {{ form.ruche.label }} <br> {{form.ruche(placeholder="1") }} <br>
+                    {{ form.ruche.label }} <br> {{form.ruche(placeholder="Numero de ruche ici") }} <br>
                     {% for error in form.ruche.errors %}
                     <span class="form_error">[{{ error }}]</span>
                     {% endfor %}
