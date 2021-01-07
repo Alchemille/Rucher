@@ -14,3 +14,5 @@ Left to implement:
 - Check privacy/legal rules to comply with.
 - Profile page (possiblity to change center)
 - Monitoring of website.
+
+![alt text](https://github.com/Alchemille/Rucher/blob/master/app_pack/static/Screenshot_20210107_162559.png?raw=true)
