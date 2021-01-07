@@ -16,3 +16,5 @@ Left to implement:
 - Monitoring of website.
 
 ![alt text](https://github.com/Alchemille/Rucher/blob/master/app_pack/static/Screenshot_20210107_162559.png?raw=true)
+![alt text](https://github.com/Alchemille/Rucher/blob/master/app_pack/static/Screenshot_20210107_162638.png?raw=true)
+![alt text](https://raw.githubusercontent.com/Alchemille/Rucher/master/app_pack/static/Screenshot_20210107_162638.png)
