@@ -1,23 +1,11 @@
-from flask import Flask, render_template, session, redirect, url_for, session, flash, request, jsonify, make_response
-from flask_wtf import FlaskForm
-from wtforms import (StringField, BooleanField, DateTimeField,
-                     RadioField,SelectField,TextField,
-                     TextAreaField,SubmitField)
-
-from wtforms.validators import DataRequired
-from app_pack.forms import *
-
-from app_pack import app, db
-from app_pack.models import Rucher, Ruche, User, Event
-
-import requests, random
-from werkzeug.exceptions import NotFound  
-from flask_login import login_user, login_required, logout_user, current_user
-
-import json
-from geojson import Point, Feature    
+import requests
+from flask import flash, request
+from flask_login import login_user, login_required, logout_user
+from geojson import Point, Feature
 from sqlalchemy import desc
 
+from app_pack.forms import *
+from app_pack.models import Rucher, Ruche, User, Event
 
 
 def create_position(id, title, latitude, longitude, description):
@@ -78,6 +66,26 @@ def get_user_center():
 
     return [longitude, latitude]
 
+def check_rucher_authorized(id):
+
+    if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")
+        return False
+    return True
+
+def check_ruche_authorized(id):
+
+    if not Ruche.query.get(id) or current_user.id != Ruche.query.get(id).user:
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")
+        return False
+    return True
+
+def check_event_authorized(id):
+
+    if not Event.query.get(id) or current_user.id != Event.query.get(id).user:
+        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")
+        return False
+    return True
 
 @app.route('/')
 def index():
@@ -159,29 +167,12 @@ def see_ruchers():
 @login_required
 def see_rucher(id):
 
-    if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
-        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
-        return redirect(url_for('see_ruchers'))   
+    if not check_rucher_authorized(id):
+        return redirect(url_for('see_ruchers'))
 
-    form = RucheForm(rucher=id)
-    form.specie_select.choices = get_species()
-    form.rucher.choices = get_names_ruchers()
-    print(get_names_ruchers())
     rucher = Rucher.query.get(id)
 
-    if form.validate_on_submit():
-
-        specie = form.specie.data
-        if not specie:
-            specie = form.specie_select.data
-
-        new_ruche = Ruche(user=current_user.id, rucher=form.rucher.data, specie=specie, num=form.num.data, age_reine=form.age_reine.data,  feedback=form.feedback.data)
-        db.session.add(new_ruche)
-        db.session.commit()
-        
-        return redirect('#')    
-
-    return render_template('rucher.html', ruches=rucher.get_ruches(), rucher=rucher, form=form)
+    return render_template('rucher.html', ruches=rucher.get_ruches(), rucher=rucher)
 
 
 @app.route('/add_rucher', methods=['GET', 'POST'])
@@ -208,8 +199,7 @@ def add_rucher():
 @login_required
 def update_rucher(id):
 
-    if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
-        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")
+    if not check_rucher_authorized(id):
         return redirect(url_for('see_ruchers'))
 
     old_rucher = Rucher.query.get(id)
@@ -235,12 +225,12 @@ def update_rucher(id):
 @login_required
 def delete_rucher(id):
 
-    if not Rucher.query.get(id) or current_user.id != Rucher.query.get(id).user:
-        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")
-    else:
-        #Ruche.query.filter_by(rucher=id).delete()
-        db.session.delete(Rucher.query.get(id))
-        db.session.commit()
+    if not check_rucher_authorized(id):
+        return redirect(url_for('see_ruchers'))
+
+    #Ruche.query.filter_by(rucher=id).delete()
+    db.session.delete(Rucher.query.get(id))
+    db.session.commit()
         
     return redirect(url_for('see_ruchers'))
 
@@ -277,12 +267,40 @@ def get_types_events():
     list_types_events = list(set(list_types_events))
     return list_types_events
 
+
+@app.route('/new_ruche/<id>', methods=['GET', 'POST'])
+@login_required
+def create_new_ruche(id):
+
+    if not check_rucher_authorized(id):
+        return redirect(url_for('see_ruchers'))
+
+    form = RucheForm(rucher=id)
+    form.specie_select.choices = get_species()
+    form.rucher.choices = get_names_ruchers()
+    print(get_names_ruchers())
+
+    if form.validate_on_submit():
+
+        specie = form.specie.data
+        if not specie:
+            specie = form.specie_select.data
+
+        new_ruche = Ruche(user=current_user.id, rucher=form.rucher.data, specie=specie, num=form.num.data,
+                          age_reine=form.age_reine.data, feedback=form.feedback.data)
+        db.session.add(new_ruche)
+        db.session.commit()
+
+        return redirect(url_for('see_rucher', id=id))
+
+    return render_template('new_ruche.html', form=form)
+
+
 @app.route('/update_ruche/<id>', methods=['GET', 'POST'])
 @login_required
 def update_ruche(id):
 
-    if not Ruche.query.get(id) or current_user.id != Ruche.query.get(id).user:
-        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
+    if not check_ruche_authorized(id):
         return redirect(url_for('see_ruchers'))
 
     old_ruche = Ruche.query.get(id)
@@ -314,8 +332,7 @@ def update_ruche(id):
 @login_required
 def delete_ruche(id):
 
-    if not Ruche.query.get(id) or current_user.id != Ruche.query.get(id).user:
-        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
+    if not check_ruche_authorized(id):
         return redirect(url_for('see_ruchers'))
 
     id_rucher = Ruche.query.get(id).rucher
@@ -403,8 +420,7 @@ def search_event():
 def delete_event(id):
 
     print(Event.query.get(id), Event.query.get(id).parent_ruche, Event.query.get(id).rucher_events)
-    if not Event.query.get(id) or current_user.id != Event.query.get(id).rucher_events.user:
-        flash("Vous n'avez pas l'autorisation d'effectuer cette opération")    
+    if not check_event_authorized():
         return redirect(url_for('see_ruchers'))
 
     db.session.delete(Event.query.get(id))
