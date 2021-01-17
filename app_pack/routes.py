@@ -46,6 +46,7 @@ def get_proximate_position():
     print("IP ADDR", client_ip)
     resp = requests.get('https://json.geoiplookup.io/' + client_ip)
     resp.raise_for_status()
+    print(request.headers)
     try:
         geo_json = resp.json()
         print(geo_json)
