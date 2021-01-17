@@ -45,15 +45,13 @@ def get_proximate_position():
     client_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
     client_ip = client_ip.split(',')[0].strip()
 
-    print("IP ADDR", client_ip)
     resp = requests.get('https://json.geoiplookup.io/' + client_ip)
     resp.raise_for_status()
     try:
         geo_json = resp.json()
-        print(geo_json)
         latitude = geo_json['latitude']
         longitude = geo_json['longitude']
-    except:
+    except: # defaults to Strasbourg, the most beautiful city
         latitude = 48.58293151855469
         longitude = 7.743750095367432
 
