@@ -42,12 +42,13 @@ def create_positions_details(ruchers):
 
 def get_proximate_position():
 
-    client_ip = request.remote_addr
-    print(client_ip)
+    client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    print("IP ADDR", client_ip)
     resp = requests.get('https://json.geoiplookup.io/' + client_ip)
     resp.raise_for_status()
     try:
         geo_json = resp.json()
+        print(geo_json)
         latitude = geo_json['latitude']
         longitude = geo_json['longitude']
     except:
