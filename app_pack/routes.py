@@ -42,10 +42,9 @@ def create_positions_details(ruchers):
 
 def get_proximate_position():
 
-    headers_list = request.headers.getlist("X-Forwarded-For")
-    client_ip = headers_list[0] if headers_list else request.remote_addr
-    print(headers_list, type(headers_list))
-    print(request.headers)
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    client_ip = client_ip.split(',')[0].strip()
+
     print("IP ADDR", client_ip)
     resp = requests.get('https://json.geoiplookup.io/' + client_ip)
     resp.raise_for_status()
