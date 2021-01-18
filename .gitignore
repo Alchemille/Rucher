@@ -5,6 +5,7 @@ todo.md
 venv2/
 learned.md
 rucher.sql
+backups/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

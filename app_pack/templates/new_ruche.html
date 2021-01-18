@@ -36,7 +36,7 @@
                 {% endfor %}
             </p>
             <p>
-                {{ form.age_reine.label }} <br> {{form.age_reine}} <br>
+                {{ form.age_reine.label }} <br> {{form.age_reine(placeholder=2020)}} <br>
                 {% for error in form.age_reine.errors %}
                 <span class="form_error">[{{ error }}]</span>
                 {% endfor %}

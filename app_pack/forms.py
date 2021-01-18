@@ -35,7 +35,7 @@ class RucheForm(FlaskForm):
     num = IntegerField("Numero",validators=[DataRequired(), check_num_unique])
     specie_select = SelectField("Espece actuelle", default="other", validators=[check_espece_renseignee])
     specie = StringField("Si autre, quelle espece?")
-    age_reine = DateTimeField("Date de naissance de la reine", default=datetime.today(), format="%d/%m/%y")
+    age_reine = IntegerField("Année de naissance de la reine")
     feedback = TextAreaField("Autres caractéristiques")
     submit = SubmitField('Valider')
 
