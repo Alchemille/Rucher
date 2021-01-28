@@ -6,6 +6,41 @@
 {% endwith %}
 
 <div class="jumbotron">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="border border-info" id='map' style='width: 850px; height: 650px;'></div>
+
+    <script>
+
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/outdoors-v11',
+        center: {{ center }},
+        zoom: 9.5
+      });
+      map.on('load', function () {
+
+        var positions = {{ positions| safe
+      }}
+        positions.forEach(function (marker) {
+          var el = document.createElement('div');
+          el.className = 'marker';
+
+          new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(new mapboxgl.Popup({ offset: [0, -15] }) // add popups
+              .setHTML(marker.properties.title))
+            .addTo(map);
+        });
+          })
+
+    </script>
+    <p></p>
+  </div>
+</div>
+
+<hr/>
+
+<div class="jumbotron">
 
   <div class="container">
 
@@ -92,40 +127,8 @@
 
 </div>
 
-<hr />
 
-<div class="jumbotron">
-  <div class="d-flex justify-content-center align-items-center">
-    <div class="border border-info" id='map' style='width: 850px; height: 650px;'></div>
 
-    <script>
-
-      var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/outdoors-v11',
-        center: {{ center }},
-        zoom: 9.5
-      });
-      map.on('load', function () {
-
-        var positions = {{ positions| safe
-      }}
-        positions.forEach(function (marker) {
-          var el = document.createElement('div');
-          el.className = 'marker';
-
-          new mapboxgl.Marker(el)
-            .setLngLat(marker.geometry.coordinates)
-            .setPopup(new mapboxgl.Popup({ offset: [0, -15] }) // add popups
-              .setHTML(marker.properties.title))
-            .addTo(map);
-        });
-          })
-
-    </script>
-    <p></p>
-  </div>
-</div>
 
 
 {% endblock %}
