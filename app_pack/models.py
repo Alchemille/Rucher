@@ -58,6 +58,7 @@ class Rucher(db.Model):
     longit = db.Column(db.Float)
     ruches = db.relationship('Ruche', backref='parent', cascade = "all,delete",  lazy='dynamic')
     events = db.relationship('Event', backref='rucher_events', cascade='all,delete', lazy='dynamic')
+    specie = db.Column(db.String(64), index=True)
 
     def get_ruches(self):
 
@@ -72,7 +73,6 @@ class Ruche(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     num = db.Column(db.Integer)
     feedback = db.Column(db.Text)
-    specie = db.Column(db.String(64), index=True)
     age_reine = db.Column(db.Integer, index=True)
     events = db.relationship('Event', backref='parent_ruche', cascade='all,delete', lazy='dynamic')
 

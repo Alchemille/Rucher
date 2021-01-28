@@ -4,47 +4,59 @@
 
             <h5>{{text}}</h5>
 
-                <form method="POST">
-                    <!-- quand action = pas precisé, renvoie POST sur la meme page -->
-                    {# This hidden_tag is a CSRF security feature. #}
-                    {{ form.hidden_tag() }}
-                    <p>
-                        {{form.location.label }} <br> {{form.location}} <br>
-                        {% for error in form.location.errors %}
-                        <span class="form_error">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        {{ form.frelons_asiat.label }} <br> {{form.frelons_asiat}} <br>
-                        {% for error in form.frelons_asiat.errors %}
-                        <span class="form_error">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        {{ form.plants.label }} <br> {{form.plants}} <br>
-                        {% for error in form.plants.errors %}
-                        <span class="form_error">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        {{ form.lat.label }} <br> {{form.lat(id="lat", placeholder="Cliquer sur la carte")}} <br>
-                        {% for error in form.lat.errors %}
-                        <span class="form_error">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        {{ form.longit.label }} <br> {{form.longit(id="long", placeholder="Cliquer sur la carte")}} <br>
-                        {% for error in form.longit.errors %}
-                        <span class="form_error">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <br>
-                    {{ form.submit() }}
-                </form>
+            <form method="POST">
+                <!-- quand action = pas precisé, renvoie POST sur la meme page -->
+                {# This hidden_tag is a CSRF security feature. #}
+                {{ form.hidden_tag() }}
+                <p>
+                    {{form.location.label }} <br> {{form.location}} <br>
+                    {% for error in form.location.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.frelons_asiat.label }} <br> {{form.frelons_asiat}} <br>
+                    {% for error in form.frelons_asiat.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.plants.label }} <br> {{form.plants}} <br>
+                    {% for error in form.plants.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.specie_select.label }} <br> {{form.specie_select }} <br>
+                    {% for error in form.specie_select.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.specie.label }} <br> {{form.specie}} <br>
+                    {% for error in form.specie.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.lat.label }} <br> {{form.lat(id="lat", placeholder="Cliquer sur la carte")}} <br>
+                    {% for error in form.lat.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.longit.label }} <br> {{form.longit(id="long", placeholder="Cliquer sur la carte")}} <br>
+                    {% for error in form.longit.errors %}
+                    <span class="form_error">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <br>
+                {{ form.submit() }}
+            </form>
         </div>
     </div>
 </div>
-<hr />
+<hr/>
 
 <div class="jumbotron ">
     <div class="d-flex justify-content-center align-items-center">
@@ -77,6 +89,7 @@
                     document.getElementById("long").value = e.lngLat.lng
                     document.getElementById("lat").value = e.lngLat.lat
                 })
+
             </script>
         </div>
     </div>

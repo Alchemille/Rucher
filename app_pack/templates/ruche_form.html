@@ -15,18 +15,6 @@
         {% endfor %}
     </p>
     <p>
-        {{ form.specie_select.label }} <br> {{form.specie_select }} <br>
-        {% for error in form.specie_select.errors %}
-        <span class="form_error">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.specie.label }} <br> {{form.specie}} <br>
-        {% for error in form.specie.errors %}
-        <span class="form_error">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
         {{ form.age_reine.label }} <br> {{form.age_reine(placeholder=2020)}} <br>
         {% for error in form.age_reine.errors %}
         <span class="form_error">[{{ error }}]</span>
