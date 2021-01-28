@@ -191,7 +191,7 @@ def add_rucher():
             specie = form.specie_select.data
 
         new_rucher = Rucher(user=current_user.id, location=form.location.data, frelons_asiat=form.frelons_asiat.data,
-                            plants=form.plants.data, specie=specie, feedback=form.feedback.data, lat=form.lat.data,
+                            plants=form.plants.data, specie=specie, lat=form.lat.data,
                             longit=form.longit.data)
         db.session.add(new_rucher)  # new_rucher.id added here
         db.session.commit()

@@ -11,7 +11,9 @@
                     <span class="badge badge-success mr-2"> {{ rucher.plants }} </span>
                     <span class="badge badge-info mr-2"> {{ rucher.frelons_asiat }}/10 FA </span>
                     <span class="badge badge-info mr-2"> {{ ruches|length }} ruche(s) </span>
+                    {% if rucher.specie %}
                     <span class="badge badge-info mr-2"> {{ rucher.specie }} </span>
+                    {% endif %}
                     <a href="{{ url_for('update_rucher', id=rucher.id) }}" class="badge badge-warning">
                         Modifier le rucher
                     </a>
@@ -99,7 +101,8 @@
 
     <div class="container">
 
-        <a class="btn btn-outline-secondary mr-2" href="{{url_for('events', rucher=rucher.id)}}">Ajouter un évènement sur ce
+        <a class="btn btn-outline-secondary mr-2" href="{{url_for('events', rucher=rucher.id)}}">Ajouter un évènement
+            sur ce
             rucher</a>
         <a class="btn btn-outline-secondary" href="{{url_for('create_new_ruche', id=rucher.id)}}">Créer une ruche</a>
 

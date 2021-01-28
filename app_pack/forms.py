@@ -24,7 +24,6 @@ class RucherAddForm(FlaskForm):
     specie = StringField("Si autre, quelle espece?")
     lat = StringField("Latitude")
     longit = StringField("Longitude")
-    feedback = TextAreaField()
     submit = SubmitField('Valider')
 
 
