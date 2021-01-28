@@ -26,17 +26,7 @@
 
             <ul class="list-group list-group-flush">
 
-              <li class="list-group-item text-dark bg-light">FA: {{ i.frelons_asiat }}/10</li>
-
-              <li class="list-group-item text-dark bg-light">{{ i.plants }}</li>
-
-              <li class="list-group-item text-dark bg-light">{{ i.specie }}</li>
-
-              {% if i.feedback %}
-              <li class="list-group-item text-dark bg-light"> {{ i.feedback }}</li>
-              {% endif %}
-
-              <li class="list-group-item text-dark bg-light"> {{i.get_ruches()|length}} ruches</li>
+              <li class="list-group-item text-dark bg-light"> {{i.get_ruches()|length}} ruche(s)</li>
 
               {% if i.events[0] %}
 

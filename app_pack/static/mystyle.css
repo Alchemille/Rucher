@@ -24,6 +24,10 @@
   color: red;
 }
 
+.badge {
+   font-size: 90%;
+}
+
 .myheader {
   color: #FFF;
   display: block;
