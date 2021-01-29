@@ -17,4 +17,4 @@ Left to implement:
 
 ![alt text](https://github.com/Alchemille/Rucher/blob/master/app_pack/static/Screenshot_20210107_162559.png?raw=true)
 ![alt text](https://github.com/Alchemille/Rucher/blob/master/app_pack/static/Screenshot_20210107_162638.png?raw=true)
-![alt text](https://github.com/Alchemille/Rucher/blob/master/app_pack/static/Screenshot_20210107_162441.png)
+![alt text](https://github.com/Alchemille/Rucher/blob/master/app_pack/static/Screenshot_20210129_112844.png)
