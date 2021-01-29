@@ -8,7 +8,7 @@
         <td>toutes!</td>
         {% endif %}
         <td><a
-                href="{{ url_for('see_rucher', id=event.parent_ruche.rucher) }}">{{event.rucher_events.location}}</a>
+                href="{{ url_for('see_rucher', id=event.rucher) }}">{{event.rucher_events.location}}</a>
         </td>
         <td>{{event.type}}</td>
         <td>{{event.timestamp.strftime("%d/%m/%y")}}</td>
