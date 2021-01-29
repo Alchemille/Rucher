@@ -2,80 +2,86 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <title>Mon Rucher</title>
-  <link rel=icon href="{{ url_for('static', filename='favicon.ico') }}">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mystyle.css') }}">
-  <script>
+    <meta charset="utf-8">
+    <title>Mon Rucher</title>
+    <link rel=icon href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet'
+          type='text/css'>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet'/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mystyle.css') }}">
+    <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoianNvbWEiLCJhIjoibFJmYl9JWSJ9.AUm8d76cbOvVEn2mMeG_ZA';
-  </script>
+
+
+    </script>
 </head>
 
 <body>
-  <nav class="message-nav navbar navbar-expand-lg navbar-dark bg-light">
+<nav class="message-nav navbar navbar-expand-lg navbar-dark bg-light">
     <ul class="nav">
 
-      {% if current_user.is_authenticated %}
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('see_ruchers') }}">Mes Ruchers</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('events') }}">Evènements</a></li>
-      <li class="nav-link"><a href="{{ url_for('logout') }}">Déconnexion</a></li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('see_ruchers') }}">Mes Ruchers</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('events') }}">Evènements</a></li>
+        <li class="nav-link"><a href="{{ url_for('logout') }}">Déconnexion</a></li>
 
-      {% else %}
-      <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
-      <li class="nav-link"><a href="{{ url_for('login') }}">Connexion</a></li>
-      <li class="nav-link"><a href="{{ url_for('register') }}">Inscription</a></li>
-      {% endif %}
+        {% else %}
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+        <li class="nav-link"><a href="{{ url_for('login') }}">Connexion</a></li>
+        <li class="nav-link"><a href="{{ url_for('register') }}">Inscription</a></li>
+        {% endif %}
 
     </ul>
-  </nav>
+</nav>
 
 
-  {% with messages = get_flashed_messages() %}
+{% with messages = get_flashed_messages() %}
 
-  {% if messages %}
-  {% for message in messages %}
-  <div class="message-flash alert alert-error">
+{% if messages %}
+{% for message in messages %}
+<div class="message-flash alert alert-error">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     {{message}}
-  </div>
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
 
-  {% block content %}
-  {% endblock %}
+{% block content %}
+{% endblock %}
 
 
-  <hr />
+<hr/>
 
-  <footer class="text-muted">
+<footer class="text-muted">
     <div class="d-flex container-fluid">
 
-      <div class="p-2">
-        <a href="https://github.com/Alchemille/Rucher">
-          <span>Source Code</span> <img src="{{ url_for('static', filename='GitHub-Mark-32px.png') }}" alt=""
-            height="24"> </a>
-      </div>
-      <div class="ml-auto p-2">
-        <a href="#">Haut de page</a>
-      </div>
+        <div class="p-2">
+            <a href="https://github.com/Alchemille/Rucher">
+                <span>Source Code</span> <img src="{{ url_for('static', filename='GitHub-Mark-32px.png') }}" alt=""
+                                              height="24"> </a>
+        </div>
+        <div class="ml-auto p-2">
+            <a href="mailto: info@monrucher.be">Contact</a>
+        </div>
+        <div class="ml-auto p-2">
+            <a href="#">Haut de page</a>
+        </div>
     </div>
-  </footer>
+</footer>
 
 </body>
 

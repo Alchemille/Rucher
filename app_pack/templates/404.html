@@ -1,13 +1,15 @@
 {% extends "base.html"%}
 {% block content %}
 {% with text="Ressource non trouvée" %}
-    {% include "header_theme.html" %}
+{% include "header_theme.html" %}
 {% endwith %}
 <div class="jumbotron">
 
 
-<h1>Erreur 404</h1>
-<p>Envoyer un mail a Félicité pour l'avertir</p>
+    <h1>Erreur 404</h1>
+    <a href="mailto: info@monrucher.be">
+        <p>Envoyer un mail a Félicité pour l'avertir</p>
+    </a>
 
 </div>
 
