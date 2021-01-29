@@ -20,6 +20,10 @@
   width:100%;
 }
 
+.nounderline {
+  text-decoration: none !important
+}
+
 .form_error {
   color: red;
 }
