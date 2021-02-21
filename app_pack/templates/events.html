@@ -7,6 +7,10 @@
 
 <div class="jumbotron">
 
+    <div>
+        <a class="btn btn-outline-secondary" href="{{url_for('add_event')}}">Ajouter un évènement</a>
+    </div>
+
     <form class="container" , method="GET" , id="id_form_search">
         {# This hidden_tag is a CSRF security feature. #}
         {{ form_search.hidden_tag() }}
@@ -43,73 +47,23 @@
 
     <table class="table table-striped">
         <thead>
-            <tr>
-                <th scope="col">Ruche</th>
-                <th scope="col">Rucher</th>
-                <th scope="col">Type</th>
-                <th scope="col">Date <button type="button" class="btn btn-light btn-sm" id="sort-date">Trier</button> </th>
-                <th scope="col">Remarques</th>
-                <th scope="col">#</th>
+        <tr>
+            <th scope="col">Ruche</th>
+            <th scope="col">Rucher</th>
+            <th scope="col">Type</th>
+            <th scope="col">Date
+                <button type="button" class="btn btn-light btn-sm" id="sort-date">Trier</button>
+            </th>
+            <th scope="col">Remarques</th>
+            <th scope="col">#</th>
 
-            </tr>
+        </tr>
         </thead>
 
         {% include "event_table.html" %}
 
     </table>
 
-    <div class="d-flex justify-content-center align-items-center">
-        <div class="jumbotron">
-
-            <h5>Nouvel Evenement:</h5>
-
-            <form method="POST">
-
-                {# This hidden_tag is a CSRF security feature. #}
-                {{ form.hidden_tag() }}
-                <p>
-                    {{ form.rucher.label }} <br> {{form.rucher}} <br>
-                    {% for error in form.rucher.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.ruche.label }} <br> {{form.ruche(placeholder="Numero de ruche ici") }} <br>
-                    {% for error in form.ruche.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.timestamp.label }} <br> {{form.timestamp}} <br>
-                    {% for error in form.timestamp.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.type_select.label }} <br> {{form.type_select }} <br>
-                    {% for error in form.type_select.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.type.label }} <br> {{form.type}} <br>
-                    {% for error in form.type.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.note.label }} <br> {{form.note }} <br>
-                    {% for error in form.note.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <br>
-                {{ form.submit() }}
-            </form>
-
-
-        </div>
-    </div>
 
 </div>
 
@@ -161,8 +115,8 @@
         update_table();
     });
 
-</script>
 
+</script>
 
 
 {% endblock %}

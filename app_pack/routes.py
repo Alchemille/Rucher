@@ -290,7 +290,6 @@ def create_new_ruche(id):
     print(get_names_ruchers())
 
     if form.validate_on_submit():
-
         new_ruche = Ruche(user=current_user.id, rucher=form.rucher.data, num=form.num.data,
                           age_reine=form.age_reine.data, feedback=form.feedback.data)
         db.session.add(new_ruche)
@@ -314,7 +313,6 @@ def update_ruche(id):
     error_to_ignore = ['La ruche {} existe déja'.format(old_ruche.num)]
     # ignore this error since the check_num_unique() validator should not be inforced if the num of the ruche is unchanged
     if form.validate_on_submit() or form.errors == {'num': error_to_ignore}:
-
         form.populate_obj(old_ruche)
 
         db.session.commit()
@@ -341,7 +339,23 @@ def delete_ruche(id):
 @login_required
 def events():
     rucher = int(request.args.get("rucher", -1))  # if no rucher args, default is -1
-    form = EventForm(request.form, rucher=rucher)  # default rucher is either the one in args or let blank
+    type = request.args.get("type", "tous")
+
+    form_search = SearchEvent(rucher=rucher, type_select=type)
+    form_search.type_select.choices = get_types_events()
+    form_search.type_select.choices.append(('tous', 'tous'))
+    form_search.rucher.choices = get_names_ruchers()
+    form_search.rucher.choices.append((-1, 'tous'))
+
+    events = Event.query.filter(Event.rucher_events.has(user=current_user.id))
+    return render_template('events.html', events=events, form_search=form_search)
+
+
+@app.route('/add_event', methods=['GET', 'POST'])
+@login_required
+def add_event():
+    rucher = int(request.args.get("rucher", -1))  # if no rucher args, default is -1
+    form = EventForm(rucher=rucher)  # default rucher is either the one in args or let blank
     form.type_select.choices = get_types_events()
 
     if rucher != -1:
@@ -352,7 +366,6 @@ def events():
 
     if form.validate_on_submit():
 
-        print("VALIDATED")
         if not form.type.data:
             type = form.type_select.data
         else:
@@ -370,17 +383,9 @@ def events():
         db.session.add(new_event)
         db.session.commit()
 
-        return redirect('#')
+        return redirect(url_for('events'))
 
-    type = request.args.get("type", "tous")
-    form_search = SearchEvent(rucher=rucher, type_select=type)
-    form_search.type_select.choices = get_types_events()
-    form_search.type_select.choices.append(('tous', 'tous'))
-    form_search.rucher.choices = get_names_ruchers()
-    form_search.rucher.choices.append((-1, 'tous'))
-
-    events = Event.query.filter(Event.rucher_events.has(user=current_user.id))
-    return render_template('events.html', events=events, form=form, form_search=form_search)
+    return render_template('add_event.html', form=form)
 
 
 @app.route('/search_events', methods=['GET'])
