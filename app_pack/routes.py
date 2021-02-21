@@ -81,7 +81,7 @@ def check_ruche_authorized(id):
 
 
 def check_event_authorized(id):
-    if not Event.query.get(id) or current_user.id != Event.query.get(id).user:
+    if not Event.query.get(id) or current_user.id != Event.query.get(id).rucher_events.user:
         flash("Vous n'avez pas l'autorisation d'effectuer cette opération")
         return False
     return True
@@ -416,7 +416,7 @@ def search_event():
 @login_required
 def delete_event(id):
     print(Event.query.get(id), Event.query.get(id).parent_ruche, Event.query.get(id).rucher_events)
-    if not check_event_authorized():
+    if not check_event_authorized(id):
         return redirect(url_for('see_ruchers'))
 
     db.session.delete(Event.query.get(id))
