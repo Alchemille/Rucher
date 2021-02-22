@@ -291,7 +291,7 @@ def create_new_ruche(id):
 
     if form.validate_on_submit():
         new_ruche = Ruche(user=current_user.id, rucher=form.rucher.data, num=form.num.data,
-                          age_reine=form.age_reine.data, feedback=form.feedback.data)
+                          age_reine=form.age_reine.data, feedback=form.feedback.data, origin=form.origin.data)
         db.session.add(new_ruche)
         db.session.commit()
 

@@ -21,6 +21,12 @@
         {% endfor %}
     </p>
     <p>
+        {{ form.origin.label }} <br> {{form.origin(placeholder="division")}} <br>
+        {% for error in form.origin.errors %}
+        <span class="form_error">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
         {{ form.feedback.label }} <br> {{form.feedback }} <br>
         {% for error in form.feedback.errors %}
         <span class="form_error">[{{ error }}]</span>

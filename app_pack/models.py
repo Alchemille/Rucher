@@ -73,6 +73,7 @@ class Ruche(db.Model):
     num = db.Column(db.Integer)
     feedback = db.Column(db.Text)
     age_reine = db.Column(db.Integer, index=True)
+    origin = db.Column(db.String(64))
     events = db.relationship('Event', backref='parent_ruche', cascade='all,delete', lazy='dynamic')
 
     __table_args__ = (db.UniqueConstraint('num', 'user', name='numruche_user_unique'),)    

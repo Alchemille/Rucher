@@ -37,6 +37,7 @@ class RucheForm(FlaskForm):
     rucher = SelectField("Rucher Parent", coerce=int)
     num = IntegerField("Numero", validators=[DataRequired(), check_num_unique])
     age_reine = IntegerField("Année de naissance de la reine")
+    origin = StringField("Origine de la ruche")
     feedback = TextAreaField("Autres caractéristiques")
     submit = SubmitField('Valider')
 

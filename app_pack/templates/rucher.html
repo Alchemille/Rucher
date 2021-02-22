@@ -46,6 +46,10 @@
                             <li class="list-group-item text-dark bg-light"> {{ i.feedback }}</li>
                             {% endif %}
 
+                            {% if i.origin %}
+                            <li class="list-group-item text-dark bg-light"> Origine: {{ i.origin }}</li>
+                            {% endif %}
+
                             <li class="list-group-item text-dark bg-light"> Naissance reine :
                                 {{ i.age_reine }}
                             </li>
