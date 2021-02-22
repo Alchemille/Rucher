@@ -83,15 +83,13 @@
 
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                             <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <form action="{{ url_for('delete_rucher', id=i.id) }}" method="post" class="ml-auto">
-                                    <button class="btn btn-dark" type="submit" title="Supprimer le rucher">
+                                    <button class="btn btn-dark"  data-toggle="modal" data-target="#exampleModal{{i.id}}" title="Supprimer le rucher">
                                         <svg class="bi bi-trash-fill" width="15" height="15" viewBox="0 0 16 16"
                                              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
                                                   d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
                                         </svg>
                                     </button>
-                                </form>
                             </div>
                             <div class="btn-group mr-2" role="group" aria-label="Second group">
                                 <a href="{{ url_for('see_rucher', id=i.id) }}" class="btn btn-dark"
@@ -119,6 +117,25 @@
 
                     </div>
 
+                </div>
+            </div>
+                        <!-- Modal -->
+            <div class="modal fade" id="exampleModal{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{{ url_for('delete_rucher', id=i.id) }}" method="post">
+                            <div class="modal-body">
+                                Êtes-vous sur(e) de vouloir supprimer le rucher {{i.location}}?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Non
+                                </button>
+                                <button type="submit" class="btn btn-primary">Oui</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             {% endfor %}

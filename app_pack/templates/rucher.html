@@ -67,7 +67,7 @@
 
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                             <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModal{{i.id}}">
+                                <button class="btn btn-dark" data-toggle="modal" data-target="#exampleModal{{i.id}}" title="Supprimer la ruche">
                                     <svg class="bi bi-trash-fill" width="15" height="15" viewBox="0 0 16 16"
                                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
@@ -76,7 +76,7 @@
                                 </button>
                             </div>
                             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                                <a href="{{ url_for('update_ruche', id=i.id) }}" class="btn btn-dark">
+                                <a href="{{ url_for('update_ruche', id=i.id) }}" class="btn btn-dark" title="Modifier la ruche">
                                     <svg width="15" height="15" viewBox="0 0 16 16" class="bi bi-pencil"
                                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
