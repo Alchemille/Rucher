@@ -86,3 +86,4 @@ class Event(db.Model):
     timestamp = db.Column(db.DateTime)
     type = db.Column(db.String(64), index=True)
     note = db.Column(db.String(64))
+    weight = db.Column(db.Integer)

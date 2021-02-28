@@ -275,6 +275,7 @@ def get_types_events():
     ).all()
     list_types_events = [(i.type, i.type) for i in q]
     list_types_events.append(('other', 'autre'))
+    list_types_events.append(('harvest', 'récolte'))
     list_types_events = list(set(list_types_events))
     return list_types_events
 
@@ -427,6 +428,12 @@ def delete_event(id):
     db.session.delete(Event.query.get(id))
     db.session.commit()
     return redirect(url_for('events'))
+
+
+@app.route('/statistics', methods=['GET'])
+@login_required
+def see_stats():
+    return render_template('statistics.html')
 
 
 @app.errorhandler(404)

@@ -31,7 +31,7 @@
                     {% endfor %}
                 </p>
                 <p>
-                    {{ form.type_select.label }} <br> {{form.type_select }} <br>
+                    {{ form.type_select.label }} <br> {{form.type_select(**{"onchange":"this.form.submit()"}) }} <br>
                     {% for error in form.type_select.errors %}
                     <span class="form_error">[{{ error }}]</span>
                     {% endfor %}

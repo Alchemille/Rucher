@@ -72,6 +72,7 @@ class EventForm(FlaskForm):
     type_select = SelectField("Type d'évenement")
     type = StringField("Si autre, lequel?", validators=[check_type_defined])
     note = TextAreaField("Remarques")
+    weight = IntegerField("Poids en kg")
     submit = SubmitField("Valider")
 
 
