@@ -6,54 +6,74 @@
 {% endwith %}
 
 <div class="d-flex justify-content-center align-items-center">
-        <div class="jumbotron">
+    <div class="jumbotron">
 
-            <form method="POST">
+        <form method="POST">
 
-                {# This hidden_tag is a CSRF security feature. #}
-                {{ form.hidden_tag() }}
-                <p>
-                    {{ form.rucher.label }} <br> {{form.rucher}} <br>
-                    {% for error in form.rucher.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.ruche.label }} <br> {{form.ruche(placeholder="Numero de ruche ici") }} <br>
-                    {% for error in form.ruche.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.timestamp.label }} <br> {{form.timestamp}} <br>
-                    {% for error in form.timestamp.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.type_select.label }} <br> {{form.type_select(**{"onchange":"this.form.submit()"}) }} <br>
-                    {% for error in form.type_select.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.type.label }} <br> {{form.type}} <br>
-                    {% for error in form.type.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <p>
-                    {{ form.note.label }} <br> {{form.note }} <br>
-                    {% for error in form.note.errors %}
-                    <span class="form_error">[{{ error }}]</span>
-                    {% endfor %}
-                </p>
-                <br>
-                {{ form.submit() }}
-            </form>
+            {# This hidden_tag is a CSRF security feature. #}
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.rucher.label }} <br> {{form.rucher}} <br>
+                {% for error in form.rucher.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.ruche.label }} <br> {{form.ruche(placeholder="Numero de ruche ici") }} <br>
+                {% for error in form.ruche.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.timestamp.label }} <br> {{form.timestamp}} <br>
+                {% for error in form.timestamp.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.type_select.label }} <br> {{form.type_select}} <br>
+                {% for error in form.type_select.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p id="weight_option" hidden>
+                {{ form.weight.label }} <br> {{form.weight}} <br>
+                {% for error in form.weight.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p id="other_specie_option" hidden>
+                {{ form.type.label }} <br> {{form.type}} <br>
+                {% for error in form.type.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.note.label }} <br> {{form.note }} <br>
+                {% for error in form.note.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <br>
+            {{ form.submit() }}
+        </form>
 
 
-        </div>
     </div>
+</div>
+
+<script>
+
+    const selected_type = document.getElementById("type_select");
+    const updateFields = () => {
+            $("#weight_option")[0].hidden = selected_type.value !== "Récolte"; // hide the weight option if the type is not harvest
+            $("#other_specie_option")[0].hidden = selected_type.value !== "other"; // hide the other specie option if the specie type is not "other"
+    }
+    selected_type.addEventListener("change", updateFields);
+    updateFields();
+
+
+
+</script>
 
 {% endblock %}

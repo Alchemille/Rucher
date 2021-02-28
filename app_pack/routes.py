@@ -275,7 +275,7 @@ def get_types_events():
     ).all()
     list_types_events = [(i.type, i.type) for i in q]
     list_types_events.append(('other', 'autre'))
-    list_types_events.append(('harvest', 'récolte'))
+    list_types_events.append(('Récolte', 'Récolte'))
     list_types_events = list(set(list_types_events))
     return list_types_events
 
@@ -375,11 +375,11 @@ def add_event():
         if form.ruche.data:
             id_parent_ruche = Ruche.query.filter_by(num=form.ruche.data, user=current_user.id).first().id
             new_event = Event(ruche=id_parent_ruche, rucher=Ruche.query.get(id_parent_ruche).rucher,
-                              timestamp=form.timestamp.data, type=type, note=form.note.data)
+                              timestamp=form.timestamp.data, type=type, note=form.note.data, weight=form.weight.data)
 
         else:
             rucher_id = form.rucher.data
-            new_event = Event(rucher=rucher_id, timestamp=form.timestamp.data, type=type, note=form.note.data)
+            new_event = Event(rucher=rucher_id, timestamp=form.timestamp.data, type=type, note=form.note.data, weight=form.weight.data)
 
         db.session.add(new_event)
         db.session.commit()
