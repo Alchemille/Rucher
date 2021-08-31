@@ -7,6 +7,17 @@
 
 <div class="jumbotron">
     <div class="container">
+        <p>
+          <a class="btn btn-primary" data-toggle="collapse" href="#collapseInfoNumbers" role="button" aria-expanded="false" aria-controls="collapseInfoNumbers">
+            Examples de numéros disponibles
+          </a>
+        </p>
+        <div class="collapse" id="collapseInfoNumbers">
+          <div class="card card-body">
+            {{ available_numbers }}
+          </div>
+        </div>
+        <br>
         {% include 'ruche_form.html' %}
     </div>
 </div>

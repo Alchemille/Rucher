@@ -87,6 +87,30 @@ def check_event_authorized(id):
     return True
 
 
+def get_available_hive_numbers():
+    ruches = Ruche.query.filter_by(user=current_user.id).order_by(Ruche.num).all()
+
+    first_number = ruches[0].num
+    last_number = ruches[-1].num
+    available_numbers = []
+
+    cnt = first_number
+    current_ruche_index = 0
+    while current_ruche_index < len(ruches): # or equivalently, cnt < last_number
+        if ruches[current_ruche_index].num > cnt:
+            available_numbers.append(cnt)
+        else:
+            current_ruche_index += 1
+        cnt += 1
+
+        # security precaution
+        if len(available_numbers) >= 10:
+            break
+
+    available_numbers.append(last_number+1)  # the number following the last hive is available
+
+    return available_numbers
+
 @app.route('/')
 def index():
     print(User.__table__.c)
@@ -288,7 +312,7 @@ def create_new_ruche(id):
 
     form = RucheForm(rucher=id)
     form.rucher.choices = get_names_ruchers()
-    print(get_names_ruchers())
+    available_hive_numbers = get_available_hive_numbers()
 
     if form.validate_on_submit():
         new_ruche = Ruche(user=current_user.id, rucher=form.rucher.data, num=form.num.data,
@@ -298,7 +322,7 @@ def create_new_ruche(id):
 
         return redirect(url_for('see_rucher', id=id))
 
-    return render_template('new_ruche.html', form=form)
+    return render_template('new_ruche.html', form=form, available_numbers=available_hive_numbers)
 
 
 @app.route('/update_ruche/<id>', methods=['GET', 'POST'])
@@ -379,7 +403,8 @@ def add_event():
 
         else:
             rucher_id = form.rucher.data
-            new_event = Event(rucher=rucher_id, timestamp=form.timestamp.data, type=type, note=form.note.data, weight=form.weight.data)
+            new_event = Event(rucher=rucher_id, timestamp=form.timestamp.data, type=type, note=form.note.data,
+                              weight=form.weight.data)
 
         db.session.add(new_event)
         db.session.commit()
