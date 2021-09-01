@@ -5,7 +5,7 @@ from geojson import Point, Feature
 from sqlalchemy import desc
 
 from app_pack.forms import *
-from app_pack.models import Rucher, Ruche, User, Event
+from app_pack.models import Rucher, Ruche, User, Event, Harvest
 
 
 def create_position(id, title, latitude, longitude, description):
@@ -402,12 +402,15 @@ def add_event():
         if form.ruche.data:
             id_parent_ruche = Ruche.query.filter_by(num=form.ruche.data, user=current_user.id).first().id
             new_event = Event(ruche=id_parent_ruche, rucher=Ruche.query.get(id_parent_ruche).rucher,
-                              timestamp=form.timestamp.data, type=type, note=form.note.data, weight=form.weight.data)
+                              timestamp=form.timestamp.data, type=type, note=form.note.data)
 
         else:
             rucher_id = form.rucher.data
-            new_event = Event(rucher=rucher_id, timestamp=form.timestamp.data, type=type, note=form.note.data,
-                              weight=form.weight.data)
+            new_event = Event(rucher=rucher_id, timestamp=form.timestamp.data, type=type, note=form.note.data)
+
+        if new_event.type == "Récolte":
+            harvest = Harvest(weight=form.weight.data, supers=form.supers_nb.data, event=new_event.id)
+            db.session.add(harvest)
 
         db.session.add(new_event)
         db.session.commit()

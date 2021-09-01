@@ -1,10 +1,4 @@
 from app_pack import db, login_manager # created in init file
-import requests
-import random
-import os.path
-import urllib.request
-from flask import url_for
-from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 # By inheriting the UserMixin we get access to a lot of built-in attributes
@@ -56,7 +50,7 @@ class Rucher(db.Model):
     lat = db.Column(db.Float)
     longit = db.Column(db.Float)
     ruches = db.relationship('Ruche', backref='parent', cascade = "all,delete",  lazy='dynamic')
-    events = db.relationship('Event', backref='rucher_events', cascade='all,delete', lazy='dynamic')
+    events = db.relationship('Event', backref='rucher_events', cascade='all,delete', order_by="Event.timestamp", lazy='dynamic')
     specie = db.Column(db.String(64), index=True)
 
     def get_ruches(self):
@@ -74,7 +68,7 @@ class Ruche(db.Model):
     feedback = db.Column(db.Text)
     age_reine = db.Column(db.Integer, index=True)
     origin = db.Column(db.String(64))
-    events = db.relationship('Event', backref='parent_ruche', cascade='all,delete', lazy='dynamic')
+    events = db.relationship('Event', backref='parent_ruche', cascade='all,delete', order_by="Event.timestamp", lazy='dynamic')
 
     __table_args__ = (db.UniqueConstraint('num', 'user', name='numruche_user_unique'),)    
 
@@ -86,4 +80,10 @@ class Event(db.Model):
     timestamp = db.Column(db.DateTime)
     type = db.Column(db.String(64), index=True)
     note = db.Column(db.String(64))
+    harvests = db.relationship('Harvest', backref='parent_event', cascade='all,delete', lazy='dynamic')
+
+class Harvest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    event = db.Column(db.Integer, db.ForeignKey('event.id'))
     weight = db.Column(db.Integer)
+    supers = db.Column(db.Integer)

@@ -42,6 +42,12 @@
                 <span class="form_error">[{{ error }}]</span>
                 {% endfor %}
             </p>
+            <p id="supers_option" hidden>
+                {{ form.supers_nb.label }} <br> {{form.supers_nb}} <br>
+                {% for error in form.supers_nb.errors %}
+                <span class="form_error">[{{ error }}]</span>
+                {% endfor %}
+            </p>
             <p id="other_specie_option" hidden>
                 {{ form.type.label }} <br> {{form.type}} <br>
                 {% for error in form.type.errors %}
@@ -67,6 +73,7 @@
     const selected_type = document.getElementById("type_select");
     const updateFields = () => {
             $("#weight_option")[0].hidden = selected_type.value !== "Récolte"; // hide the weight option if the type is not harvest
+            $("#supers_option")[0].hidden = selected_type.value !== "Récolte"; // hide the supers option if the type is not harvest
             $("#other_specie_option")[0].hidden = selected_type.value !== "other"; // hide the other specie option if the specie type is not "other"
     }
     selected_type.addEventListener("change", updateFields);

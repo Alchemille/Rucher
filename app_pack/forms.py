@@ -73,6 +73,7 @@ class EventForm(FlaskForm):
     type = StringField("Si autre, lequel?", validators=[check_type_defined])
     note = TextAreaField("Remarques")
     weight = IntegerField("Poids en kg", validators=[Optional()])
+    supers_nb = IntegerField("Nombre de hausses", validators=[Optional()])
     submit = SubmitField("Valider")
 
 

@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import MetaData
 from flask_login import LoginManager
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_repr import RepresentableBase
 from whitenoise import WhiteNoise
 
