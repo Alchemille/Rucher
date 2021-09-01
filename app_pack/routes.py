@@ -89,10 +89,13 @@ def check_event_authorized(id):
 
 def get_available_hive_numbers():
     ruches = Ruche.query.filter_by(user=current_user.id).order_by(Ruche.num).all()
+    available_numbers = []
+
+    if not ruches:
+        return available_numbers
 
     first_number = ruches[0].num
     last_number = ruches[-1].num
-    available_numbers = []
 
     cnt = first_number
     current_ruche_index = 0

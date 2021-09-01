@@ -7,11 +7,13 @@
 
 <div class="jumbotron">
     <div class="container">
+        {% if available_numbers %}
         <p>
           <a class="btn btn-primary" data-toggle="collapse" href="#collapseInfoNumbers" role="button" aria-expanded="false" aria-controls="collapseInfoNumbers">
             Examples de numéros disponibles
           </a>
         </p>
+        {% endif %}
         <div class="collapse" id="collapseInfoNumbers">
           <div class="card card-body">
             {{ available_numbers }}
